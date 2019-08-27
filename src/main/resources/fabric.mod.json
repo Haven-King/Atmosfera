@@ -6,15 +6,15 @@
   "name": "Atmosfera",
   "description": "This mod aims to add a better ambient sound system to Minecraft.",
   "authors": [
-    "Me!"
+    "Haven King"
   ],
   "contact": {
     "homepage": "https://hephaestus.dev/",
-    "sources": "https://github.com/hephaestus/atmosfera"
+    "sources": "https://github.com/Hephaestus-Dev/Atmosfera"
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/atmosfera/icon.png",
 
   "environment": "*",
   "entrypoints": {

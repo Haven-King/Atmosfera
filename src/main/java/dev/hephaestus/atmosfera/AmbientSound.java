@@ -3,7 +3,7 @@ package dev.hephaestus.atmosfera;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.sound.AbstractSoundInstance;
+import net.minecraft.client.sound.MovingSoundInstance;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.function.Function;
 
 @Environment(EnvType.CLIENT)
-public class AmbientSound extends AbstractSoundInstance {
+public class AmbientSound extends MovingSoundInstance {
     private final SoundEvent soundEvent;
 
     protected boolean done;
@@ -54,7 +54,7 @@ public class AmbientSound extends AbstractSoundInstance {
         this.done = false;
         this.repeat = true;
         this.repeatDelay = 0;
-        this.volume = sound.max_volume;
+        this.volume = 0.0f;
         this.field_18935 = true;
         this.looping = true;
         this.id = sound.id;
@@ -148,5 +148,15 @@ public class AmbientSound extends AbstractSoundInstance {
 
     public boolean isDone() {
         return this.done;
+    }
+
+    public void reset() {
+        this.transitionTimer = 0;
+        this.done = false;
+    }
+
+    @Override
+    public void tick() {
+
     }
 }
