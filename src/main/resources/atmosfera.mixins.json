@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "dev.hephaestus.atmosfera.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "ClientPlayerEntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
