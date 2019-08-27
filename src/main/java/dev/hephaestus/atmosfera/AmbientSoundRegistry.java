@@ -32,6 +32,8 @@ public class AmbientSoundRegistry {
         registeredSounds = new HashMap<>();
     }
 
+    // I know this function is disgusting. I plan on splitting it up... at some point...
+    // If you have any ideas or suggetsions, feel free to let me know :)
     public static void register(JsonObject json) {
         Identifier identifier;
         if (json.get("sound") == null) {
