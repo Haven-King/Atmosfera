@@ -18,8 +18,14 @@ public class PercentBiome extends BoundedCondition {
 
         for (JsonElement biome : conditions.getAsJsonArray("biomes") ) {
             Biome b = Registry.BIOME.get(new Identifier(biome.getAsString()));
-            if (b == null) { System.out.println("Atmosfera - No such biome: " + biome.getAsString()); }
-            else { biomes.add(b); }
+            if (b == null) {
+                System.out.println("Atmosfera - No such biome: " + biome.getAsString());
+                isValid = false;
+            }
+            else {
+                biomes.add(b);
+                isValid = true;
+            }
         }
     }
 

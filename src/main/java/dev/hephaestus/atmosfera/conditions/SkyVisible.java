@@ -8,6 +8,7 @@ public class SkyVisible extends BoundedCondition {
 
     public SkyVisible(JsonObject conditions) {
         super(conditions);
+        isValid = true;
     }
 
     @Override

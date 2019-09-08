@@ -8,6 +8,7 @@ public class DistanceFromGround extends BoundedCondition {
 
     public DistanceFromGround(JsonObject conditions) {
         super(conditions);
+        isValid = true;
     }
 
     @Override

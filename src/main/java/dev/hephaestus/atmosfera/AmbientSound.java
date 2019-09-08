@@ -64,10 +64,13 @@ public class AmbientSound extends MovingSoundInstance {
                 : dv.get("type").getAsString() == "radius" ? VolumeData.Type.WITHIN_HEMISPHERE : VolumeData.Type.SAMPLE_HEMISPHERE;
 
                 this.data_volume = new VolumeData(type, direction, radius);
+        } else {
+            this.data_volume = new VolumeData(VolumeData.Type.SAMPLE_SPHERE, null, 16);
         }
 
         JsonObject conditions = json.get("conditions").getAsJsonObject();
 
+        System.out.println(this.getName().asString());
         if (conditions.get("percent_block") != null) {
             for ( JsonElement entry : conditions.get("percent_block").getAsJsonArray()) {
                 conditionsList.add(new PercentBlock(entry.getAsJsonObject()));
@@ -120,7 +123,12 @@ public class AmbientSound extends MovingSoundInstance {
     // --- Runtime functions ---------------------------------------------------------------------- //
     // -------------------------------------------------------------------------------------------- //
     protected boolean shouldPlay() {
-        data_volume.update(MinecraftClient.getInstance().player.world,MinecraftClient.getInstance().player.getBlockPos());
+        try {
+            data_volume.update(MinecraftClient.getInstance().player.world,MinecraftClient.getInstance().player.getBlockPos());
+        } catch (NullPointerException e) {
+            System.out.println("Atmosfera - Invalid configuration for sound " + this.getName().asString());
+            return false;
+        }
 
         boolean result = true;
 

@@ -8,6 +8,7 @@ public class Height extends BoundedCondition {
 
     public Height(JsonObject conditions) {
         super(conditions);
+        isValid = true;
     }
 
     @Override

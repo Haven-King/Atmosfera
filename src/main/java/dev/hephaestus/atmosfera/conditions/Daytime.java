@@ -9,6 +9,7 @@ public class Daytime extends SoundCondition {
     public Daytime(JsonObject conditions, boolean daytime) {
         super();
         this.daytime = daytime;
+        isValid = true;
     }
 
     @Override
