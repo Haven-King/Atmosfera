@@ -1,0 +1,16 @@
+{
+    "options.atmosfera.title": "Atmosfera",
+    "atmosfera.waves": "Waves",
+    "atmosfera.plains_nighttime": "Plains (at night)",
+    "atmosfera.plains_daytime": "Plains (at day)",
+    "atmosfera.desert_nighttime": "Desert (at day)",
+    "atmosfera.desert_daytime": "Desert (at day)",
+    "atmosfera.swamp_nighttime": "Swamp (at night)",
+    "atmosfera.swamp_daytime": "Swamp (at day)",
+    "atmosfera.jungle": "Jungle Sounds",
+    "atmosfera.ocean": "Opean Ocean Sounds",
+    "atmosfera.river": "River Flowing",
+    "atmosfera.wind": "Wind",
+    "atmosfera.grass": "Grass Rustling",
+    "atmosfera.leaves": "Leaves Rustling"
+}

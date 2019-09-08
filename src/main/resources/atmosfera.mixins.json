@@ -5,7 +5,8 @@
   "mixins": [
   ],
   "client": [
-    "ClientPlayerEntityMixin"
+    "ClientPlayerEntityMixin",
+    "SoundOptionsScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -43,8 +43,6 @@ public class AmbientSoundRegistry {
             identifier = new Identifier(json.get("sound").getAsString());
         }
 
-        System.out.println("Atmosfera - Registering " + identifier);
-
         SoundEvent soundEvent;
         if (Registry.SOUND_EVENT.containsId(identifier)) {
             soundEvent = Registry.SOUND_EVENT.get(identifier);

@@ -6,6 +6,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.sound.MovingSoundInstance;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
@@ -19,6 +20,7 @@ public class AmbientSound extends MovingSoundInstance {
     private final SoundEvent soundEvent;
 
     protected boolean done;
+    private TranslatableText name;
     private  float max_volume;
     private final Identifier id;
     private  float max_age;
@@ -41,6 +43,7 @@ public class AmbientSound extends MovingSoundInstance {
         this.field_18935 = true;
         this.looping = true;
         this.id = soundEvent_1.getId();
+        this.name = new TranslatableText("atmosfera." + this.id.toString().split(":")[1]);
         this.max_age = 0;
         this.data_volume = (Pair<World, BlockPos> pair) -> VolumeData.sampleArea(pair.getLeft(), pair.getRight());
 
@@ -64,13 +67,14 @@ public class AmbientSound extends MovingSoundInstance {
         this.data_volume = sound.data_volume;
         this.conditionsList = sound.conditionsList;
         this.max_age = sound.max_age;
+        this.name = new TranslatableText("atmosfera." + this.id.toString().split(":")[1]);
     }
 
     // -------------------------------------------------------------------------------------------- //
     // --- Setters. Used by AmbientSoundRegistry to avoid having a lot of constructor variables --- //
     // --- and temporary variable is AmbientSoundRegistry.register -------------------------------- //
     // -------------------------------------------------------------------------------------------- //
-    protected void setMaxVolume(float volume) {
+    public void setMaxVolume(float volume) {
         this.max_volume = volume;
     }
 
@@ -158,5 +162,13 @@ public class AmbientSound extends MovingSoundInstance {
     @Override
     public void tick() {
 
+    }
+
+    public float getMaxVolume() {
+        return this.max_volume;
+    }
+
+    public TranslatableText getName() {
+        return this.name;
     }
 }
