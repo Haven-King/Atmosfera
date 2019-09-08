@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import static java.lang.Math.round;
+import javax.annotation.Nullable;
+
 import static net.minecraft.util.math.MathHelper.sqrt;
 
 public class VolumeData {
@@ -20,129 +21,112 @@ public class VolumeData {
     private HashMap<Block, Integer> blockTypes;
     private HashMap<Biome, Integer> blockBiomes;
     private BlockPos origin;
+    private World world;
     private int sky;
-    public World world;
+
+    private final Type type;
+    private final Direction direction;
+    private final int radius;
+
+    public enum Type {
+        SAMPLE_HEMISPHERE,
+        WITHIN_HEMISPHERE,
+        SAMPLE_SPHERE,
+        WITHIN_SPHERE
+    };
 
     // -------------------------------------------------------------------------------------------- //
     // --- Constructors and pseudo-constructors --------------------------------------------------- //
     // -------------------------------------------------------------------------------------------- //
-    protected VolumeData(World world, BlockPos origin) {
+    public VolumeData(Type type, @Nullable Direction direction, int radius) {
+        // Counters
         this.blockPositions = new HashSet<>();
         this.blockTypes = new HashMap<>();
         this.blockBiomes = new HashMap<>();
-        this.origin = origin;
-        this.world = world;
+        this.sky = 0;
+
+        // Instance specific
+        this.direction = direction;
+        this.radius = radius;
+        this.type = type;
+    }
+
+    public void empty() {
+        this.blockPositions = new HashSet<>();
+        this.blockTypes = new HashMap<>();
+        this.blockBiomes = new HashMap<>();
         this.sky = 0;
     }
 
-    // --- Sampling pseudo-constructors. Use these whenever possible ------------------------------ //
-    public static VolumeData sampleUpperHemisphere(World world, BlockPos block, int radius) {
-        VolumeData result = upperHemisphere(world, block, radius);
-        return result.merge(upperHemisphere(world, block, round(sqrt(radius))));
-    }
-
-    public static VolumeData sampleLowerHemisphere(World world, BlockPos block, int radius) {
-        VolumeData result = lowerHemisphere(world, block, radius);
-        return result.merge(lowerHemisphere(world, block, round(sqrt(radius))));
-    }
-
-    public static VolumeData sampleArea(World world, BlockPos block, int radius) {
-        VolumeData upper = sampleUpperHemisphere(world, block, radius);
-        return upper.merge(sampleLowerHemisphere(world, block, radius));
-    }
-
-    public static VolumeData sampleArea(World world, BlockPos block) {
-        return sampleArea(world, block, 16);
-    }
-
-    // --- Much more intensive. Avoid unless absolutely necessary --------------------------------- //
-    public static VolumeData withinRadius(World world, BlockPos block, int radius) {
-        VolumeData result = withinHemisphere(world, block, Direction.UP, radius);
-        result.merge(withinHemisphere(world, block, Direction.DOWN, radius));
-        return result;
-    }
-
     // --- Internal only -------------------------------------------------------------------------- //
-    public static VolumeData withinHemisphere(World world, BlockPos block, Direction direction, int radius) {
-        int floor  = -radius;
-        int ceil = radius;
-
-        if (direction == Direction.UP || direction == Direction.DOWN) {
-            floor = direction == Direction.UP ? 0 : -radius;
-            ceil = direction == Direction.UP ? radius : 0;
-        } else {
-            throw new IllegalArgumentException("direction");
-        }
 
 
-        VolumeData result = new VolumeData(world, block);
-        for (int x = -radius; x <= radius; ++x) {
-            for (int y = floor; y <= ceil; ++y) {
-                for (int z = -radius; z <= radius; ++z) {
-                    BlockPos current = block.add(x, y, z);
-                    if (block.isWithinDistance(current, radius)) {
-                        result.add(current);
-                    }
+    public VolumeData update(World world, BlockPos origin) {
+        this.empty();
+
+        this.world = world;
+        this.origin = origin;
+    
+
+        switch(this.type) {
+            case SAMPLE_HEMISPHERE:
+                if (direction == Direction.UP)      { this.sampleUpperHemisphere(); } else
+                if (direction == Direction.DOWN)    { this.sampleLowerHemisphere(); }
+                else {
+                    this.sampleUpperHemisphere();
+                    this.sampleLowerHemisphere();
                 }
-            }
+                break;
+            case SAMPLE_SPHERE:
+                this.sampleUpperHemisphere();
+                this.sampleLowerHemisphere();
+                break;
+            case WITHIN_SPHERE:
+            case WITHIN_HEMISPHERE:
+                this.withinHemisphere();
+                break;
         }
 
-        return result;
+        return this;
     }
 
 
-
     // -------------------------------------------------------------------------------------------- //
-    // --- Protected getters for conditions ------------------------------------------------------- //
+    // --- Public getters for conditions ---------------------------------------------------------- //
     // -------------------------------------------------------------------------------------------- //
-    protected int size() {
-        return blockPositions.size();
-    }
-
-    protected BlockPos getOrigin() {
+    public BlockPos getOrigin() {
         return this.origin;
     }
 
-    protected float percentBlockType(ArrayList<Block> blocks) {
+    public World getWorld() {
+        return this.world;
+    }
+
+    public float percentBlockType(ArrayList<Block> blocks) {
         float result = 0.0f;
         for (Block block : blocks) {
             result += blockTypes.getOrDefault(block, 0);
         }
 
-        return result / ((float) this.size());
+        return result / ((float) blockPositions.size());
     }
 
-    protected float percentBlockBiome(ArrayList<Biome> biomes) {
+    public float percentBlockBiome(ArrayList<Biome> biomes) {
         float result = 0.0f;
         for (Biome biome : biomes) {
             result += blockBiomes.getOrDefault(biome, 0);
         }
 
-        return result / ((float) this.size());
+        return result / ((float) blockPositions.size());
     }
 
-    protected float percentCanSeeSkyThroughLeaves() {
-        float result = 0f;
-
-        for (BlockPos block : this.blockPositions) {
-            for ( BlockPos current = block; world.getBlockState(current).getBlock().getClass() == LeavesBlock.class || world.getBlockState(current).getBlock() == Blocks.AIR; current = current.add(0,1,0)) {
-                if (world.isSkyVisible(current)) {
-                    result += 1.0f;
-                    break;
-                }
-            }
-        }
-
-        return result / ((float)this.size());
+    public float percentSkyVisible() {
+        return (float)this.sky/(float)blockPositions.size();
     }
 
-    protected float percentSkyVisible() {
-        return (float)this.sky/(float)this.size();
-    }
-
-    protected int distanceFromGround() {
+    public int distanceFromGround() {
 		int result = 0;
-		for (BlockPos current = origin; world.getBlockState(current).getBlock() == Blocks.AIR; current = current.add(0,-1,0)) {
+		for (BlockPos current = origin; this.world.getBlockState(current).getBlock() == Blocks.AIR; current = current.add(0,-1,0)) {
 			result += 1;
 		}
 
@@ -152,39 +136,35 @@ public class VolumeData {
     // -------------------------------------------------------------------------------------------- //
     // --- Private methods for data volume manipulation ------------------------------------------- //
     // -------------------------------------------------------------------------------------------- //
-    private VolumeData merge(VolumeData other) {
-        blockPositions.addAll(other.blockPositions);
-        blockTypes.putAll(other.blockTypes);
-        blockBiomes.putAll(other.blockBiomes);
 
-        return this;
-    }
-
-    private void add(BlockPos block) {
+    private void add(World world, BlockPos block) {
         blockPositions.add(block);
-        blockTypes.merge(world.getBlockState(block).getBlock(),1, Integer::sum);
+        blockTypes.merge(world.getBlockState(block).getBlock(), 1, Integer::sum);
         blockBiomes.merge(world.getBiome(block), 1, Integer::sum);
-        if (this.world.isSkyVisible(block)) {
-            sky = sky+1;
+
+        for ( BlockPos current = block; world.getBlockState(current).getBlock().getClass() == LeavesBlock.class || world.getBlockState(current).getBlock() == Blocks.AIR; current = current.add(0,1,0)) {
+            if (world.isSkyVisible(current)) {
+                sky += 1;
+                break;
+            }
         }
     }
 
     // -------------------------------------------------------------------------------------------- //
     // --- Private static methods used by the pseudo constructors --------------------------------- //
     // -------------------------------------------------------------------------------------------- //
-    private static VolumeData lowerHemisphere(World world, BlockPos block, int radius) {
-        block = block.add(0,-2,0);
+    private void sampleLowerHemisphere() {
+        BlockPos block = this.origin.add(0,-2,0);
         float mid = sqrt(((radius * radius) / 2.0F));
         float tri = sqrt(((radius * radius) / 3.0F));
-        VolumeData result = new VolumeData(world, block);
 
         // For efficiency purposes, we sample 17 points on hemisphere's surface + the origin
         float[][] offsets = {
-                {radius,0,0},
-                {0,0,radius},
-                {-radius,0,0},
-                {0,-radius,0},
-                {0,0,-radius},
+                {this.radius,0,0},
+                {0,0,this.radius},
+                {-this.radius,0,0},
+                {0,-this.radius,0},
+                {0,0,-this.radius},
 
                 {mid, -mid, 0},
                 {-mid, -mid, 0},
@@ -206,24 +186,21 @@ public class VolumeData {
         };
 
         for (float[] offset : offsets) {
-            result.add(block.add(offset[0], offset[1], offset[2]));
+            this.add(world, block.add(offset[0], offset[1], offset[2]));
         }
-
-        return result;
     }
 
-    private static VolumeData upperHemisphere(World world, BlockPos block, int radius) {
-        block = block.add(0,2,0);
-        float mid = sqrt(((radius * radius) / 2.0F));
-        float tri = sqrt(((radius * radius) / 3.0F));
-        VolumeData result = new VolumeData(world, block);
+    private void sampleUpperHemisphere() {
+        BlockPos block = this.origin.add(0,2,0);
+        float mid = sqrt(((this.radius * this.radius) / 2.0F));
+        float tri = sqrt(((this.radius * this.radius) / 3.0F));
 
         // For efficiency purposes, we sample 17 points on hemisphere's surface + the origin
         float[][] offsets = {
-                {radius, 0, 0},
-                {0, radius, 0},
-                {-radius, 0, 0},
-                {0, 0, -radius},
+                {this.radius, 0, 0},
+                {0, this.radius, 0},
+                {-this.radius, 0, 0},
+                {0, 0, -this.radius},
 
                 {mid, mid, 0},
                 {-mid, mid, 0},
@@ -245,9 +222,31 @@ public class VolumeData {
         };
 
         for (float[] offset : offsets) {
-            result.add(block.add(offset[0], offset[1], offset[2]));
+            this.add(world, block.add(offset[0], offset[1], offset[2]));
+        }
+    }
+
+    private void withinHemisphere() {
+        int floor  = -this.radius;
+        int ceil = this.radius;
+
+        if (direction == Direction.UP || direction == Direction.DOWN) {
+            floor = direction == Direction.UP ? 0 : -this.radius;
+            ceil = direction == Direction.UP ? this.radius : 0;
+        } else {
+            floor = -this.radius;
+            ceil = this.radius;
         }
 
-        return result;
+        for (int x = -radius; x <= radius; ++x) {
+            for (int y = floor; y <= ceil; ++y) {
+                for (int z = -radius; z <= radius; ++z) {
+                    BlockPos current = this.origin.add(x, y, z);
+                    if (this.origin.isWithinDistance(current, radius)) {
+                        this.add(world, current);
+                    }
+                }
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@ package dev.hephaestus.atmosfera.gui;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import dev.hephaestus.atmosfera.AmbientSound;
+import dev.hephaestus.atmosfera.Atmosfera;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -33,7 +34,10 @@ public class VolumeSliderWidget extends SliderWidget {
     }
 
     protected void applyValue() {
-        this.sound.setMaxVolume((float)this.value*2f);
+        this.sound.max_volume = (float)this.value*2f;
+        Atmosfera.configs.put(this.sound.getAtmosferaId(),(float)this.value*2f);
+        Atmosfera.writeConfig();
+        Atmosfera.handler.removeAll();
     }
 
     protected void updateShape(int x, int y, int width) {

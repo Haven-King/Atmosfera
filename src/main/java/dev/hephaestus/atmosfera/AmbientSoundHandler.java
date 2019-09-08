@@ -19,32 +19,33 @@ public class AmbientSoundHandler implements ClientPlayerTickable {
         this.client = client;
     }
 
+    public void removeAll() {
+        for (AmbientSound sound : nowPlaying.values()) {
+            this.client.getSoundManager().stop(sound);
+        }
+
+        nowPlaying = new HashMap<>();
+    }
+
     public void tick() {
         if (this.client.player != null) {
             for (AmbientSound sound : AmbientSoundRegistry.getRegistered()) {
                 Identifier id = sound.getId();
                 if (nowPlaying.containsKey(id)) {
                     AmbientSound current = this.nowPlaying.get(id);
-                    if (this.client.getSoundManager().isPlaying(current)) {
-                        current.play();
-                    } else {
+                    if (!this.client.getSoundManager().isPlaying(current))
                         this.client.getSoundManager().play(current);
-                        current.play();
-                    }
                     
+                    current.play();
+
                     if (current.isDone()) {
                         this.client.getSoundManager().stop(current);
                         this.nowPlaying.remove(id);
                     }
-                } else if (sound.conditions(this.client.player)) {
-                    try {
-                        AmbientSound newSound = new AmbientSound(sound);
-                        this.nowPlaying.put(id, newSound);
-                        newSound.setPlayer(this.client.player);
-                        this.client.getSoundManager().play(newSound);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                } else if (sound.shouldPlay()) {
+                    AmbientSound newSound = new AmbientSound(sound);
+                    this.nowPlaying.put(id, newSound);
+                    this.client.getSoundManager().play(newSound);
                 }
             }
         }

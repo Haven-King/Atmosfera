@@ -1,7 +1,7 @@
 package dev.hephaestus.atmosfera.mixin;
 
 import com.google.common.collect.Lists;
-import dev.hephaestus.atmosfera.AmbientSoundHandler;
+import dev.hephaestus.atmosfera.Atmosfera;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -24,6 +24,6 @@ public class ClientPlayerEntityMixin {
 
     @Inject(at=@At("RETURN"),method="<init>*")
     public void initializeHandler(MinecraftClient minecraftClient_1, ClientWorld clientWorld_1, ClientPlayNetworkHandler clientPlayNetworkHandler_1, StatHandler statHandler_1, ClientRecipeBook clientRecipeBook_1, CallbackInfo ci) {
-        tickables.add(new AmbientSoundHandler(minecraftClient_1));
+        tickables.add(Atmosfera.handler);
     }
 }
