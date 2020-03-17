@@ -1,12 +1,6 @@
 package dev.hephaestus.atmosfera;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -35,21 +29,28 @@ public class Atmosfera implements ClientModInitializer {
 
 	public static void readConfig() {
 		configs = new HashMap<>();
-		File configFile = new File("config/atmosfera.json");
-		JsonParser jsonParser = new JsonParser();
+
 		try {
-			JsonObject json = (JsonObject)jsonParser.parse(new InputStreamReader(new FileInputStream(configFile)));
+			InputStream fi = new FileInputStream(new File("config" + File.separator + "atmosfera.json"));
+			JsonParser jsonParser = new JsonParser();
+
+			JsonObject json = (JsonObject)jsonParser.parse(new InputStreamReader(fi));
 			for (Map.Entry<String,JsonElement> element: json.entrySet()) {
 				if (element.getValue().isJsonPrimitive()) {
 					configs.put(element.getKey(), element.getValue().getAsFloat());
 				}
 			}
+
+			fi.close();
 		} catch (FileNotFoundException e) {
+			System.out.println("Atmosfera - no user config file found");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
 	public static void writeConfig() {
-		File configFile = new File("config/atmosfera.json");
+		File configFile = new File("config" + File.separator + "atmosfera.json");
 		Gson gson = new Gson();
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(configFile));
@@ -60,30 +61,46 @@ public class Atmosfera implements ClientModInitializer {
 		}
 	}
 
+	public static void clearConfig() {
+		File configFile = new File("config" + File.separator + "atmosfera.json");
+		boolean success = configFile.delete();
+		if (success) {
+			System.out.println("Atmosfera - successfully deleted user config file: " + configFile.getAbsolutePath());
+		} else {
+			System.out.println("Atmosfera - failed to delete user config file: " + configFile.getAbsolutePath());
+		}
+
+		something();
+	}
+
+	public static void something() {
+		AmbientSoundRegistry.removeRegistered();
+		readConfig();
+
+		ResourceManager manager = MinecraftClient.getInstance().getResourceManager();
+
+		Collection<Identifier> resources = manager.findResources("sounds/definitions", (string) -> string.endsWith(".json"));
+
+		for (Identifier r : resources) {
+			try {
+				JsonParser JsonParser = new JsonParser();
+				JsonObject json = (JsonObject)JsonParser.parse(new InputStreamReader(manager.getResource(r).getInputStream()));
+
+				AmbientSoundRegistry.register(json);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	@Override
 	public void onInitializeClient() {		
 		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new SimpleSynchronousResourceReloadListener(){
 		
 			@Override
 			public void apply(ResourceManager manager) {
-					AmbientSoundRegistry.removeRegistered();
-					readConfig();
-
-					Collection<Identifier> resources = manager.findResources("sounds/definitions", (string) -> {
-						return string.endsWith(".json");
-					});
-					
-					for (Identifier r : resources) {
-						try {
-						JsonParser JsonParser = new JsonParser();
-						JsonObject json = (JsonObject)JsonParser.parse(new InputStreamReader(manager.getResource(r).getInputStream()));
-
-						AmbientSoundRegistry.register(json);
-
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
+					something();
 
 					System.out.println("Atmosfera - Successfully added " + AmbientSoundRegistry.getRegistered().size() + " sound events");
 			}

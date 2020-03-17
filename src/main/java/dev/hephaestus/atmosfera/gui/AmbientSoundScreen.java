@@ -17,7 +17,7 @@ public class AmbientSoundScreen extends Screen {
     private AmbientSoundScreen.VolumeControlListWidget volumeControlList;
 
     public AmbientSoundScreen(Screen screen_1) {
-        super(new TranslatableText("options.atmosfera.title", new Object[0]));
+        super(new TranslatableText("options.atmosfera.title"));
         this.parent = screen_1;
     }
 
@@ -27,15 +27,16 @@ public class AmbientSoundScreen extends Screen {
 
         this.addButton(new ButtonWidget(this.width / 2 - 155, this.height - 38,
             150, 20, I18n.translate("gui.done"), (buttonWidget_1) -> {
+                assert this.minecraft != null;
                 this.minecraft.openScreen(this.parent);
             }
         ));
 
         this.addButton(new ButtonWidget(this.width / 2 - 155 + 160, this.height - 38,
             150, 20, I18n.translate("options.atmosfera.reset"), (buttonWidget_1) -> {
-                for (AmbientSoundScreen.VolumeControlListWidget.VolumeEntry entry : volumeControlList.children()) {
-                    entry.mouseClicked(100000, 0, 0);
-                }
+                Atmosfera.clearConfig();
+                assert this.minecraft != null;
+                this.minecraft.openScreen(this.parent);
             }
         ));
 

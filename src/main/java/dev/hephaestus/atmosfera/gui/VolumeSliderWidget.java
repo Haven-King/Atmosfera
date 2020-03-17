@@ -22,7 +22,7 @@ public class VolumeSliderWidget extends SliderWidget {
 
     protected void renderBg(MinecraftClient minecraftClient_1, int int_1, int int_2) {
         minecraftClient_1.getTextureManager().bindTexture(WIDGETS_LOCATION);
-        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.clearColor(1.0F, 1.0F, 1.0F, 1.0F);
         int int_3 = (this.isHovered() ? 2 : 1) * 20;
         this.blit(this.x + (int)(this.value * (double)(this.width - 8)), this.y, 0, 46 + int_3, 4, 20);
         this.blit(this.x + (int)(this.value * (double)(this.width - 8)) + 4, this.y, 196, 46 + int_3, 4, 20);
