@@ -33,7 +33,7 @@ public class VolumeData {
         WITHIN_HEMISPHERE,
         SAMPLE_SPHERE,
         WITHIN_SPHERE
-    };
+    }
 
     // -------------------------------------------------------------------------------------------- //
     // --- Constructors and pseudo-constructors --------------------------------------------------- //
@@ -61,7 +61,7 @@ public class VolumeData {
     // --- Internal only -------------------------------------------------------------------------- //
 
 
-    public VolumeData update(World world, BlockPos origin) {
+    public void update(World world, BlockPos origin) {
         this.empty();
 
         this.world = world;
@@ -87,7 +87,6 @@ public class VolumeData {
                 break;
         }
 
-        return this;
     }
 
 
@@ -227,8 +226,8 @@ public class VolumeData {
     }
 
     private void withinHemisphere() {
-        int floor  = -this.radius;
-        int ceil = this.radius;
+        int floor;
+        int ceil;
 
         if (direction == Direction.UP || direction == Direction.DOWN) {
             floor = direction == Direction.UP ? 0 : -this.radius;

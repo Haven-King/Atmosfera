@@ -7,6 +7,7 @@ import net.minecraft.client.sound.MovingSoundInstance;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 
@@ -29,12 +30,13 @@ public class AmbientSound extends MovingSoundInstance {
 
     protected boolean done;
     private TranslatableText name;
-    private final String id;
+    public final Identifier id;
     private int transitionTimer;
     private ArrayList<SoundCondition> conditionsList = new ArrayList<>();
 
-    public float max_volume;
-    public float default_volume;
+    public int max_volume;
+    public int default_volume;
+
     public VolumeData data_volume;
 
     // -------------------------------------------------------------------------------------------- //
@@ -45,23 +47,23 @@ public class AmbientSound extends MovingSoundInstance {
     protected AmbientSound(SoundEvent soundEvent_1, JsonObject json) {
         super(soundEvent_1, SoundCategory.AMBIENT);
         this.soundEvent = soundEvent_1;
+        this.id = this.soundEvent.getId();
 
-        String[] split = this.soundEvent.getId().toString().split(":");
-        this.id = split[0] + '.' + split[1];
+        String[] split = this.id.toString().split(":");
         this.name = new TranslatableText( split[0] + '.' + split[1]);
 
-        this.default_volume = json.get("volume") == null ? 1.0f : (float)MathHelper.clamp(json.get("volume").getAsFloat(), 0.0, 2.0);
-        this.max_volume = Atmosfera.configs.containsKey(this.getAtmosferaId()) ? Atmosfera.configs.get(this.getAtmosferaId()) : this.default_volume;
+        this.default_volume = json.get("volume") == null ? 100 : MathHelper.clamp(json.get("volume").getAsInt(), 0, 100);
+        this.max_volume = Atmosfera.CONFIG.contains(this.id) ? Atmosfera.CONFIG.get(this.id) : this.default_volume;
 
         if (json.get("data_volume") != null) {
             JsonObject dv = json.get("data_volume").getAsJsonObject();
-            Direction direction = dv.get("direction") == null ? null : dv.get("direction").getAsString() == "up"
+            Direction direction = dv.get("direction") == null ? null : dv.get("direction").getAsString().equals("up")
                 ? Direction.UP
                 : Direction.DOWN;
             int radius = dv.get("radius") == null ? 16 : dv.get("radius").getAsInt();
             VolumeData.Type type = dv.get("type") == null ? VolumeData.Type.SAMPLE_SPHERE : direction != null
-                ? dv.get("type").getAsString() == "radius" ? VolumeData.Type.WITHIN_HEMISPHERE : VolumeData.Type.SAMPLE_HEMISPHERE
-                : dv.get("type").getAsString() == "radius" ? VolumeData.Type.WITHIN_HEMISPHERE : VolumeData.Type.SAMPLE_HEMISPHERE;
+                ? dv.get("type").getAsString().equals("radius") ? VolumeData.Type.WITHIN_HEMISPHERE : VolumeData.Type.SAMPLE_HEMISPHERE
+                : dv.get("type").getAsString().equals("radius") ? VolumeData.Type.WITHIN_HEMISPHERE : VolumeData.Type.SAMPLE_HEMISPHERE;
 
                 this.data_volume = new VolumeData(type, direction, radius);
         } else {
@@ -70,7 +72,6 @@ public class AmbientSound extends MovingSoundInstance {
 
         JsonObject conditions = json.get("conditions").getAsJsonObject();
 
-        System.out.println(this.getName().asString());
         if (conditions.get("percent_block") != null) {
             for ( JsonElement entry : conditions.get("percent_block").getAsJsonArray()) {
                 conditionsList.add(new PercentBlock(entry.getAsJsonObject()));
@@ -115,6 +116,7 @@ public class AmbientSound extends MovingSoundInstance {
         this.default_volume = sound.default_volume;
         this.data_volume = sound.data_volume;
         this.conditionsList = sound.conditionsList;
+        this.transitionTimer = sound.transitionTimer;
         this.id = sound.id;
         this.name = sound.name;
     }
@@ -124,6 +126,7 @@ public class AmbientSound extends MovingSoundInstance {
     // -------------------------------------------------------------------------------------------- //
     protected boolean shouldPlay() {
         try {
+            assert MinecraftClient.getInstance().player != null;
             data_volume.update(MinecraftClient.getInstance().player.world,MinecraftClient.getInstance().player.getBlockPos());
         } catch (NullPointerException e) {
             System.out.println("Atmosfera - Invalid configuration for sound " + this.getName().asString());
@@ -137,10 +140,15 @@ public class AmbientSound extends MovingSoundInstance {
 
         }
 
-        return conditionsList.size() == 0 ? false : result;
+        return conditionsList.size() != 0 && result;
+    }
+
+    public String getLangID() {
+        return String.join(".", this.id.toString().split(":"));
     }
 
     protected void play() {
+        assert MinecraftClient.getInstance().player != null;
         if (!MinecraftClient.getInstance().player.removed && this.transitionTimer >= 0) {
             if (shouldPlay()) {
                 ++this.transitionTimer;
@@ -149,7 +157,7 @@ public class AmbientSound extends MovingSoundInstance {
             }
 
             this.transitionTimer = Math.min(this.transitionTimer, 40);
-            this.volume = Math.max(0.0F, Math.min((float)this.transitionTimer / 40.0F, this.max_volume));
+            this.volume = Math.max(0.0F, Math.min((float)this.transitionTimer / 40.0F, ((float)this.max_volume) / 100f));
         } else {
             this.done = true;
         }
@@ -164,19 +172,7 @@ public class AmbientSound extends MovingSoundInstance {
 
     }
 
-    public float getMaxVolume() {
-        return this.max_volume;
-    }
-
     public TranslatableText getName() {
         return this.name;
-    }
-
-    public String getAtmosferaId() {
-        return this.id;
-    }
-
-    public void resetVolume() {
-        this.max_volume = this.default_volume;
     }
 }

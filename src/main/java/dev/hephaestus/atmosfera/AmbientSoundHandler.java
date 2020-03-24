@@ -19,6 +19,7 @@ public class AmbientSoundHandler implements ClientPlayerTickable {
         this.client = client;
     }
 
+    @Deprecated
     public void removeAll() {
         for (AmbientSound sound : nowPlaying.values()) {
             this.client.getSoundManager().stop(sound);
@@ -27,9 +28,14 @@ public class AmbientSoundHandler implements ClientPlayerTickable {
         nowPlaying = new HashMap<>();
     }
 
+    public void update(Identifier id) {
+        AmbientSound playing = nowPlaying.get(id);
+        if (playing != null) playing.max_volume = Atmosfera.CONFIG.get(id);
+    }
+
     public void tick() {
         if (this.client.player != null) {
-            for (AmbientSound sound : AmbientSoundRegistry.getRegistered()) {
+            for (AmbientSound sound : Atmosfera.REGISTRY.getRegistered()) {
                 Identifier id = sound.getId();
                 if (nowPlaying.containsKey(id)) {
                     AmbientSound current = this.nowPlaying.get(id);

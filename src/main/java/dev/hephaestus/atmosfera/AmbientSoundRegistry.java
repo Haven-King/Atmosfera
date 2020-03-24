@@ -1,30 +1,71 @@
 package dev.hephaestus.atmosfera;
 
-import java.util.Collection;
-import java.util.HashMap;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
 
 import com.google.gson.JsonObject;
 
+import com.google.gson.JsonParser;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
+import net.minecraft.resource.ResourceManager;
+import net.minecraft.resource.ResourceType;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 @Environment(EnvType.CLIENT)
 public class AmbientSoundRegistry {
-    private static HashMap<Identifier,AmbientSound> registeredSounds = new HashMap<>();
+    private SortedMap<Identifier,AmbientSound> registeredSounds = new TreeMap<>();
 
-    public static Collection<AmbientSound> getRegistered() {
+    public Collection<AmbientSound> getRegistered() {
         return registeredSounds.values();
     }
 
-    public static void removeRegistered() {
-        registeredSounds = new HashMap<>();
+    @Deprecated
+    public void removeRegistered() {
+        registeredSounds = new TreeMap<>();
     }
 
-    // This function is much better now.
-    public static void register(JsonObject json) {
+    public AmbientSoundRegistry() {
+        AmbientSoundRegistry registry = this;
+
+        ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new SimpleSynchronousResourceReloadListener(){
+            @Override
+            public void apply(ResourceManager manager) {
+                Collection<Identifier> resources = manager.findResources("sounds/definitions", (string) -> string.endsWith(".json"));
+
+                for (Identifier r : resources) {
+                    try {
+                        JsonParser JsonParser = new JsonParser();
+                        JsonObject json = (JsonObject)JsonParser.parse(new InputStreamReader(manager.getResource(r).getInputStream()));
+
+                        registry.register(json);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                System.out.println("Atmosfera - Successfully added " + registry.getRegistered().size() + " sound events");
+            }
+
+            @Override
+            public Collection<Identifier> getFabricDependencies() {
+                return Collections.emptyList();
+            }
+
+            @Override
+            public Identifier getFabricId() {
+                return new Identifier("atmosfera:sound_json");
+            }
+        });
+    }
+
+    public void register(JsonObject json) {
         Identifier identifier;
         if (json.get("sound") == null) {
             System.out.println("Atmosfera - no sound provided!");
@@ -37,6 +78,10 @@ public class AmbientSoundRegistry {
 
         AmbientSound sound = new AmbientSound(soundEvent, json);
 
-        registeredSounds.put(identifier, sound);
+        this.registeredSounds.put(identifier, sound);
+    }
+
+    public void update(Identifier id) {
+        registeredSounds.get(id).max_volume = Atmosfera.CONFIG.get(id);
     }
 }

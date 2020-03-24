@@ -9,6 +9,7 @@ import net.minecraft.client.recipe.book.ClientRecipeBook;
 import net.minecraft.client.util.ClientPlayerTickable;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.stat.StatHandler;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,11 +20,12 @@ import java.util.List;
 
 @Mixin(ClientPlayerEntity.class)
 public class ClientPlayerEntityMixin {
+    @Final
     @Shadow
     private final List<ClientPlayerTickable> tickables = Lists.newArrayList();
 
     @Inject(at=@At("RETURN"),method="<init>*")
     public void initializeHandler(MinecraftClient minecraftClient_1, ClientWorld clientWorld_1, ClientPlayNetworkHandler clientPlayNetworkHandler_1, StatHandler statHandler_1, ClientRecipeBook clientRecipeBook_1, CallbackInfo ci) {
-        tickables.add(Atmosfera.handler);
+        tickables.add(Atmosfera.HANDLER);
     }
 }

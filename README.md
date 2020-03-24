@@ -1,3 +1,3 @@
 # Atmosfera
 Adds a system for ambient sounds to Minecraft.
-See [here](https://github.com/Hephaestus-Dev/Atmosfera-Sounds) for a soundpack compatible with Atmosfera.
+See [here](https://hephaestus.dev/atmosfera) for a Resource Pack compatible with Atmosfera.
