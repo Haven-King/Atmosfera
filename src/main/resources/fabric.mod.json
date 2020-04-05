@@ -13,7 +13,7 @@
     "sources": "https://github.com/Hephaestus-Dev/Atmosfera"
   },
 
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/atmosfera/icon.png",
 
   "environment": "*",
