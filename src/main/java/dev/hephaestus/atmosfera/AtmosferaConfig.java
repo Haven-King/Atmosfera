@@ -1,8 +1,6 @@
 package dev.hephaestus.atmosfera;
 
 import com.google.gson.*;
-import me.sargunvohra.mcmods.autoconfig1u.ConfigData;
-import me.sargunvohra.mcmods.autoconfig1u.annotation.Config;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
@@ -16,8 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Environment(EnvType.CLIENT)
-@Config(name = "atmosfera")
-public class AtmosferaConfig implements ConfigData {
+public class AtmosferaConfig {
     private final HashMap<Identifier, Integer> configs = new HashMap<>();
 
     public AtmosferaConfig() {
