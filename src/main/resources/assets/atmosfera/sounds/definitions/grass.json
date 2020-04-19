@@ -1,5 +1,6 @@
 {
     "sound": "atmosfera:grass",
+    "volume": 100,
     "data_volume": {
         "type": "radius",
         "radius": 4

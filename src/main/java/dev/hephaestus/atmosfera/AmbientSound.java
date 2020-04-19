@@ -52,7 +52,7 @@ public class AmbientSound extends MovingSoundInstance {
         String[] split = this.id.toString().split(":");
         this.name = new TranslatableText( split[0] + '.' + split[1]);
 
-        this.default_volume = json.get("volume") == null ? 100 : MathHelper.clamp(json.get("volume").getAsInt(), 0, 100);
+        this.default_volume = json.get("volume") == null ? 50 : MathHelper.clamp(json.get("volume").getAsInt(), 0, 100);
         this.max_volume = Atmosfera.CONFIG.contains(this.id) ? Atmosfera.CONFIG.get(this.id) : this.default_volume;
 
         if (json.get("data_volume") != null) {
