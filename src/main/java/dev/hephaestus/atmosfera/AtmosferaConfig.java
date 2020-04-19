@@ -1,9 +1,6 @@
 package dev.hephaestus.atmosfera;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import me.sargunvohra.mcmods.autoconfig1u.ConfigData;
 import me.sargunvohra.mcmods.autoconfig1u.annotation.Config;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
@@ -59,7 +56,7 @@ public class AtmosferaConfig implements ConfigData {
 
     public void writeConfig() {
         File configFile = new File("config" + File.separator + "atmosfera.json");
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(configFile));
             writer.write(gson.toJson(configs));
