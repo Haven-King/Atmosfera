@@ -1,0 +1,28 @@
+{
+    "sound": "atmosfera:plains_daytime",
+    "data_volume": {
+        "direction": "up"
+    },
+    "conditions": {
+        "percent_biome": [
+            {
+                "biomes": [
+                    "minecraft:plains",
+                    "minecraft:savanna",
+                    "minecraft:sunflower_plains"
+                ],
+                "more": 0.5
+            }
+        ],
+        "height": {
+            "more": 60
+        },
+        "distance_from_ground": {
+            "less": 20
+        },
+        "is_daytime": true,
+        "percent_sky_visible": {
+            "more": 0.3
+        }
+    }
+}

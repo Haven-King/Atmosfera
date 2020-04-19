@@ -1,0 +1,21 @@
+{
+    "sound": "atmosfera:grass",
+    "data_volume": {
+        "type": "radius",
+        "radius": 4
+    },
+    "conditions": {
+        "percent_block": [
+            {
+                "blocks":[
+                    "minecraft:grass",
+                    "minecraft:tall_grass"
+                ],
+                "more": 0.0
+            }
+        ],
+        "percent_sky_visible": {
+            "more": 0.3
+        }
+    }
+}

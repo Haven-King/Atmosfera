@@ -1,0 +1,28 @@
+{
+    "sound": "atmosfera:river",
+    "data_volume": {
+        "direction": "down"
+    },
+    "conditions": {
+        "percent_block": [
+            {
+                "blocks":[
+                    "minecraft:water"
+                ],
+                "more": 0.05
+            }
+        ],
+        "percent_biome": [
+            {
+                "biomes": [
+                    "minecraft:river"
+                ],
+                "more": 0.0
+            }
+        ],
+        "height": {
+            "more": 55,
+            "less": 75
+        }
+    }
+}

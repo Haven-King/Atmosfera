@@ -18,11 +18,9 @@ import java.util.Map;
 @Environment(EnvType.CLIENT)
 @Config(name = "atmosfera")
 public class AtmosferaConfig implements ConfigData {
-    private HashMap<Identifier, Integer> configs;
+    private final HashMap<Identifier, Integer> configs = new HashMap<>();
 
     public AtmosferaConfig() {
-        configs = new HashMap<>();
-
         try {
             InputStream fi = new FileInputStream(new File("config" + File.separator + "atmosfera.json"));
             JsonParser jsonParser = new JsonParser();

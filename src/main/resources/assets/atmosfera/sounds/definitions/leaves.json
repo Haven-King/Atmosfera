@@ -1,0 +1,30 @@
+{
+    "sound": "atmosfera:leaves",
+    "data_volume": {
+        "type": "radius",
+        "radius": 8
+    },
+    "conditions": {
+        "percent_block": [
+            {
+                "blocks": [
+                    "minecraft:oak_leaves",
+                    "minecraft:birch_leaves",
+                    "minecraft:spruce_leaves",
+                    "minecraft:acacia_leaves",
+                    "minecraft:dark_oak_leaves"
+                ],
+                "more": 0.00675
+            },
+            {
+                "blocks": [
+                    "minecraft:air"
+                ],
+                "more": 0.00675
+            }
+        ],
+        "percent_sky_visible": {
+            "more": 0.15
+        }
+    }
+}

@@ -1,0 +1,35 @@
+{
+    "sound": "atmosfera:ocean",
+    "data_volume": {
+        "direction": "down"
+    },
+    "conditions": {
+        "percent_block": [
+            {
+                "blocks":[
+                    "minecraft:water"
+                ],
+                "more": 0.25
+            }
+        ],
+        "percent_biome": [
+            {
+                "biomes": [
+                    "minecraft:ocean",
+                    "minecraft:cold_ocean",
+                    "minecraft:warm_ocean",
+                    "minecraft:lukewarm_ocean",
+                    "minecraft:deep_cold_ocean",
+                    "minecraft:deep_warm_ocean",
+                    "minecraft:deep_frozen_ocean",
+                    "minecraft:deep_lukewarm_ocean"
+                ],
+                "more": 0.5
+            }
+        ],
+        "height": {
+            "more": 55,
+            "less": 75
+        }
+    }
+}

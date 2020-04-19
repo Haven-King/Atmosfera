@@ -1,0 +1,17 @@
+{
+    "sound": "atmosfera:wind",
+    "volume": 12,
+    "conditions": {
+        "percent_block": [
+            {
+                "blocks":[
+                    "minecraft:air"
+                ],
+                "more": 0.07
+            }
+        ],
+        "height": {
+            "more": 80
+        }
+    }
+}

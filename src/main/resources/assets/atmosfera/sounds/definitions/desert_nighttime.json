@@ -1,0 +1,28 @@
+{
+    "sound": "atmosfera:desert_nighttime",
+    "data_volume": {
+        "direction": "up"
+    },
+    "conditions": {
+        "percent_biome": [
+            {
+                "biomes": [
+                    "minecraft:desert",
+                    "minecraft:desert_hills",
+                    "minecraft:desert_lakes"
+                ],
+                "more": 0.5
+            }
+        ],
+        "height": {
+            "more": 60
+        },
+        "distance_from_ground": {
+            "less": 20
+        },
+        "is_daytime": false,
+        "percent_sky_visible": {
+            "more": 0.3
+        }
+    }
+}
