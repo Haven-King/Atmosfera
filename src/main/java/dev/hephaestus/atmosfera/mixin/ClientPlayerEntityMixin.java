@@ -25,7 +25,7 @@ public class ClientPlayerEntityMixin {
     private final List<ClientPlayerTickable> tickables = Lists.newArrayList();
 
     @Inject(at=@At("RETURN"),method="<init>*")
-    public void initializeHandler(MinecraftClient minecraftClient_1, ClientWorld clientWorld_1, ClientPlayNetworkHandler clientPlayNetworkHandler_1, StatHandler statHandler_1, ClientRecipeBook clientRecipeBook_1, CallbackInfo ci) {
+    public void initializeHandler(MinecraftClient minecraftClient, ClientWorld clientWorld, ClientPlayNetworkHandler clientPlayNetworkHandler, StatHandler stats, ClientRecipeBook recipeBook, boolean bl, boolean bl2, CallbackInfo ci) {
         tickables.add(Atmosfera.HANDLER);
     }
 }

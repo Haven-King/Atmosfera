@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "atmosfera",
-  "version": "${version}",
+  "version": "1.2.2",
 
   "name": "Atmosfera",
   "description": "This mod aims to add a better ambient sound system to Minecraft.",

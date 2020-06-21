@@ -7,6 +7,8 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
 import java.io.*;
@@ -62,25 +64,25 @@ public class AtmosferaConfig {
     }
 
     public static ConfigBuilder getConfigScreen() {
-        ConfigBuilder builder = ConfigBuilder.create().setTitle("Atmosfera");
+        ConfigBuilder builder = ConfigBuilder.create().setTitle(new LiteralText("Atmosfera"));
         builder.setParentScreen(MinecraftClient.getInstance().currentScreen);
 
-        ConfigCategory volumesCategory = builder.getOrCreateCategory("category.atmosfera.volumes");
+        ConfigCategory volumesCategory = builder.getOrCreateCategory(new TranslatableText("category.atmosfera.volumes"));
 
         builder.setDefaultBackgroundTexture(new Identifier("minecraft:textures/block/light_blue_stained_glass.png"));
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
 
         for (AmbientSound sound : Atmosfera.REGISTRY.getRegistered()) {
             volumesCategory.addEntry(
-                entryBuilder.startIntSlider(sound.getLangID(), sound.max_volume, 0, 100)
-                    .setDefaultValue(sound.default_volume)
-                    .setTextGetter(integer -> integer + "%")
-                    .setSaveConsumer((volume) -> {
-                        Atmosfera.CONFIG.set(sound.id, volume);
-                        Atmosfera.REGISTRY.update(sound.id);
-                        Atmosfera.HANDLER.update(sound.id);
-                    })
-                    .build());
+                    entryBuilder.startIntSlider(new TranslatableText(sound.getLangID()), sound.max_volume, 0, 100)
+                            .setDefaultValue(sound.default_volume)
+                            .setTextGetter(integer -> new LiteralText(integer + "%"))
+                            .setSaveConsumer((volume) -> {
+                                Atmosfera.CONFIG.set(sound.id, volume);
+                                Atmosfera.REGISTRY.update(sound.id);
+                                Atmosfera.HANDLER.update(sound.id);
+                            })
+                            .build());
         }
 
         builder.setSavingRunnable(Atmosfera.CONFIG::writeConfig);
