@@ -1,0 +1,31 @@
+{
+    "sound": "atmosfera:desert_daytime",
+    "default_volume": 50,
+    "context": {
+        "shape": "hemisphere",
+        "size": "large",
+        "direction": "up"
+    },
+    "conditions": {
+        "percent_biome": [
+            {
+                "items": [
+                    "minecraft:desert",
+                    "minecraft:desert_hills",
+                    "minecraft:desert_lakes"
+                ],
+                "more": 0.5
+            }
+        ],
+        "height": {
+            "more": 60
+        },
+        "distance_from_ground": {
+            "less": 20
+        },
+        "is_daytime": true,
+        "percent_sky_visible": {
+            "more": 0.3
+        }
+    }
+}

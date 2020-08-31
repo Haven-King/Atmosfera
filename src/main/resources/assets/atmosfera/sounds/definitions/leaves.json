@@ -1,0 +1,38 @@
+{
+    "sound": "atmosfera:leaves",
+    "default_volume": 15,
+    "context": {
+        "shape": "hemisphere",
+        "size": "large",
+        "direction": "up"
+    },
+    "modifiers": [
+        {
+            "type": "percent_block",
+            "blocks": [
+                "minecraft:oak_leaves",
+                "minecraft:birch_leaves",
+                "minecraft:spruce_leaves",
+                "minecraft:acacia_leaves",
+                "minecraft:dark_oak_leaves"
+            ],
+            "range": [
+                0.01, 0.125
+            ]
+        }
+    ],
+    "conditions": {
+        "dimension": "minecraft:overworld",
+        "percent_block": [
+            {
+                "items": [
+                    "minecraft:air"
+                ],
+                "more": 0.01
+            }
+        ],
+        "percent_sky_visible": {
+            "more": 0.15
+        }
+    }
+}

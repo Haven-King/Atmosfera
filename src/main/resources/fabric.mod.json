@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "atmosfera",
+  "version": "${version}",
+  "name": "Atmosfera",
+  "description": "This mod aims to add a better ambient sound system to Minecraft.",
+  "authors": [
+    "Haven King"
+  ],
+  "contact": {
+    "sources": "https://github.com/Hephaestus-Dev/Atmosfera"
+  },
+  "license": "CC0-1.0",
+  "icon": "assets/atmosfera/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.hephaestus.atmosfera.Atmosfera"
+    ],
+    "modmenu": [
+      "dev.hephaestus.atmosfera.AtmosferaConfig"
+    ]
+  },
+  "mixins": [
+    "atmosfera.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.8.8+build.202",
+    "fabric": "*",
+    "minecraft": "1.16.2"
+  }
+}

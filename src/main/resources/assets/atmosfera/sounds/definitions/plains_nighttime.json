@@ -1,0 +1,32 @@
+{
+    "sound": "atmosfera:plains_nighttime",
+    "context": {
+        "shape": "hemisphere",
+        "size": "large",
+        "direction": "up"
+    },
+    "volume": 1.5,
+    "conditions": {
+        "dimension": "minecraft:overworld",
+        "percent_biome": [
+            {
+                "items": [
+                    "minecraft:plains",
+                    "minecraft:savanna",
+                    "minecraft:sunflower_plains"
+                ],
+                "more": 0.5
+            }
+        ],
+        "height": {
+            "more": 60
+        },
+        "distance_from_ground": {
+            "less": 20
+        },
+        "is_daytime": false,
+        "percent_sky_visible": {
+            "more": 0.3
+        }
+    }
+}

@@ -1,0 +1,31 @@
+{
+    "sound": "atmosfera:river",
+    "context": {
+        "shape": "hemisphere",
+        "size": "large",
+        "direction": "down"
+    },
+    "modifiers": [
+        {
+            "type": "percent_block",
+            "blocks":[
+                "minecraft:water"
+            ],
+            "range": [0.005, 0.1]
+        }
+    ],
+    "conditions": {
+        "percent_biome": [
+            {
+                "items": [
+                    "minecraft:river"
+                ],
+                "more": 0.0
+            }
+        ],
+        "height": {
+            "more": 55,
+            "less": 75
+        }
+    }
+}
