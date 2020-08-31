@@ -17,7 +17,7 @@ public class AtmosphericSoundDescription {
 	public Collection<Identifier> biomes = new HashSet<>();
 	public Collection<BiFunction<AtmosphericSoundContext, Double, Double>> modifiers = new LinkedList<>();
 	public Collection<Condition> conditions = new LinkedList<>();
-	public int defaultVolume = 100;
+	public int defaultVolume = 75;
 
 	public interface Condition {
 		boolean test(AtmosphericSoundContext context);

@@ -85,7 +85,7 @@ public class AtmosferaConfig implements ModMenuApi {
 			for (Map.Entry<Identifier, Integer> sound : VOLUME_MODIFIERS.entrySet()) {
 				volumesCategory.addEntry(
 					entryBuilder.startIntSlider(new TranslatableText(sound.getKey().toString()), sound.getValue(), 0, 200)
-						.setDefaultValue(50)
+						.setDefaultValue(Atmosfera.SOUND_DEFINITIONS.get(sound.getKey()).getDefaultVolume())
 						.setTextGetter(integer -> new LiteralText(integer + "%"))
 						.setSaveConsumer(volume -> VOLUME_MODIFIERS.put(sound.getKey(), volume))
 						.build()
