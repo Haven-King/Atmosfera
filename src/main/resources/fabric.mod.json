@@ -18,7 +18,7 @@
       "dev.hephaestus.atmosfera.Atmosfera"
     ],
     "modmenu": [
-      "dev.hephaestus.atmosfera.AtmosferaConfig"
+      "dev.hephaestus.atmosfera.AtmosferaModMenuEntrypoint"
     ]
   },
   "mixins": [

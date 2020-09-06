@@ -1,5 +1,6 @@
 {
     "sound": "atmosfera:swamp_daytime",
+    "default_volume": 50,
     "context": {
         "shape": "hemisphere",
         "size": "large",

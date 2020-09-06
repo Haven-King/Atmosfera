@@ -121,7 +121,7 @@ public class AtmosphericSoundSerializer implements SimpleSynchronousResourceRelo
 							break;
 						case "dimension":
 							RegistryKey<DimensionType> dimension = RegistryKey.of(Registry.DIMENSION_TYPE_KEY, new Identifier(entry.getValue().getAsString()));
-							soundDescription.conditions.add(context -> context.getDimension().equals(dimension.getValue()));
+							soundDescription.conditions.add(context -> dimension.getValue().equals(context.getDimension()));
 							break;
 						case "percent_biome":
 							JsonHelper.getArray(conditions, "percent_biome").forEach(biomeCondition -> {

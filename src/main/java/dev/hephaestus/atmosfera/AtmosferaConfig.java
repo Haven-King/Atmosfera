@@ -2,11 +2,10 @@ package dev.hephaestus.atmosfera;
 
 import com.google.gson.*;
 import dev.hephaestus.atmosfera.client.sound.AtmosphericSoundDefinition;
-import io.github.prospector.modmenu.api.ConfigScreenFactory;
-import io.github.prospector.modmenu.api.ModMenuApi;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
@@ -17,7 +16,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class AtmosferaConfig implements ModMenuApi {
+public class AtmosferaConfig {
 	private static final TreeMap<Identifier, Integer> VOLUME_MODIFIERS = new TreeMap<>(Comparator.comparing(id -> I18n.translate(id.toString())));
 
 	private static void read() {
@@ -69,32 +68,29 @@ public class AtmosferaConfig implements ModMenuApi {
 		return ((double) VOLUME_MODIFIERS.getOrDefault(soundId, Atmosfera.SOUND_DEFINITIONS.get(soundId).getDefaultVolume())) / 100D;
 	}
 
-	@Override
-	public ConfigScreenFactory<?> getModConfigScreenFactory() {
-		return parent -> {
-			read();
+	public static Screen getScreen(Screen parent) {
+		read();
 
-			ConfigBuilder builder = ConfigBuilder.create().setTitle(new LiteralText("Atmosfera"));
-			builder.setParentScreen(parent);
+		ConfigBuilder builder = ConfigBuilder.create().setTitle(new LiteralText("Atmosfera"));
+		builder.setParentScreen(parent);
 
-			ConfigCategory volumesCategory = builder.getOrCreateCategory(new TranslatableText("category.atmosfera.volumes"));
+		ConfigCategory volumesCategory = builder.getOrCreateCategory(new TranslatableText("category.atmosfera.volumes"));
 
-			builder.setDefaultBackgroundTexture(new Identifier("minecraft:textures/block/light_blue_stained_glass.png"));
-			ConfigEntryBuilder entryBuilder = builder.entryBuilder();
+		builder.setDefaultBackgroundTexture(new Identifier("minecraft:textures/block/light_blue_stained_glass.png"));
+		ConfigEntryBuilder entryBuilder = builder.entryBuilder();
 
-			for (Map.Entry<Identifier, Integer> sound : VOLUME_MODIFIERS.entrySet()) {
-				volumesCategory.addEntry(
-					entryBuilder.startIntSlider(new TranslatableText(sound.getKey().toString()), sound.getValue(), 0, 200)
-						.setDefaultValue(Atmosfera.SOUND_DEFINITIONS.get(sound.getKey()).getDefaultVolume())
-						.setTextGetter(integer -> new LiteralText(integer + "%"))
-						.setSaveConsumer(volume -> VOLUME_MODIFIERS.put(sound.getKey(), volume))
-						.build()
-				);
-			}
+		for (Map.Entry<Identifier, Integer> sound : VOLUME_MODIFIERS.entrySet()) {
+			volumesCategory.addEntry(
+				entryBuilder.startIntSlider(new TranslatableText(sound.getKey().toString()), sound.getValue(), 0, 200)
+					.setDefaultValue(Atmosfera.SOUND_DEFINITIONS.get(sound.getKey()).getDefaultVolume())
+					.setTextGetter(integer -> new LiteralText(integer + "%"))
+					.setSaveConsumer(volume -> VOLUME_MODIFIERS.put(sound.getKey(), volume))
+					.build()
+			);
+		}
 
-			builder.setSavingRunnable(AtmosferaConfig::write);
+		builder.setSavingRunnable(AtmosferaConfig::write);
 
-			return builder.build();
-		};
+		return builder.build();
 	}
 }
