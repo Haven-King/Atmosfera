@@ -9,6 +9,7 @@ import net.minecraft.util.JsonHelper;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Locale;
 import java.util.function.BiFunction;
 
 public class AtmosphericSoundDescription {
@@ -29,7 +30,7 @@ public class AtmosphericSoundDescription {
 		public AtmosphericSoundContext.Size size;
 
 		public Context(JsonObject context) {
-			this.shape = AtmosphericSoundSerializer.Shape.valueOf(JsonHelper.getString(context, "shape").toUpperCase());
+			this.shape = AtmosphericSoundSerializer.Shape.valueOf(JsonHelper.getString(context, "shape").toUpperCase(Locale.ENGLISH));
 
 			if (this.shape != AtmosphericSoundSerializer.Shape.SPHERE) {
 				this.direction = AtmosphericSoundContext.Direction.valueOf(JsonHelper.getString(context, "direction").toUpperCase());
