@@ -10,7 +10,7 @@
   "contact": {
     "sources": "https://github.com/Hephaestus-Dev/Atmosfera"
   },
-  "license": "CC0-1.0",
+  "license": "Apache",
   "icon": "assets/atmosfera/icon.png",
   "environment": "client",
   "entrypoints": {
@@ -28,6 +28,6 @@
     "fabricloader": ">=0.8.8+build.202",
     "fabric": "*",
     "cloth-config2": "*",
-    "minecraft": "1.16.2"
+    "minecraft": ">=1.16.2"
   }
 }
