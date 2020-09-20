@@ -10,7 +10,7 @@
   "contact": {
     "sources": "https://github.com/Hephaestus-Dev/Atmosfera"
   },
-  "license": "Apache",
+  "license": "Apache-2.0",
   "icon": "assets/atmosfera/icon.png",
   "environment": "client",
   "entrypoints": {
