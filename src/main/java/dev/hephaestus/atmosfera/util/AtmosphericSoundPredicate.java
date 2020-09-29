@@ -15,7 +15,7 @@ public interface AtmosphericSoundPredicate {
 
 	static AtmosphericSoundPredicate fromDescription(AtmosphericSoundDescription description) {
 		return (context -> {
-			for (AtmosphericSoundDescription.Condition condition : description.conditions) {
+			for (AtmosphericSoundCondition condition : description.conditions) {
 				if (!condition.test(context)) {
 					return 0F;
 				}
@@ -23,12 +23,11 @@ public interface AtmosphericSoundPredicate {
 
 			double volume = 1;
 
-			for (BiFunction<AtmosphericSoundContext, Double, Double> modifier : description.modifiers) {
+			for (AtmosphericSoundModifier modifier : description.modifiers) {
 				volume = modifier.apply(context, volume);
 			}
 
 			return (float) volume;
 		});
 	}
-
 }

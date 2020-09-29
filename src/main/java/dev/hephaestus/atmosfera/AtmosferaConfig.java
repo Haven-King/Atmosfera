@@ -19,6 +19,10 @@ import java.util.TreeMap;
 public class AtmosferaConfig {
 	private static final TreeMap<Identifier, Integer> VOLUME_MODIFIERS = new TreeMap<>(Comparator.comparing(id -> I18n.translate(id.toString())));
 
+	static {
+		read();
+	}
+
 	private static void read() {
 		try {
 			InputStream fi = new FileInputStream(new File("config" + File.separator + "atmosfera.json"));
@@ -80,13 +84,15 @@ public class AtmosferaConfig {
 		ConfigEntryBuilder entryBuilder = builder.entryBuilder();
 
 		for (Map.Entry<Identifier, Integer> sound : VOLUME_MODIFIERS.entrySet()) {
-			volumesCategory.addEntry(
-				entryBuilder.startIntSlider(new TranslatableText(sound.getKey().toString()), sound.getValue(), 0, 200)
-					.setDefaultValue(Atmosfera.SOUND_DEFINITIONS.get(sound.getKey()).getDefaultVolume())
-					.setTextGetter(integer -> new LiteralText(integer + "%"))
-					.setSaveConsumer(volume -> VOLUME_MODIFIERS.put(sound.getKey(), volume))
-					.build()
-			);
+			if (Atmosfera.SOUND_DEFINITIONS.containsKey(sound.getKey())) {
+				volumesCategory.addEntry(
+						entryBuilder.startIntSlider(new TranslatableText(sound.getKey().toString()), sound.getValue(), 0, 200)
+								.setDefaultValue(Atmosfera.SOUND_DEFINITIONS.get(sound.getKey()).getDefaultVolume())
+								.setTextGetter(integer -> new LiteralText(integer + "%"))
+								.setSaveConsumer(volume -> VOLUME_MODIFIERS.put(sound.getKey(), volume))
+								.build()
+				);
+			}
 		}
 
 		builder.setSavingRunnable(AtmosferaConfig::write);
