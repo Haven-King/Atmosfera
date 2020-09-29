@@ -3,18 +3,14 @@ package dev.hephaestus.atmosfera.world;
 import net.minecraft.block.Block;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.dimension.DimensionType;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-
-import static java.lang.Math.sqrt;
 
 public class AtmosphericSoundContext {
 	private static final HashMap<Size, AtmosphericSoundContext> CONTEXTS = new HashMap<>();
@@ -22,9 +18,6 @@ public class AtmosphericSoundContext {
 
 	static {
 		for (Size size : Size.values()) {
-//			double mid = sqrt(((size.radius * size.radius) / 2.0F));
-//			double tri = sqrt(((size.radius * size.radius) / 3.0F));
-
 			BlockPos origin = new BlockPos(0, 0, 0);
 
 			int radius = size.radius;
@@ -69,56 +62,6 @@ public class AtmosphericSoundContext {
 				}
 			}
 
-//			OFFSETS.computeIfAbsent(Direction.DOWN, key -> new HashMap<>()).put(size, new double[][] {
-//					{size.radius,0,0},
-//					{0,0,size.radius},
-//					{-size.radius,0,0},
-//					{0,-size.radius,0},
-//					{0,0,-size.radius},
-//
-//					{mid, -mid, 0},
-//					{-mid, -mid, 0},
-//
-//					{0, -mid, mid},
-//					{0, -mid, -mid},
-//
-//					{mid, 0, mid},
-//					{mid, 0, -mid},
-//					{-mid, 0, -mid},
-//					{-mid, 0, mid},
-//
-//					{-tri,-tri,-tri},
-//					{-tri,-tri,tri},
-//					{tri, -tri, -tri},
-//					{tri, -tri, tri},
-//
-//					{0,0,0}
-//			});
-//
-//			OFFSETS.computeIfAbsent(Direction.UP, key -> new HashMap<>()).put(size, new double[][] {
-//					{size.radius, 1, 0},
-//					{0, size.radius + 1, 0},
-//					{-size.radius, 1, 0},
-//					{0, 1, -size.radius},
-//
-//					{mid, mid + 1, 0},
-//					{-mid, mid + 1, 0},
-//
-//					{0, mid + 1, mid},
-//					{0, mid + 1, -mid},
-//
-//					{mid, 1, mid},
-//					{mid, 1, -mid},
-//					{-mid, 1, -mid},
-//					{-mid, 1, mid},
-//
-//					{tri, tri + 1, tri},
-//					{tri, tri + 1, -tri},
-//					{-tri,tri + 1,tri},
-//					{-tri,tri + 1,-tri},
-//
-//					{0,1,0}
-//			});
 		}
 
 		clear();
@@ -145,6 +88,7 @@ public class AtmosphericSoundContext {
 	private final Section up;
 	private final Section down;
 
+	private PlayerEntity player;
 	private int distanceFromGround = 0;
 	private int playerHeight = -1;
 	private boolean isDay = false;
@@ -157,6 +101,7 @@ public class AtmosphericSoundContext {
 	}
 
 	private void update(ClientPlayerEntity playerEntity) {
+		this.player = playerEntity;
 		ClientWorld world = (ClientWorld) playerEntity.world;
 		BlockPos pos = playerEntity.getBlockPos();
 
@@ -248,6 +193,10 @@ public class AtmosphericSoundContext {
 
 	public boolean isDaytime() {
 		return this.isDay;
+	}
+
+	public PlayerEntity getPlayer() {
+		return this.player;
 	}
 
 	private static class Section {

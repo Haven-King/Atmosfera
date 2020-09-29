@@ -51,7 +51,9 @@ public class AtmosphericSoundSerializer implements SimpleSynchronousResourceRelo
 				Identifier soundId = new Identifier(JsonHelper.getString(json, "sound"));
 				soundDescription.sound = Registry.SOUND_EVENT.containsId(soundId) ? Registry.SOUND_EVENT.get(soundId) : Registry.register(Registry.SOUND_EVENT, soundId, new SoundEvent(soundId));
 				soundDescription.context = new AtmosphericSoundDescription.Context(json.get("context").getAsJsonObject());
-				soundDescription.modifiers.add((context, volume) -> volume * AtmosferaConfig.modifier(soundId));
+				soundDescription.modifiers.put("volume",
+						(context, volume) -> (float) (volume * AtmosferaConfig.modifier(soundId))
+				);
 
 				if (json.has("default_volume")) {
 					JsonElement element = json.get("default_volume");
@@ -63,9 +65,11 @@ public class AtmosphericSoundSerializer implements SimpleSynchronousResourceRelo
 
 				if (json.has("modifiers")) {
 					for (JsonElement element : json.get("modifiers").getAsJsonArray()) {
-						soundDescription.modifiers.add(AtmosphericSoundModifierRegistry
-								.get(element.getAsJsonObject().get("type").getAsString())
-								.from(soundDescription.context, element));
+						soundDescription.modifiers.put(
+								JsonHelper.getString(element.getAsJsonObject(), "modifies", "volume"),
+								AtmosphericSoundModifierRegistry
+									.get(element.getAsJsonObject().get("type").getAsString())
+									.from(soundDescription.context, element));
 					}
 				}
 

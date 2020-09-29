@@ -3,6 +3,9 @@ package dev.hephaestus.atmosfera.client.sound;
 import com.google.gson.JsonObject;
 import dev.hephaestus.atmosfera.util.AtmosphericSoundCondition;
 import dev.hephaestus.atmosfera.util.AtmosphericSoundDescription;
+import net.fabricmc.fabric.api.tag.TagRegistry;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.Vec2f;
@@ -86,6 +89,25 @@ public class AtmosphericSoundConditionRegistry {
 				}
 
 				return true;
+			};
+		});
+
+		register("submerged_in", (context, element) -> {
+			Collection<Tag<Fluid>> fluids = new HashSet<>();
+			JsonHelper.getArray(element.getAsJsonObject(), "fluids").forEach(fluid ->
+				fluids.add(TagRegistry.fluid(new Identifier(fluid.getAsString())))
+			);
+
+			boolean defaultResult = JsonHelper.getBoolean(element.getAsJsonObject(), "invert", false);
+
+			return ctx -> {
+				for (Tag<Fluid> fluidTag : fluids) {
+					if (ctx.getPlayer().isSubmergedIn(fluidTag)) {
+						return !defaultResult;
+					}
+				}
+
+				return defaultResult;
 			};
 		});
 	}

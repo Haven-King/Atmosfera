@@ -1,5 +1,7 @@
 package dev.hephaestus.atmosfera.util;
 
+import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.Multimap;
 import com.google.gson.JsonObject;
 import dev.hephaestus.atmosfera.world.AtmosphericSoundContext;
 import net.minecraft.sound.SoundEvent;
@@ -12,7 +14,7 @@ import java.util.Locale;
 public class AtmosphericSoundDescription {
 	public SoundEvent sound;
 	public Context context;
-	public Collection<AtmosphericSoundModifier> modifiers = new LinkedList<>();
+	public Multimap<String, AtmosphericSoundModifier> modifiers = LinkedHashMultimap.create();
 	public Collection<AtmosphericSoundCondition> conditions = new LinkedList<>();
 	public int defaultVolume = 75;
 

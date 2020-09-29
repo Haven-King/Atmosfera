@@ -9,15 +9,15 @@ import dev.hephaestus.atmosfera.world.AtmosphericSoundContext;
  * return value of the previous modifier in the list.
  */
 public interface AtmosphericSoundModifier {
-	AtmosphericSoundModifier DEFAULT = (context, volume) -> 1.0F;
+	AtmosphericSoundModifier DEFAULT = (context, volume) -> 1;
 
 	/**
 	 * Adjusts the volume of the sound based on context from the world around the player.
 	 * @param context see {@link AtmosphericSoundContext}
-	 * @param volume the volume the sound would play at before applying this modifier
+	 * @param oldValue the volume the sound would play at before applying this modifier
 	 * @return the volume the sound will play at (before any remaining modifiers are applied)
 	 */
-	double apply(AtmosphericSoundContext context, double volume);
+	float apply(AtmosphericSoundContext context, float oldValue);
 
 	interface Builder {
 		Builder DEFAULT = (context, object) -> AtmosphericSoundModifier.DEFAULT;
