@@ -6,7 +6,7 @@
     "EntityMixin"
   ],
   "client": [
-    "ClientPlayerEntityMixin",
+    "InvokeSoundHandler",
     "SoundSystemMixin"
   ],
   "injectors": {
