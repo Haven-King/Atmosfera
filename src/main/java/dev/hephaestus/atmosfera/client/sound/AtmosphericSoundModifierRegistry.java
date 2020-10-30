@@ -1,5 +1,6 @@
 package dev.hephaestus.atmosfera.client.sound;
 
+import dev.hephaestus.atmosfera.util.AtmosphericSoundDescription;
 import dev.hephaestus.atmosfera.util.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.world.AtmosphericSoundContext;
 import net.fabricmc.fabric.api.tag.TagRegistry;
@@ -44,7 +45,9 @@ public class AtmosphericSoundModifierRegistry {
 			double max = element.getAsJsonObject().get("range").getAsJsonArray().get(1).getAsDouble();
 
 			return (ctx, volume) -> {
-				float percent = ctx.percentBlockType(blocks);
+				float percent = context.shape == AtmosphericSoundDescription.Context.Shape.HEMISPHERE
+					? ctx.percentBlockType(blocks, context.direction)
+					: ctx.percentBlockType(blocks);
 
 
 				if (percent >= min) {
@@ -68,7 +71,9 @@ public class AtmosphericSoundModifierRegistry {
 			double max = element.getAsJsonObject().get("range").getAsJsonArray().get(1).getAsDouble();
 
 			return (ctx, volume) -> {
-				float percent = ctx.percentBlockTag(blockTags);
+				float percent = context.shape == AtmosphericSoundDescription.Context.Shape.HEMISPHERE
+						? ctx.percentBlockTag(blockTags, context.direction)
+						: ctx.percentBlockTag(blockTags);
 
 				if (percent >= min) {
 					return (float) (volume * (percent - min) * (1.0F / (max - min)));

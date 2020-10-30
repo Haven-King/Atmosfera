@@ -174,6 +174,29 @@ public class AtmosphericSoundContext {
 		return ((float) count) / ((float) section.blockCount);
 	}
 
+	public float percentBlockTag(Set<Tag<Block>> blockTags) {
+		int count = 0;
+
+		for (Tag<Block> blockTag : blockTags) {
+			count += this.up.blockTags.getOrDefault(blockTag, 0);
+			count += this.down.blockTags.getOrDefault(blockTag, 0);
+		}
+
+		int denom = this.up.blockCount + this.down.blockCount;
+		return denom == 0 ? 0 : ((float) count) / ((float) (denom));
+	}
+
+	public float percentBlockTag(Set<Tag<Block>> blockTags, Direction direction) {
+		int count = 0;
+
+		Section section = direction == Direction.UP ? this.up : this.down;
+		for (Tag<Block> blockTag : blockTags) {
+			count += section.blockTags.getOrDefault(blockTag, 0);
+		}
+
+		return ((float) count) / ((float) section.blockCount);
+	}
+
 	public float percentSkyVisible() {
 		return (this.percentSkyVisible(Direction.UP) + this.percentSkyVisible(Direction.DOWN)) / 2F;
 	}
@@ -201,17 +224,6 @@ public class AtmosphericSoundContext {
 
 	public PlayerEntity getPlayer() {
 		return this.player;
-	}
-
-	public float percentBlockTag(Set<Tag<Block>> blockTags) {
-		int count = 0;
-		for (Tag<Block> blockTag : blockTags) {
-			count += this.up.blockTags.getOrDefault(blockTag, 0);
-			count += this.down.blockTags.getOrDefault(blockTag, 0);
-		}
-
-		int denom = this.up.blockCount + this.down.blockCount;
-		return denom == 0 ? 0 : ((float) count) / ((float) (denom));
 	}
 
 	private static class Section {
