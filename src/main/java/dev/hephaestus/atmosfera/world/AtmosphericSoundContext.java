@@ -1,9 +1,12 @@
 package dev.hephaestus.atmosfera.world;
 
+import dev.hephaestus.atmosfera.client.sound.AtmosphericSoundModifierRegistry;
+import dev.hephaestus.atmosfera.util.AtmosphericSoundSerializer;
 import net.minecraft.block.Block;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
@@ -11,6 +14,7 @@ import net.minecraft.util.registry.Registry;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 public class AtmosphericSoundContext {
 	private static final HashMap<Size, AtmosphericSoundContext> CONTEXTS = new HashMap<>();
@@ -199,6 +203,17 @@ public class AtmosphericSoundContext {
 		return this.player;
 	}
 
+	public float percentBlockTag(Set<Tag<Block>> blockTags) {
+		int count = 0;
+		for (Tag<Block> blockTag : blockTags) {
+			count += this.up.blockTags.getOrDefault(blockTag, 0);
+			count += this.down.blockTags.getOrDefault(blockTag, 0);
+		}
+
+		int denom = this.up.blockCount + this.down.blockCount;
+		return denom == 0 ? 0 : ((float) count) / ((float) (denom));
+	}
+
 	private static class Section {
 		private final Size size;
 		private final Direction direction;
@@ -206,6 +221,7 @@ public class AtmosphericSoundContext {
 		int blockCount = 0;
 		int numberSkyVisible = 0;
 		HashMap<Block, Integer> blockTypes = new HashMap<>();
+		HashMap<Tag<Block>, Integer> blockTags = new HashMap<>();
 		HashMap<Identifier, Integer> biomeTypes = new HashMap<>();
 
 		private Section(Direction direction, Size size) {
@@ -217,11 +233,20 @@ public class AtmosphericSoundContext {
 			this.blockCount = 0;
 			this.numberSkyVisible = 0;
 			this.blockTypes = new HashMap<>();
+			this.blockTags = new HashMap<>();
 			this.biomeTypes = new HashMap<>();
 		}
 
 		private void add(ClientWorld world, BlockPos pos) {
-			this.blockTypes.merge(world.getBlockState(pos).getBlock(), 1, Integer::sum);
+			Block block = world.getBlockState(pos).getBlock();
+			this.blockTypes.merge(block, 1, Integer::sum);
+
+			for (Tag<Block> blockTag : AtmosphericSoundModifierRegistry.USED_BLOCK_TAGS) {
+				if (block.isIn(blockTag)) {
+					this.blockTags.merge(blockTag, 1, Integer::sum);
+				}
+			}
+
 			this.biomeTypes.merge(world.getRegistryManager().get(Registry.BIOME_KEY).getId(world.getBiome(pos)), 1, Integer::sum);
 			this.numberSkyVisible += world.isSkyVisible(pos) ? 1 : 0;
 			this.blockCount++;

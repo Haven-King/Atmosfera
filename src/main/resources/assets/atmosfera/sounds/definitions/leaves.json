@@ -2,19 +2,14 @@
     "sound": "atmosfera:leaves",
     "default_volume": 15,
     "context": {
-        "shape": "hemisphere",
-        "size": "large",
-        "direction": "up"
+        "shape": "sphere",
+        "size": "large"
     },
     "modifiers": [
         {
-            "type": "percent_block",
-            "blocks": [
-                "minecraft:oak_leaves",
-                "minecraft:birch_leaves",
-                "minecraft:spruce_leaves",
-                "minecraft:acacia_leaves",
-                "minecraft:dark_oak_leaves"
+            "type": "percent_block_tag",
+            "tags": [
+                "#minecraft:leaves"
             ],
             "range": [
                 0.01, 0.125

@@ -10,13 +10,11 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.registry.Registry;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class AtmosphericSoundModifierRegistry {
-	private static final HashMap<String, AtmosphericSoundModifier.Builder> MAP = new HashMap<>();
+	public static final Collection<Tag<Block>> USED_BLOCK_TAGS = new HashSet<>();
+	private static final Map<String, AtmosphericSoundModifier.Builder> MAP = new HashMap<>();
 
 	public static void register(String key, AtmosphericSoundModifier.Builder builder) {
 		MAP.putIfAbsent(key, builder);
@@ -48,6 +46,29 @@ public class AtmosphericSoundModifierRegistry {
 			return (ctx, volume) -> {
 				float percent = ctx.percentBlockType(blocks);
 
+
+				if (percent >= min) {
+					return (float) (volume * (percent - min) * (1.0F / (max - min)));
+				} else {
+					return 0F;
+				}
+			};
+		});
+
+		register("percent_block_tag", (context, element) -> {
+			Set<Tag<Block>> blockTags = new HashSet<>();
+			JsonHelper.getArray(element.getAsJsonObject(), "tags").forEach(tag -> {
+				Tag<Block> blockTag = TagRegistry.block(new Identifier(tag.getAsString().substring(1)));
+
+				USED_BLOCK_TAGS.add(blockTag);
+				blockTags.add(blockTag);
+			});
+
+			double min = element.getAsJsonObject().get("range").getAsJsonArray().get(0).getAsDouble();
+			double max = element.getAsJsonObject().get("range").getAsJsonArray().get(1).getAsDouble();
+
+			return (ctx, volume) -> {
+				float percent = ctx.percentBlockTag(blockTags);
 
 				if (percent >= min) {
 					return (float) (volume * (percent - min) * (1.0F / (max - min)));
