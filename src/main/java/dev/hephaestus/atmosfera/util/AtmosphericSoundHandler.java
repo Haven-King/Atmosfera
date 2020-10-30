@@ -1,11 +1,11 @@
 package dev.hephaestus.atmosfera.util;
 
 import dev.hephaestus.atmosfera.Atmosfera;
+import dev.hephaestus.atmosfera.AtmosferaConfig;
 import dev.hephaestus.atmosfera.client.sound.AtmosphericSoundDefinition;
 import dev.hephaestus.atmosfera.client.sound.AtmosphericSoundInstance;
 import dev.hephaestus.atmosfera.world.AtmosphericSoundContext;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.sound.SoundManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Tickable;
@@ -16,41 +16,58 @@ import java.util.LinkedList;
 import java.util.Map;
 
 public class AtmosphericSoundHandler implements Tickable {
-	private final ClientPlayerEntity player;
-	private final MinecraftClient client;
-	private final HashMap<Identifier, AtmosphericSoundInstance> instances = new HashMap<>();
+	private static final HashMap<Identifier, AtmosphericSoundInstance> INSTANCES = new HashMap<>();
 
-	public AtmosphericSoundHandler(ClientPlayerEntity player) {
-		this.player = player;
-		this.client = MinecraftClient.getInstance();
-	}
+	private static Thread THREAD = null;
 
 	@Override
 	public void tick() {
-		SoundManager soundManager = this.client.getSoundManager();
-		AtmosphericSoundContext.updateContext(player);
-		for (AtmosphericSoundDefinition definition : Atmosfera.SOUND_DEFINITIONS.values()) {
-			if (!instances.containsKey(definition.getId()) || instances.get(definition.getId()).isDone()) {
-				float volume = definition.getVolume();
-				if (volume > 0) {
-					AtmosphericSoundInstance soundInstance = new AtmosphericSoundInstance(definition, 0.0001F);
-					this.instances.put(definition.getId(), soundInstance);
-					soundManager.playNextTick(soundInstance);
+		if (THREAD == null || !THREAD.isAlive()) {
+			THREAD = new Thread(() -> {
+				Profiler.push("Handler.Tick");
+				SoundManager soundManager = MinecraftClient.getInstance().getSoundManager();
+
+				Profiler.push("Handler.Tick.UpdateContext");
+				AtmosphericSoundContext.updateContext(MinecraftClient.getInstance().player);
+				Profiler.pop();
+
+				Profiler.push("Handler.Tick.AddNewSounds");
+				for (AtmosphericSoundDefinition definition : Atmosfera.SOUND_DEFINITIONS.values()) {
+					if (!INSTANCES.containsKey(definition.getId()) || INSTANCES.get(definition.getId()).isDone()) {
+						Profiler.push("Handler.Tick.AddNewSounds.GetVolume");
+						float volume = definition.getVolume();
+						Profiler.pop();
+
+						if (volume > 0) {
+							Profiler.push("Handler.Tick.AddNewSounds.NewSoundInstance");
+							AtmosphericSoundInstance soundInstance = new AtmosphericSoundInstance(definition, 0.0001F);
+							INSTANCES.put(definition.getId(), soundInstance);
+							soundManager.playNextTick(soundInstance);
+							Profiler.pop();
+						}
+					}
 				}
-			}
-		}
+				Profiler.pop();
 
-		Collection<Identifier> done = new LinkedList<>();
-		for (Map.Entry<Identifier, AtmosphericSoundInstance> entry : this.instances.entrySet()) {
-			if (entry.getValue().isDone()) {
-				done.add(entry.getKey());
-			} else if (!soundManager.isPlaying(entry.getValue())) {
-				soundManager.play(entry.getValue());
-			}
-		}
+				Profiler.push("Handler.Tick.PlayExistingSounds");
+				Collection<Identifier> done = new LinkedList<>();
+				for (Map.Entry<Identifier, AtmosphericSoundInstance> entry : INSTANCES.entrySet()) {
+					if (entry.getValue().isDone()) {
+						done.add(entry.getKey());
+					} else if (!soundManager.isPlaying(entry.getValue())) {
+						soundManager.play(entry.getValue());
+					}
+				}
+				Profiler.pop();
 
-		for (Identifier id : done) {
-			this.instances.remove(id);
+				Profiler.push("Handler.Tick.RemoveDoneSounds");
+				for (Identifier id : done) {
+					INSTANCES.remove(id);
+				}
+				Profiler.pop();
+			});
+
+			THREAD.start();
 		}
 	}
 }

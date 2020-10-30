@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ClientPlayerEntityMixin {
 	@Shadow @Final protected MinecraftClient client;
 
-	@Unique AtmosphericSoundHandler soundHandler = new AtmosphericSoundHandler((ClientPlayerEntity) (Object) this);
+	@Unique AtmosphericSoundHandler soundHandler = new AtmosphericSoundHandler();
 
 	@Inject(method = "tick", at = @At("TAIL"))
 	private void updateSoundContext(CallbackInfo ci) {
