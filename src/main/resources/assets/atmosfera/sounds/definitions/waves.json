@@ -30,7 +30,7 @@
                     "minecraft:deep_frozen_ocean",
                     "minecraft:deep_lukewarm_ocean"
                 ],
-                "more": 0.0,
+                "more": 0,
                 "less": 0.25
             }
         ],

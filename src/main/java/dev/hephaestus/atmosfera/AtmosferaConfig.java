@@ -13,11 +13,13 @@ import net.minecraft.util.Identifier;
 
 import java.io.*;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class AtmosferaConfig {
 	private static final TreeMap<Identifier, Integer> VOLUME_MODIFIERS = new TreeMap<>(Comparator.comparing(id -> I18n.translate(id.toString())));
+	private static final TreeMap<Identifier, Integer> MUSIC_WEIGHTS = new TreeMap<>(Comparator.comparing(id -> I18n.translate(id.toString())));
 
 	static {
 		read();
@@ -25,7 +27,7 @@ public class AtmosferaConfig {
 
 	private static void read() {
 		try {
-			InputStream fi = new FileInputStream(new File("config" + File.separator + "atmosfera.json"));
+			InputStream fi = new FileInputStream("config" + File.separator + "atmosfera.json");
 			JsonParser jsonParser = new JsonParser();
 
 			JsonObject json = (JsonObject)jsonParser.parse(new InputStreamReader(fi));
@@ -45,6 +47,10 @@ public class AtmosferaConfig {
 			e.printStackTrace();
 		} finally {
 			for (AtmosphericSoundDefinition sound : Atmosfera.SOUND_DEFINITIONS.values()) {
+				VOLUME_MODIFIERS.putIfAbsent(sound.getId(), sound.getDefaultVolume());
+			}
+
+			for (AtmosphericSoundDefinition sound : Atmosfera.MUSIC_DEFINITIONS.values()) {
 				VOLUME_MODIFIERS.putIfAbsent(sound.getId(), sound.getDefaultVolume());
 			}
 
@@ -69,7 +75,16 @@ public class AtmosferaConfig {
 	}
 
 	public static double modifier(Identifier soundId) {
-		return ((double) VOLUME_MODIFIERS.getOrDefault(soundId, Atmosfera.SOUND_DEFINITIONS.get(soundId).getDefaultVolume())) / 100D;
+		try {
+			return ((double) VOLUME_MODIFIERS.getOrDefault(soundId, Atmosfera.SOUND_DEFINITIONS.getOrDefault(soundId, Atmosfera.MUSIC_DEFINITIONS.get(soundId)).getDefaultVolume())) / 100D;
+		} catch (NullPointerException e) {
+			Atmosfera.LOG.warn("Unknown sound: {}", soundId);
+			throw e;
+		}
+	}
+
+	public static int weight(Identifier musicId) {
+		return MUSIC_WEIGHTS.getOrDefault(musicId, 5);
 	}
 
 	public static Screen getScreen(Screen parent) {
@@ -78,16 +93,26 @@ public class AtmosferaConfig {
 		ConfigBuilder builder = ConfigBuilder.create().setTitle(new LiteralText("Atmosfera"));
 		builder.setParentScreen(parent);
 
-		ConfigCategory volumesCategory = builder.getOrCreateCategory(new TranslatableText("category.atmosfera.volumes"));
+		Map<String, ConfigCategory> categories = new HashMap<>();
 
 		builder.setDefaultBackgroundTexture(new Identifier("minecraft:textures/block/light_blue_stained_glass.png"));
 		ConfigEntryBuilder entryBuilder = builder.entryBuilder();
 
 		for (Map.Entry<Identifier, Integer> sound : VOLUME_MODIFIERS.entrySet()) {
-			if (Atmosfera.SOUND_DEFINITIONS.containsKey(sound.getKey())) {
-				volumesCategory.addEntry(
+			Map<Identifier, AtmosphericSoundDefinition> map;
+
+			map = Atmosfera.SOUND_DEFINITIONS.containsKey(sound.getKey())
+					? Atmosfera.SOUND_DEFINITIONS
+					: Atmosfera.MUSIC_DEFINITIONS;
+
+			if (map.containsKey(sound.getKey())) {
+				ConfigCategory category = categories.computeIfAbsent(sound.getKey().getNamespace(), name -> {
+					return builder.getOrCreateCategory(new TranslatableText("category." + name + ".volumes"));
+				});
+
+				category.addEntry(
 						entryBuilder.startIntSlider(new TranslatableText(sound.getKey().toString()), sound.getValue(), 0, 200)
-								.setDefaultValue(Atmosfera.SOUND_DEFINITIONS.get(sound.getKey()).getDefaultVolume())
+								.setDefaultValue(map.get(sound.getKey()).getDefaultVolume())
 								.setTextGetter(integer -> new LiteralText(integer + "%"))
 								.setSaveConsumer(volume -> VOLUME_MODIFIERS.put(sound.getKey(), volume))
 								.build()

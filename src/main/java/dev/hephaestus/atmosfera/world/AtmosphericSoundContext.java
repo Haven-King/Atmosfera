@@ -1,7 +1,6 @@
 package dev.hephaestus.atmosfera.world;
 
 import dev.hephaestus.atmosfera.client.sound.AtmosphericSoundModifierRegistry;
-import dev.hephaestus.atmosfera.util.AtmosphericSoundSerializer;
 import net.minecraft.block.Block;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;

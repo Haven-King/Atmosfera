@@ -1,4 +1,4 @@
-package dev.hephaestus.atmosfera.util;
+package dev.hephaestus.atmosfera.client.sound.util;
 
 import com.google.gson.JsonElement;
 import dev.hephaestus.atmosfera.world.AtmosphericSoundContext;

@@ -3,7 +3,8 @@
   "package": "dev.hephaestus.atmosfera.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "EntityMixin"
+    "EntityMixin",
+    "MinecraftClientMixin"
   ],
   "client": [
     "InvokeSoundHandler",

@@ -1,8 +1,8 @@
 package dev.hephaestus.atmosfera.client.sound;
 
 import com.google.gson.JsonObject;
-import dev.hephaestus.atmosfera.util.AtmosphericSoundCondition;
-import dev.hephaestus.atmosfera.util.AtmosphericSoundDescription;
+import dev.hephaestus.atmosfera.client.AtmosphericSoundCondition;
+import dev.hephaestus.atmosfera.client.sound.util.AtmosphericSoundDescription;
 import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.tag.Tag;
@@ -68,7 +68,7 @@ public class AtmosphericSoundConditionRegistry {
 					biomes.add(new Identifier(biome.getAsString()))
 				);
 
-				float more = condition.has("more") ? JsonHelper.getFloat(condition, "more") : 0;
+				float more = condition.has("more") ? JsonHelper.getFloat(condition, "more") : Float.MIN_VALUE;
 				float less = condition.has("less") ? JsonHelper.getFloat(condition, "less") : Float.MAX_VALUE;
 
 				collection.add(new ImmutableTriple<>(biomes, more, less));
@@ -83,7 +83,7 @@ public class AtmosphericSoundConditionRegistry {
 						percentBiomes = ctx.percentBiomeType(triple.getLeft(), context.direction);
 					}
 
-					if (!(percentBiomes >= triple.getMiddle() && percentBiomes <= triple.getRight())) {
+					if (!(percentBiomes > triple.getMiddle() && percentBiomes <= triple.getRight())) {
 						return false;
 					}
 				}

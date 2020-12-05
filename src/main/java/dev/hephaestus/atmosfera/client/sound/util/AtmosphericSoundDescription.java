@@ -1,8 +1,9 @@
-package dev.hephaestus.atmosfera.util;
+package dev.hephaestus.atmosfera.client.sound.util;
 
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gson.JsonObject;
+import dev.hephaestus.atmosfera.client.AtmosphericSoundCondition;
 import dev.hephaestus.atmosfera.world.AtmosphericSoundContext;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.JsonHelper;

@@ -23,7 +23,7 @@
                 "items": [
                     "minecraft:air"
                 ],
-                "more": 0.01
+                "more": 0
             }
         ],
         "percent_sky_visible": {

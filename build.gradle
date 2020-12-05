@@ -23,12 +23,8 @@ dependencies {
         transitive(false)
     }
 
-    modCompileOnly("me.shedaniel.cloth:config-2:${project.cloth_version}") {
-        transitive(false)
-    }
-
-    modRuntime("me.shedaniel.cloth:config-2:${project.cloth_version}") {
-        transitive(false)
+    modApi ("me.shedaniel.cloth:config-2:${project.cloth_version}") {
+        exclude group: "net.fabricmc.fabric-api"
     }
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"

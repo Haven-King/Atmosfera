@@ -1,6 +1,6 @@
 package dev.hephaestus.atmosfera.mixin;
 
-import dev.hephaestus.atmosfera.util.AtmosphericSoundHandler;
+import dev.hephaestus.atmosfera.client.sound.util.AtmosphericSoundHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.sound.SoundSystem;

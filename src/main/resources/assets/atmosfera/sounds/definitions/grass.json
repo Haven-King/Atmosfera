@@ -19,7 +19,7 @@
     ],
     "conditions": {
         "percent_sky_visible": {
-            "more": 0.01
+            "more": 0
         }
     }
 }

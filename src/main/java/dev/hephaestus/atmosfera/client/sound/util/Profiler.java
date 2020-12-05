@@ -1,4 +1,4 @@
-package dev.hephaestus.atmosfera.util;
+package dev.hephaestus.atmosfera.client.sound.util;
 
 import org.apache.logging.log4j.Logger;
 

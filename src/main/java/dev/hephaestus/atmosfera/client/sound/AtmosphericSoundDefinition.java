@@ -1,9 +1,9 @@
 package dev.hephaestus.atmosfera.client.sound;
 
 import com.google.common.collect.Multimap;
-import dev.hephaestus.atmosfera.util.AtmosphericSoundCondition;
-import dev.hephaestus.atmosfera.util.AtmosphericSoundDescription;
-import dev.hephaestus.atmosfera.util.AtmosphericSoundModifier;
+import dev.hephaestus.atmosfera.client.AtmosphericSoundCondition;
+import dev.hephaestus.atmosfera.client.sound.util.AtmosphericSoundDescription;
+import dev.hephaestus.atmosfera.client.sound.util.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.world.AtmosphericSoundContext;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;

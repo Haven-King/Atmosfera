@@ -1,14 +1,12 @@
-package dev.hephaestus.atmosfera.util;
+package dev.hephaestus.atmosfera.client.sound.util;
 
 import dev.hephaestus.atmosfera.Atmosfera;
-import dev.hephaestus.atmosfera.AtmosferaConfig;
 import dev.hephaestus.atmosfera.client.sound.AtmosphericSoundDefinition;
 import dev.hephaestus.atmosfera.client.sound.AtmosphericSoundInstance;
 import dev.hephaestus.atmosfera.world.AtmosphericSoundContext;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.SoundManager;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Tickable;
 
 import java.util.Collection;
 import java.util.HashMap;

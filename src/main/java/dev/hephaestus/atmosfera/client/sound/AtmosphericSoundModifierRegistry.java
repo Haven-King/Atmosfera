@@ -1,8 +1,7 @@
 package dev.hephaestus.atmosfera.client.sound;
 
-import dev.hephaestus.atmosfera.util.AtmosphericSoundDescription;
-import dev.hephaestus.atmosfera.util.AtmosphericSoundModifier;
-import dev.hephaestus.atmosfera.world.AtmosphericSoundContext;
+import dev.hephaestus.atmosfera.client.sound.util.AtmosphericSoundDescription;
+import dev.hephaestus.atmosfera.client.sound.util.AtmosphericSoundModifier;
 import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.fluid.Fluid;

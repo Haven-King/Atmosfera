@@ -1,4 +1,4 @@
-package dev.hephaestus.atmosfera.util;
+package dev.hephaestus.atmosfera.client.sound.util;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -14,24 +14,30 @@ import net.minecraft.resource.ResourceManager;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.registry.Registry;
 
 import java.io.InputStreamReader;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 public class AtmosphericSoundSerializer implements SimpleSynchronousResourceReloadListener {
+	private final String folder;
+	private final Map<Identifier, AtmosphericSoundDefinition> destination;
+
+	public AtmosphericSoundSerializer(String folder, Map<Identifier, AtmosphericSoundDefinition> destination) {
+		this.folder = folder;
+		this.destination = destination;
+	}
+
 	@Override
 	public Identifier getFabricId() {
-		return Atmosfera.id("sound");
+		return Atmosfera.id(folder);
 	}
 
 	@Override
 	public void apply(ResourceManager manager) {
-		Atmosfera.SOUND_DEFINITIONS = new HashMap<>();
-		Collection<Identifier> resources = manager.findResources("sounds/definitions", (string) -> string.endsWith(".json"));
+		destination.clear();
+		Collection<Identifier> resources = manager.findResources(folder + "/definitions", (string) -> string.endsWith(".json"));
 		AtmosphericSoundContext.clear();
 
 		JsonParser parser = new JsonParser();
@@ -68,8 +74,8 @@ public class AtmosphericSoundSerializer implements SimpleSynchronousResourceRelo
 						soundDescription.modifiers.put(
 								JsonHelper.getString(element.getAsJsonObject(), "modifies", "volume"),
 								AtmosphericSoundModifierRegistry
-									.get(element.getAsJsonObject().get("type").getAsString())
-									.from(soundDescription.context, element));
+										.get(element.getAsJsonObject().get("type").getAsString())
+										.from(soundDescription.context, element));
 					}
 				}
 
@@ -79,28 +85,18 @@ public class AtmosphericSoundSerializer implements SimpleSynchronousResourceRelo
 							AtmosphericSoundConditionRegistry
 									.get(entry.getKey())
 									.from(
-										soundDescription.context,
-										entry.getValue()
+											soundDescription.context,
+											entry.getValue()
 									)
 					);
 				}
 
 				if (soundDescription.sound != null) {
-
-					Atmosfera.SOUND_DEFINITIONS.put(id, new AtmosphericSoundDefinition(
-							id, soundDescription)
-					);
+					destination.put(id, new AtmosphericSoundDefinition(id, soundDescription));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
-
-	static Vec2f getBounds(JsonObject object) {
-		float more = object.has("more") ? JsonHelper.getInt(object, "more") : 0;
-		float less = object.has("less") ? JsonHelper.getInt(object, "less") : Integer.MAX_VALUE;
-		return new Vec2f(more, less);
-	}
-
 }
