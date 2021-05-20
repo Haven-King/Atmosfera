@@ -1,0 +1,80 @@
+{
+  "sound": "atmosfera:legacy_grass",
+  "default_volume": 100,
+  "default_subtitle": true,
+  "context": {
+    "shape": "sphere",
+    "size": "medium"
+  },
+  "modifiers": [
+    {
+      "type": "percent_block",
+      "blocks": [
+        "minecraft:grass",
+        "minecraft:sugar_cane",
+        "minecraft:tall_grass",
+        "minecraft:wheat",
+        "biomemakeover:cattail",
+        "biomemakeover:reed",
+        "byg:beach_grass",
+        "byg:cattail",
+        "byg:clover_patch",
+        "byg:flower_patch",
+        "byg:horseweed",
+        "byg:leaf_pile",
+        "byg:prairie_grass",
+        "byg:reeds",
+        "byg:short_beach_grass",
+        "byg:short_grass",
+        "byg:tall_prairie_grass",
+        "byg:weed_grass",
+        "byg:wilted_grass",
+        "byg:winter_grass",
+        "ecotones:clover",
+        "ecotones:reeds",
+        "ecotones:sandy_grass",
+        "ecotones:short_grass",
+        "promenade:acacia_leaf_pile",
+        "promenade:autumn_birch_leaf_pile",
+        "promenade:autumn_oak_leaf_pile",
+        "promenade:birch_leaf_pile",
+        "promenade:dark_oak_leaf_pile",
+        "promenade:jungle_leaf_pile",
+        "promenade:oak_leaf_pile",
+        "promenade:palm_leaf_pile",
+        "promenade:pink_cherry_oak_leaf_pile",
+        "promenade:spruce_leaf_pile",
+        "promenade:white_cherry_oak_leaf_pile",
+        "terrestria:cattail",
+        "terrestria:dead_grass",
+        "terrestria:sakura_leaf_pile",
+        "terrestria:tall_cattail",
+        "wildworld:acacia_leaf_pile",
+        "wildworld:birch_leaf_pile",
+        "wildworld:dark_oak_leaf_pile",
+        "wildworld:jungle_leaf_pile",
+        "wildworld:oak_leaf_pile",
+        "wildworld:spruce_leaf_pile"
+      ],
+      "range": [
+        0.001,
+        0.1
+      ]
+    },
+    {
+      "type": "submerged_in",
+      "modifies": "pitch",
+      "factor": 0.5,
+      "fluids": [
+        "minecraft:lava",
+        "minecraft:water"
+      ]
+    }
+  ],
+  "conditions": {
+    "dimension": "minecraft:overworld",
+    "percent_sky_visible": {
+      "more": 0.0
+    }
+  }
+}

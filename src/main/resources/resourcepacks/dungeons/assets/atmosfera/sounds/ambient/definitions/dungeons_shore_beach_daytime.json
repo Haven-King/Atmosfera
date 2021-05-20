@@ -1,0 +1,53 @@
+{
+  "sound": "atmosfera:dungeons_shore_beach_daytime",
+  "default_volume": 100,
+  "default_subtitle": true,
+  "context": {
+    "shape": "hemisphere",
+    "size": "large",
+    "direction": "up"
+  },
+  "modifiers": [
+    {
+      "type": "submerged_in",
+      "modifies": "pitch",
+      "factor": 0.5,
+      "fluids": [
+        "minecraft:lava",
+        "minecraft:water"
+      ]
+    }
+  ],
+  "conditions": {
+    "dimension": "minecraft:overworld",
+    "percent_biome": [
+      {
+        "items": [
+          "minecraft:beach",
+          "minecraft:snowy_beach",
+          "minecraft:stone_shore",
+          "byg:rainbow_beach",
+          "byg:rocky_beach",
+          "byg:snowy_black_beach",
+          "byg:snowy_rocky_black_beach",
+          "byg:white_beach",
+          "ecotones:beach",
+          "ecotones:dry_beach",
+          "ecotones:gravel_beach",
+          "terrestria:volcanic_island_beach",
+          "terrestria:volcanic_island_shore"
+        ],
+        "more": 0.0
+      }
+    ],
+    "distance_from_ground": {
+      "less": 25
+    },
+    "percent_sky_visible": {
+      "more": 0.3
+    },
+    "is_daytime": true,
+    "is_rainy": false,
+    "is_stormy": false
+  }
+}

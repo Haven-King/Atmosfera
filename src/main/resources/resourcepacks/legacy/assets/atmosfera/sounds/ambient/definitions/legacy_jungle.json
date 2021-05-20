@@ -1,0 +1,73 @@
+{
+  "sound": "atmosfera:legacy_jungle",
+  "default_volume": 100,
+  "default_subtitle": true,
+  "context": {
+    "shape": "hemisphere",
+    "size": "large",
+    "direction": "up"
+  },
+  "modifiers": [
+    {
+      "type": "submerged_in",
+      "modifies": "pitch",
+      "factor": 0.5,
+      "fluids": [
+        "minecraft:lava",
+        "minecraft:water"
+      ]
+    }
+  ],
+  "conditions": {
+    "dimension": "minecraft:overworld",
+    "percent_biome": [
+      {
+        "items": [
+          "minecraft:bamboo_jungle",
+          "minecraft:bamboo_jungle_hills",
+          "minecraft:jungle",
+          "minecraft:jungle_edge",
+          "minecraft:jungle_hills",
+          "minecraft:modified_jungle",
+          "minecraft:modified_jungle_edge",
+          "byg:bamboo_forest",
+          "byg:crag_gardens",
+          "byg:fungal_patch",
+          "byg:guiana_clearing",
+          "byg:guiana_shield",
+          "byg:jacaranda_clearing",
+          "byg:jacaranda_forest",
+          "byg:jacaranda_forest_hills",
+          "byg:tropical_fungal_forest",
+          "byg:tropical_fungal_rainforest_hills",
+          "byg:tropical_islands",
+          "byg:tropical_rainforest",
+          "byg:tropical_rainforest_hills",
+          "ecotones:green_spires",
+          "ecotones:palm_forest",
+          "ecotones:palm_forest_hilly",
+          "ecotones:palm_forest_mountainous",
+          "ecotones:temperate_rainforest",
+          "ecotones:tropical_rainforest",
+          "terrestria:rainbow_rainforest",
+          "terrestria:rainbow_rainforest_lake",
+          "terrestria:rainbow_rainforest_mountains",
+          "terrestria:volcanic_island",
+          "traverse:mini_jungle",
+          "vanillaenhanced:extreme_jungle",
+          "vanillaplusbiomes:jungle_clearing"
+        ],
+        "more": 0.0
+      }
+    ],
+    "distance_from_ground": {
+      "less": 20
+    },
+    "height": {
+      "more": 60
+    },
+    "percent_sky_visible": {
+      "more": 0.3
+    }
+  }
+}

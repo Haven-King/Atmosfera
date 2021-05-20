@@ -1,15 +1,7 @@
 {
-    "atmosfera:waves": "Waves",
-    "atmosfera:plains_nighttime": "Plains (night)",
-    "atmosfera:plains_daytime": "Plains (day)",
-    "atmosfera:desert_nighttime": "Desert (night)",
-    "atmosfera:desert_daytime": "Desert (day)",
-    "atmosfera:swamp_nighttime": "Swamp (night)",
-    "atmosfera:swamp_daytime": "Swamp (day)",
-    "atmosfera:jungle": "Jungle Sounds",
-    "atmosfera:ocean": "Open Ocean Sounds",
-    "atmosfera:river": "River Flowing",
-    "atmosfera:wind": "Wind",
-    "atmosfera:grass": "Grass Rustling",
-    "atmosfera:leaves": "Leaves Rustling"
+  "config.atmosfera.resource_pack_warning": "No sound event was registered. Activate the built-in or a custom Atmosfera resource pack.",
+  "config.category.atmosfera.subtitles": "Subtitles",
+  "config.category.atmosfera.volumes": "Volumes",
+  "config.subcategory.atmosfera.ambient_sound": "Ambient Sound",
+  "config.subcategory.atmosfera.music": "Music"
 }

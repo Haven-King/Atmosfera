@@ -1,0 +1,356 @@
+{
+  "dungeons_cave": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_cave",
+    "sounds": [
+      "atmosfera:ambient/cave/cave_distant_drips_drops_loop_1_1",
+      "atmosfera:ambient/cave/cave_distant_drips_drops_loop_1_2",
+      "atmosfera:ambient/cave/cave_distant_drips_drops_loop_1_3",
+      "atmosfera:ambient/cave/cave_distant_drips_drops_loop_1_4"
+    ]
+  },
+  "dungeons_cave_speleothems": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_cave_speleothems",
+    "sounds": [
+      "atmosfera:ambient/cave/cave_water_drips_loop_1_1",
+      "atmosfera:ambient/cave/cave_water_drips_loop_1_2"
+    ]
+  },
+  "dungeons_desert_daytime": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_desert_daytime",
+    "sounds": [
+      "atmosfera:ambient/common/day_crickets_loop_1_1",
+      "atmosfera:ambient/common/day_crickets_loop_1_2",
+      "atmosfera:ambient/common/day_crickets_loop_1_3",
+      "atmosfera:ambient/common/day_crickets_loop_1_4",
+      "atmosfera:ambient/common/day_crickets_loop_2",
+      "atmosfera:ambient/common/surface_wind_howls_loop_1",
+      "atmosfera:ambient/common/surface_wind_howls_loop_2",
+      "atmosfera:ambient/common/surface_wind_howls_loop_3",
+      "atmosfera:ambient/desert/desert_wind_loop_1_3",
+      "atmosfera:ambient/desert/desert_wind_loop_2"
+    ]
+  },
+  "dungeons_desert_nighttime": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_desert_nighttime",
+    "sounds": [
+      "atmosfera:ambient/common/night_crickets_loop_1",
+      "atmosfera:ambient/common/surface_wind_howls_loop_1",
+      "atmosfera:ambient/common/surface_wind_howls_loop_2",
+      "atmosfera:ambient/common/surface_wind_howls_loop_3",
+      "atmosfera:ambient/desert/desert_wind_loop_1_3",
+      "atmosfera:ambient/desert/desert_wind_loop_2"
+    ]
+  },
+  "dungeons_forest_daytime": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_forest_daytime",
+    "sounds": [
+      "atmosfera:ambient/common/day_crickets_loop_1_1",
+      "atmosfera:ambient/common/day_crickets_loop_1_2",
+      "atmosfera:ambient/common/day_crickets_loop_1_3",
+      "atmosfera:ambient/common/day_crickets_loop_1_4",
+      "atmosfera:ambient/common/day_crickets_loop_2",
+      "atmosfera:ambient/common/surface_wind_howls_loop_1",
+      "atmosfera:ambient/common/surface_wind_howls_loop_2",
+      "atmosfera:ambient/common/surface_wind_howls_loop_3",
+      "atmosfera:ambient/forest/forest_day_birds_chaffinch_parus_loop_1",
+      "atmosfera:ambient/forest/forest_day_birds_flycatcher_parus_thrush_loop_1",
+      "atmosfera:ambient/forest/forest_day_birds_insects_loop_1_1",
+      "atmosfera:ambient/forest/forest_day_birds_insects_loop_1_2",
+      "atmosfera:ambient/forest/forest_day_creaks_rustles_birds_ruminants_loop_1_1",
+      "atmosfera:ambient/forest/forest_day_creaks_rustles_birds_ruminants_loop_1_2",
+      "atmosfera:ambient/forest/forest_day_wind_rustles_thrush_insects_loop_1_1",
+      "atmosfera:ambient/forest/forest_day_wind_rustles_thrush_insects_loop_1_2",
+      "atmosfera:ambient/forest/forest_day_wind_rustles_thrush_insects_loop_1_3",
+      "atmosfera:ambient/forest/forest_day_wind_rustles_thrush_insects_loop_1_4",
+      "atmosfera:ambient/forest/forest_wind_rustles_loop_1"
+    ]
+  },
+  "dungeons_forest_nighttime": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_forest_nighttime",
+    "sounds": [
+      "atmosfera:ambient/common/night_crickets_loop_1",
+      "atmosfera:ambient/common/surface_wind_howls_loop_1",
+      "atmosfera:ambient/common/surface_wind_howls_loop_2",
+      "atmosfera:ambient/common/surface_wind_howls_loop_3",
+      "atmosfera:ambient/forest/forest_night_owl_loop_1",
+      "atmosfera:ambient/forest/forest_wind_rustles_loop_1"
+    ]
+  },
+  "dungeons_forest_rainy": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_forest_rainy",
+    "sounds": [
+      "atmosfera:ambient/common/surface_wind_howls_loop_1",
+      "atmosfera:ambient/common/surface_wind_howls_loop_2",
+      "atmosfera:ambient/common/surface_wind_howls_loop_3",
+      "atmosfera:ambient/forest/forest_wind_rustles_loop_1"
+    ]
+  },
+  "dungeons_forest_snowy_daytime": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_forest_snowy_daytime",
+    "sounds": [
+      "atmosfera:ambient/common/surface_wind_howls_loop_1",
+      "atmosfera:ambient/common/surface_wind_howls_loop_2",
+      "atmosfera:ambient/common/surface_wind_howls_loop_3",
+      "atmosfera:ambient/forest/forest_wind_rustles_loop_1"
+    ]
+  },
+  "dungeons_forest_snowy_nighttime": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_forest_snowy_nighttime",
+    "sounds": [
+      "atmosfera:ambient/common/surface_wind_howls_loop_1",
+      "atmosfera:ambient/common/surface_wind_howls_loop_2",
+      "atmosfera:ambient/common/surface_wind_howls_loop_3",
+      "atmosfera:ambient/forest/forest_night_owl_loop_1",
+      "atmosfera:ambient/forest/forest_wind_rustles_loop_1"
+    ]
+  },
+  "dungeons_grass": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_grass",
+    "sounds": [
+      "atmosfera:ambient/grass/grass_rustles_loop_1",
+      "atmosfera:ambient/grass/grass_rustles_loop_2"
+    ]
+  },
+  "dungeons_grassland_daytime": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_grassland_daytime",
+    "sounds": [
+      "atmosfera:ambient/common/day_crickets_loop_1_1",
+      "atmosfera:ambient/common/day_crickets_loop_1_2",
+      "atmosfera:ambient/common/day_crickets_loop_1_3",
+      "atmosfera:ambient/common/day_crickets_loop_1_4",
+      "atmosfera:ambient/common/day_crickets_loop_2",
+      "atmosfera:ambient/common/surface_wind_howls_loop_1",
+      "atmosfera:ambient/common/surface_wind_howls_loop_2",
+      "atmosfera:ambient/common/surface_wind_howls_loop_3",
+      "atmosfera:ambient/grassland/grassland_day_birds_wren_loop_1_1",
+      "atmosfera:ambient/grassland/grassland_day_birds_wren_loop_1_2",
+      "atmosfera:ambient/grassland/grassland_day_birds_wren_loop_1_3",
+      "atmosfera:ambient/grassland/grassland_day_wind_birds_insects_ruminants_loop_1_1",
+      "atmosfera:ambient/grassland/grassland_day_wind_birds_insects_ruminants_loop_1_2",
+      "atmosfera:ambient/grassland/grassland_day_wind_birds_insects_ruminants_loop_1_3",
+      "atmosfera:ambient/grassland/grassland_day_wind_birds_insects_ruminants_loop_1_4"
+    ]
+  },
+  "dungeons_grassland_nighttime": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_grassland_nighttime",
+    "sounds": [
+      "atmosfera:ambient/common/night_crickets_loop_1",
+      "atmosfera:ambient/common/surface_wind_howls_loop_1",
+      "atmosfera:ambient/common/surface_wind_howls_loop_2",
+      "atmosfera:ambient/common/surface_wind_howls_loop_3",
+      "atmosfera:ambient/grassland/grassland_night_owl_loop_1"
+    ]
+  },
+  "dungeons_grassland_rainy": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_grassland_rainy",
+    "sounds": [
+      "atmosfera:ambient/common/surface_wind_howls_loop_1",
+      "atmosfera:ambient/common/surface_wind_howls_loop_2",
+      "atmosfera:ambient/common/surface_wind_howls_loop_3"
+    ]
+  },
+  "dungeons_grassland_snowy_daytime": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_grassland_snowy_daytime",
+    "sounds": [
+      "atmosfera:ambient/common/surface_wind_howls_loop_1",
+      "atmosfera:ambient/common/surface_wind_howls_loop_2",
+      "atmosfera:ambient/common/surface_wind_howls_loop_3"
+    ]
+  },
+  "dungeons_grassland_snowy_nighttime": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_grassland_snowy_nighttime",
+    "sounds": [
+      "atmosfera:ambient/common/surface_wind_howls_loop_1",
+      "atmosfera:ambient/common/surface_wind_howls_loop_2",
+      "atmosfera:ambient/common/surface_wind_howls_loop_3",
+      "atmosfera:ambient/grassland/grassland_night_owl_loop_1"
+    ]
+  },
+  "dungeons_leaves": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_leaves",
+    "sounds": [
+      "atmosfera:ambient/leaves/leaves_rustles_loop_1",
+      "atmosfera:ambient/leaves/leaves_rustles_loop_2",
+      "atmosfera:ambient/leaves/leaves_rustles_loop_3"
+
+    ]
+  },
+  "dungeons_rainforest_tropical_daytime": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_rainforest_tropical_daytime",
+    "sounds": [
+      "atmosfera:ambient/rainforest/rainforest_day_birds_insects_loop_1_1",
+      "atmosfera:ambient/rainforest/rainforest_day_birds_insects_loop_1_2",
+      "atmosfera:ambient/rainforest/rainforest_day_birds_insects_loop_1_3",
+      "atmosfera:ambient/rainforest/rainforest_day_birds_insects_loop_2_1",
+      "atmosfera:ambient/rainforest/rainforest_day_birds_insects_loop_2_2",
+      "atmosfera:ambient/rainforest/rainforest_day_birds_insects_loop_2_3"
+    ]
+  },
+  "dungeons_rainforest_tropical_nighttime": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_rainforest_tropical_nighttime",
+    "sounds": [
+      "atmosfera:ambient/rainforest/rainforest_night_insects_loop_1_1",
+      "atmosfera:ambient/rainforest/rainforest_night_insects_loop_1_2",
+      "atmosfera:ambient/rainforest/rainforest_night_insects_loop_1_3"
+    ]
+  },
+  "dungeons_shore": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_shore",
+    "sounds": [
+      "atmosfera:ambient/shore/shore_waves_loop_1_1",
+      "atmosfera:ambient/shore/shore_waves_loop_1_2"
+    ]
+  },
+  "dungeons_shore_beach_daytime": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_shore_beach_daytime",
+    "sounds": [
+      "atmosfera:ambient/shore/shore_beach_day_gull_loop_1_1",
+      "atmosfera:ambient/shore/shore_beach_day_gull_loop_1_2",
+      "atmosfera:ambient/shore/shore_beach_distant_waves_loop_1"
+    ]
+  },
+  "dungeons_shore_beach_nighttime": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_shore_beach_nighttime",
+    "sounds": [
+      "atmosfera:ambient/shore/shore_beach_distant_waves_loop_1"
+    ]
+  },
+  "dungeons_shore_beach_rainy": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_shore_beach_rainy",
+    "sounds": [
+      "atmosfera:ambient/shore/shore_beach_distant_waves_loop_1"
+    ]
+  },
+  "dungeons_swamp_daytime": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_swamp_daytime",
+    "sounds": [
+      "atmosfera:ambient/common/day_crickets_loop_2",
+      "atmosfera:ambient/common/surface_wind_howls_loop_1",
+      "atmosfera:ambient/common/surface_wind_howls_loop_2",
+      "atmosfera:ambient/common/surface_wind_howls_loop_3",
+      "atmosfera:ambient/forest/forest_wind_rustles_loop_1",
+      "atmosfera:ambient/swamp/swamp_day_drips_rustles_frogs_loop_1_1",
+      "atmosfera:ambient/swamp/swamp_day_drips_rustles_frogs_loop_1_2",
+      "atmosfera:ambient/swamp/swamp_frogs_loop_1"
+    ]
+  },
+  "dungeons_swamp_nighttime": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_swamp_nighttime",
+    "sounds": [
+      "atmosfera:ambient/common/surface_wind_howls_loop_1",
+      "atmosfera:ambient/common/surface_wind_howls_loop_2",
+      "atmosfera:ambient/common/surface_wind_howls_loop_3",
+      "atmosfera:ambient/forest/forest_wind_rustles_loop_1",
+      "atmosfera:ambient/swamp/swamp_frogs_loop_1",
+      "atmosfera:ambient/swamp/swamp_night_crickets_loop_1"
+    ]
+  },
+  "dungeons_swamp_rainy": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_swamp_rainy",
+    "sounds": [
+      "atmosfera:ambient/common/surface_wind_howls_loop_1",
+      "atmosfera:ambient/common/surface_wind_howls_loop_2",
+      "atmosfera:ambient/common/surface_wind_howls_loop_3",
+      "atmosfera:ambient/forest/forest_wind_rustles_loop_1",
+      "atmosfera:ambient/swamp/swamp_day_drips_rustles_frogs_loop_1_1",
+      "atmosfera:ambient/swamp/swamp_day_drips_rustles_frogs_loop_1_2",
+      "atmosfera:ambient/swamp/swamp_frogs_loop_1"
+    ]
+  },
+  "dungeons_waterbody": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_waterbody",
+    "sounds": [
+      "atmosfera:ambient/waterbody/waterbody_ripples_waves_loop_1_1",
+      "atmosfera:ambient/waterbody/waterbody_ripples_waves_loop_1_2"
+    ]
+  },
+  "dungeons_waterbody_river": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_waterbody_river",
+    "sounds": [
+      "atmosfera:ambient/waterbody/waterbody_river_stream_loop_1"
+    ]
+  },
+  "dungeons_wind": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_wind",
+    "sounds": [
+      "atmosfera:ambient/wind/wind_rumble_loop_1_1",
+      "atmosfera:ambient/wind/wind_rumble_loop_1_2"
+    ]
+  },
+  "dungeons_camp": {
+    "category": "music",
+    "sounds": [
+      "atmosfera:music/common/camp_dalarna_ost",
+      "atmosfera:music/common/camp_halland_ost"
+    ]
+  },
+  "dungeons_desert_cacti_canyon": {
+    "category": "music",
+    "sounds": [
+      "atmosfera:music/desert/desert_cacti_canyon_ost",
+      "atmosfera:music/desert/desert_fizz_ost"
+    ]
+  },
+  "dungeons_desert_desert_temple": {
+    "category": "music",
+    "sounds": [
+      "atmosfera:music/desert/desert_desert_temple_1_ost",
+      "atmosfera:music/desert/desert_desert_temple_2_ost",
+      "atmosfera:music/desert/desert_desert_temple_3_ost"
+    ]
+  },
+  "dungeons_grassland_pumpkin_pastures": {
+    "category": "music",
+    "sounds": [
+      "atmosfera:music/grassland/grassland_pumpkin_pastures_ost"
+    ]
+  },
+  "dungeons_snowy_lone_fortress": {
+    "category": "music",
+    "sounds": [
+      "atmosfera:music/snowy/snowy_battlements_ost",
+      "atmosfera:music/snowy/snowy_ice_dungeon_ost"
+    ]
+  },
+  "dungeons_snowy_lost_settlement": {
+    "category": "music",
+    "sounds": [
+      "atmosfera:music/snowy/snowy_ice_cabin_ost",
+      "atmosfera:music/snowy/snowy_lost_settlement_ost"
+    ]
+  },
+  "dungeons_swamp_soggy_cave": {
+    "category": "music",
+    "sounds": [
+      "atmosfera:music/swamp/swamp_soggier_cave_ost"
+    ]
+  }
+}

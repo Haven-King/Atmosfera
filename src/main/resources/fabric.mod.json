@@ -2,16 +2,25 @@
   "schemaVersion": 1,
   "id": "atmosfera",
   "version": "${version}",
+
   "name": "Atmosfera",
-  "description": "This mod aims to add a better ambient sound system to Minecraft.",
+  "description": "An ambient sound system with customizable, atmospheric sound resources.",
   "authors": [
     "Haven King"
   ],
+  "contributors": [
+    "NeRdTheNed",
+    "zeydOpr"
+  ],
   "contact": {
-    "sources": "https://github.com/Hephaestus-Dev/Atmosfera"
+    "homepage": "https://github.com/Haven-King/Atmosfera",
+    "sources": "https://github.com/Haven-King/Atmosfera",
+    "issues": "https://github.com/Haven-King/Atmosfera/issues"
   },
+
   "license": "Apache-2.0",
   "icon": "assets/atmosfera/icon.png",
+
   "environment": "client",
   "entrypoints": {
     "client": [
@@ -24,10 +33,25 @@
   "mixins": [
     "atmosfera.mixins.json"
   ],
+
   "depends": {
-    "fabricloader": ">=0.8.8+build.202",
-    "fabric": "*",
-    "cloth-config2": "*",
+    "fabricloader": ">=0.11.1",
+    "fabric": ">=0.29.3",
+    "cloth-config2": ">=4.8.0",
     "minecraft": ">=1.16.2"
+  },
+  "recommends": {
+    "modmenu": ">=1.14.0"
+  },
+  "suggests": {
+    "presencefootsteps": "*"
+  },
+  "conflicts": {
+    "charmonium": "*",
+    "mambience": "*",
+    "primalwinter:": "*"
+  },
+  "breaks": {
+    "modmenu": "<1.14.0"
   }
 }

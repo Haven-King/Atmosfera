@@ -1,0 +1,137 @@
+{
+  "sound": "atmosfera:legacy_leaves",
+  "default_volume": 100,
+  "default_subtitle": true,
+  "context": {
+    "shape": "sphere",
+    "size": "large"
+  },
+  "modifiers": [
+    {
+      "type": "percent_block",
+      "blocks": [
+        "minecraft:acacia_leaves",
+        "minecraft:bamboo",
+        "minecraft:birch_leaves",
+        "minecraft:dark_oak_leaves",
+        "minecraft:jungle_leaves",
+        "minecraft:oak_leaves",
+        "minecraft:spruce_leaves",
+        "biomemakeover:ancient_oak_leaves",
+        "biomemakeover:blighted_balsa_leaves",
+        "biomemakeover:swamp_cypress_leaves",
+        "biomemakeover:willow_leaves",
+        "byg:aspen_leaves",
+        "byg:araucaria_leaves",
+        "byg:baobab_leaves",
+        "byg:blooming_witch_hazel_leaves",
+        "byg:blue_enchanted_leaves",
+        "byg:blue_spruce_leaves",
+        "byg:brown_birch_leaves",
+        "byg:brown_oak_leaves",
+        "byg:brown_zelkova_leaves",
+        "byg:cika_leaves",
+        "byg:cypress_leaves",
+        "byg:ebony_leaves",
+        "byg:fir_leaves",
+        "byg:flowering_orchard_leaves",
+        "byg:flowering_nightshade_leaves",
+        "byg:flowering_palo_verde_leaves",
+        "byg:green_apple_skyris_leaves",
+        "byg:green_enchanted_leaves",
+        "byg:holly_berry_leaves",
+        "byg:holly_leaves",
+        "byg:indigo_jacaranda_leaves",
+        "byg:jacaranda_leaves",
+        "byg:joshua_leaves",
+        "byg:lament_leaves",
+        "byg:mahogany_leaves",
+        "byg:mangrove_leaves",
+        "byg:maple_leaves",
+        "byg:nightshade_leaves",
+        "byg:orange_birch_leaves",
+        "byg:orange_oak_leaves",
+        "byg:orange_spruce_leaves",
+        "byg:orchard_leaves",
+        "byg:palm_leaves",
+        "byg:palo_verde_leaves",
+        "byg:pine_leaves",
+        "byg:pink_cherry_leaves",
+        "byg:rainbow_eucalyptus_leaves",
+        "byg:red_birch_leaves",
+        "byg:red_maple_leaves",
+        "byg:red_oak_leaves",
+        "byg:red_spruce_leaves",
+        "byg:redwood_leaves",
+        "byg:ripe_joshua_leaves",
+        "byg:ripe_orchard_leaves",
+        "byg:silver_maple_leaves",
+        "byg:skyris_leaves",
+        "byg:white_cherry_leaves",
+        "byg:willow_leaves",
+        "byg:witch_hazel_leaves",
+        "byg:withering_oak_leaves",
+        "byg:yellow_birch_leaves",
+        "byg:yellow_spruce_leaves",
+        "byg:zelkova_leaves",
+        "ecotones:hazel_leaves",
+        "promenade:autumn_oak_leaves",
+        "promenade:autumn_birch_leaves",
+        "promenade:pink_cherry_oak_leaves",
+        "promenade:white_cherry_oak_leaves",
+        "promenade:palm_leaves",
+        "sakurarosea:alt_sakura_leaves",
+        "sakurarosea:sakura_leaves",
+        "sakurarosea:white_sakura_leaves",
+        "terrestria:cypress_leaves",
+        "terrestria:dark_japanese_maple_leaves",
+        "terrestria:hemlock_leaves",
+        "terrestria:japanese_maple_leaves",
+        "terrestria:japanese_maple_shrub_leaves",
+        "terrestria:jungle_palm_leaves",
+        "terrestria:rainbow_eucalyptus_leaves",
+        "terrestria:redwood_leaves",
+        "terrestria:rubber_leaves",
+        "terrestria:sakura_leaves",
+        "terrestria:willow_leaves",
+        "terrestria:yucca_palm_leaves",
+        "traverse:brown_autumnal_leaves",
+        "traverse:fir_leaves",
+        "traverse:orange_autumnal_leaves",
+        "traverse:red_autumnal_leaves",
+        "traverse:yellow_autumnal_leaves",
+        "vanillaenhanced:redwood_leaves",
+        "woods_and_mires:pine_leaves"
+      ],
+      "range": [
+        0.01,
+        0.125
+      ]
+    },
+    {
+      "type": "percent_block",
+      "blocks": [
+        "minecraft:air"
+      ],
+      "range": [
+        0.0,
+        0.1
+      ]
+    },
+    {
+      "type": "submerged_in",
+      "modifies": "pitch",
+      "factor": 0.5,
+      "fluids": [
+        "minecraft:lava",
+        "minecraft:water"
+      ]
+    }
+  ],
+  "conditions": {
+    "dimension": "minecraft:overworld",
+    "percent_sky_visible": {
+      "more": 0.15
+    }
+  }
+}

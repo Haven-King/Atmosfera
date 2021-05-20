@@ -1,0 +1,23 @@
+{
+  "sound": "atmosfera:dungeons_camp",
+  "default_volume": 100,
+  "context": {
+    "shape": "hemisphere",
+    "size": "small",
+    "direction": "down"
+  },
+  "modifiers": [
+    {
+      "type": "submerged_in",
+      "modifies": "pitch",
+      "factor": 0.5,
+      "fluids": [
+        "minecraft:lava",
+        "minecraft:water"
+      ]
+    }
+  ],
+  "conditions": {
+    "dimension": "minecraft:overworld"
+  }
+}

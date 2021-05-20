@@ -1,0 +1,52 @@
+{
+  "sound": "atmosfera:dungeons_waterbody_river",
+  "default_volume": 100,
+  "default_subtitle": true,
+  "context": {
+    "shape": "sphere",
+    "size": "large"
+  },
+  "modifiers": [
+    {
+      "type": "percent_block",
+      "blocks": [
+        "minecraft:water"
+      ],
+      "range": [
+        0.0,
+        0.1
+      ]
+    },
+    {
+      "type": "submerged_in",
+      "modifies": "pitch",
+      "factor": 0.5,
+      "fluids": [
+        "minecraft:lava",
+        "minecraft:water"
+      ]
+    }
+  ],
+  "conditions": {
+    "dimension": "minecraft:overworld",
+    "percent_biome": [
+      {
+        "items": [
+          "minecraft:river",
+          "ecotones:river",
+          "riverredux:carved_river",
+          "riverredux:gravelly_river",
+          "riverredux:sandy_river",
+          "riverredux:tropical_river"
+        ],
+        "more": 0.0
+      }
+    ],
+    "distance_from_ground": {
+      "less": 20
+    },
+    "percent_sky_visible": {
+      "more": 0.15
+    }
+  }
+}

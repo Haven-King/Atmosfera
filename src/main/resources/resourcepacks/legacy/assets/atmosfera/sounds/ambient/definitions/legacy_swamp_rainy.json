@@ -1,0 +1,66 @@
+{
+  "sound": "atmosfera:legacy_swamp_rainy",
+  "default_volume": 100,
+  "default_subtitle": true,
+  "context": {
+    "shape": "hemisphere",
+    "size": "large",
+    "direction": "up"
+  },
+  "modifiers": [
+    {
+      "type": "submerged_in",
+      "modifies": "pitch",
+      "factor": 0.5,
+      "fluids": [
+        "minecraft:lava",
+        "minecraft:water"
+      ]
+    }
+  ],
+  "conditions": {
+    "dimension": "minecraft:overworld",
+    "percent_biome": [
+      {
+        "items": [
+          "minecraft:swamp",
+          "minecraft:swamp_hills",
+          "byg:bayou",
+          "byg:bog",
+          "byg:cold_swamplands",
+          "byg:coral_mangroves",
+          "byg:cypress_swamplands",
+          "byg:glowshroom_bayou",
+          "byg:mangrove_marshes",
+          "byg:marshlands",
+          "byg:vibrant_swamplands",
+          "ecotones:mangrove_swamp",
+          "ecotones:spruce_marsh",
+          "ecotones:spruce_marsh_hilly",
+          "ecotones:spruce_marsh_mountainous",
+          "ecotones:spruce_marsh_thicket",
+          "ecotones:swamp",
+          "terrestria:cypress_swamp",
+          "traverse:lush_swamp",
+          "vanillaplusbiomes:decaying_swamp",
+          "vanillaplusbiomes:lush_swamp",
+          "vanillaplusbiomes:mushroomy_swamp",
+          "vanillaplusbiomes:swamp_clearing",
+          "vanillaplusbiomes:swamp_edge",
+          "woods_and_mires:pine_mire"
+        ],
+        "more": 0.35
+      }
+    ],
+    "distance_from_ground": {
+      "less": 20
+    },
+    "height": {
+      "more": 60
+    },
+    "percent_sky_visible": {
+      "more": 0.3
+    },
+    "is_rainy": true
+  }
+}

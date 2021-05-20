@@ -1,0 +1,71 @@
+{
+  "sound": "atmosfera:dungeons_cave_speleothems",
+  "default_volume": 100,
+  "default_subtitle": true,
+  "context": {
+    "shape": "sphere",
+    "size": "medium"
+  },
+  "modifiers": [
+    {
+      "type": "percent_block",
+      "blocks": [
+        "minecraft:andesite",
+        "minecraft:diorite",
+        "minecraft:granite",
+        "minecraft:stone",
+        "byg:dacite",
+        "byg:mossy_stone",
+        "byg:red_rock",
+        "byg:rocky_stone",
+        "byg:scoria_stone",
+        "byg:soapstone",
+        "terrestria:basalt",
+        "vanillaenhanced:dark_granite",
+        "vanillaenhanced:marble"
+      ],
+      "range": [
+        0.0,
+        0.1
+      ]
+    },
+    {
+      "type": "percent_block",
+      "blocks": [
+        "minecraft:cave_air"
+      ],
+      "range": [
+        0.0,
+        0.1
+      ]
+    },
+    {
+      "type": "percent_block",
+      "blocks": [
+        "minecraft:water",
+        "wildworld:sandstone_speleothem",
+        "wildworld:stone_speleothem"
+      ],
+      "range": [
+        0.0,
+        0.1
+      ]
+    },
+    {
+      "type": "submerged_in",
+      "modifies": "pitch",
+      "factor": 0.5,
+      "fluids": [
+        "minecraft:lava",
+        "minecraft:water"
+      ]
+    }
+  ],
+  "conditions": {
+    "dimension": "minecraft:overworld",
+    "percent_sky_visible": {
+      "less": 0.15
+    },
+    "is_submerged": false
+  }
+}

@@ -24,10 +24,16 @@ bin/
 .classpath
 .project
 
+# macos
+
+*.DS_Store
+
 # fabric
 
 run/
 
-# mac os
+# other
 
-.DS_Store
+/logs/
+
+desktop.ini

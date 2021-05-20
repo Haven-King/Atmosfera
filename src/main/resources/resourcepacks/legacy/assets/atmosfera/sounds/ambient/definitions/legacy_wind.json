@@ -1,0 +1,37 @@
+{
+  "sound": "atmosfera:legacy_wind",
+  "default_volume": 100,
+  "default_subtitle": true,
+  "context": {
+    "shape": "sphere",
+    "size": "medium"
+  },
+  "modifiers": [
+    {
+      "type": "percent_block",
+      "blocks": [
+        "minecraft:air"
+      ],
+      "range": [
+        0.75,
+        1.0
+      ]
+    },
+    {
+      "type": "submerged_in",
+      "modifies": "pitch",
+      "factor": 0.5,
+      "fluids": [
+        "minecraft:lava",
+        "minecraft:water"
+      ]
+    }
+  ],
+  "conditions": {
+    "dimension": "minecraft:overworld",
+    "height": {
+      "more": 80
+    },
+    "is_submerged": false
+  }
+}

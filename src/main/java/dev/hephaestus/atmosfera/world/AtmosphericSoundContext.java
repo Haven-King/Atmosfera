@@ -1,10 +1,28 @@
+/*
+ * Copyright 2021 Haven King
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package dev.hephaestus.atmosfera.world;
 
+import dev.hephaestus.atmosfera.Atmosfera;
 import dev.hephaestus.atmosfera.client.sound.AtmosphericSoundModifierRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.tag.FluidTags;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -78,6 +96,12 @@ public class AtmosphericSoundContext {
 		if (playerEntity != null) {
 			for (AtmosphericSoundContext context : CONTEXTS.values()) {
 				context.update(playerEntity);
+
+				// Only for testing.
+//				Atmosfera.LOG.info("[Atmosfera] percentSkyVisible: Radius = " + context.up.size.radius
+//						+ " - Sphere = " + context.percentSkyVisible()
+//						+ " - Down = " + context.percentSkyVisible(Direction.DOWN)
+//						+ " - Up = " + context.percentSkyVisible(Direction.UP));
 			}
 		}
 	}
@@ -95,6 +119,9 @@ public class AtmosphericSoundContext {
 	private int distanceFromGround = 0;
 	private int playerHeight = -1;
 	private boolean isDay = false;
+	private boolean isRainy = false;
+	private boolean isStormy = false;
+	private boolean isSubmerged = false;
 	private Identifier dimension;
 	public Collection<BlockPos> blocks = new HashSet<>();
 
@@ -108,25 +135,37 @@ public class AtmosphericSoundContext {
 		ClientWorld world = (ClientWorld) playerEntity.world;
 		BlockPos pos = playerEntity.getBlockPos();
 
-		world.getProfiler().push("atmosfera.update");
+//		world.getProfiler().push("atmosfera.update");
 		if (world.isChunkLoaded(pos.getX() >> 4, pos.getZ() >> 4)) {
 			this.blocks = new HashSet<>();
 			this.up.update(world, pos);
 			this.down.update(world, pos);
+
+			// For the MC 1.16.1 legacy support:
+//			this.dimension = world.getDimensionRegistryKey().getValue();
+			// For the MC 1.15.2 legacy support:
+//			this.dimension = Registry.DIMENSION_TYPE.getId(world.getDimension().getType());
+			// For the MC 1.14.4 legacy support:
+//			this.dimension = Registry.DIMENSION.getId(world.getDimension().getType());
 			this.dimension = world.getRegistryManager().get(Registry.DIMENSION_TYPE_KEY).getId(world.getDimension());
 
 			this.distanceFromGround = 0;
 			BlockPos.Mutable mut = new BlockPos.Mutable(pos.getX(), pos.getY(), pos.getZ());
 
 			this.playerHeight = pos.getY();
-			this.isDay = playerEntity.world.getTimeOfDay() > 450 && playerEntity.world.getTimeOfDay() < 11616;
+			this.isDay = playerEntity.world.getTimeOfDay() > 0 && playerEntity.world.getTimeOfDay() < 12000; // https://minecraft.fandom.com/wiki/Daylight_cycle
+			this.isRainy = playerEntity.world.isRaining();
+			this.isStormy = playerEntity.world.isThundering();
+			this.isSubmerged = playerEntity.isSubmergedIn(FluidTags.LAVA) || playerEntity.isSubmergedIn(FluidTags.WATER);
 
 			while (world.getBlockState(mut).isAir() && mut.getY() > 0) {
 				this.distanceFromGround += 1;
+				// For the MC 1.15.2 legacy support:
+//				mut.set(0, -1, 0);
 				mut.move(0, -1, 0);
 			}
 		}
-		world.getProfiler().pop();
+//		world.getProfiler().pop();
 	}
 
 	public float percentBlockType(Collection<Block> blocks) {
@@ -142,7 +181,6 @@ public class AtmosphericSoundContext {
 
 	public float percentBlockType(Collection<Block> blocks, Direction direction) {
 		int count = 0;
-
 		Section section = direction == Direction.UP ? this.up : this.down;
 		for (Block block : blocks) {
 			count += section.blockTypes.getOrDefault(block, 0);
@@ -159,12 +197,10 @@ public class AtmosphericSoundContext {
 		}
 
 		return ((float) count) / ((float) (this.up.blockCount + this.down.blockCount));
-
 	}
 
 	public float percentBiomeType(Collection<Identifier> biomes, Direction direction) {
 		int count = 0;
-
 		Section section = direction == Direction.UP ? this.up : this.down;
 		for (Identifier biome : biomes) {
 			count += section.biomeTypes.getOrDefault(biome, 0);
@@ -175,7 +211,6 @@ public class AtmosphericSoundContext {
 
 	public float percentBlockTag(Set<Tag<Block>> blockTags) {
 		int count = 0;
-
 		for (Tag<Block> blockTag : blockTags) {
 			count += this.up.blockTags.getOrDefault(blockTag, 0);
 			count += this.down.blockTags.getOrDefault(blockTag, 0);
@@ -187,7 +222,6 @@ public class AtmosphericSoundContext {
 
 	public float percentBlockTag(Set<Tag<Block>> blockTags, Direction direction) {
 		int count = 0;
-
 		Section section = direction == Direction.UP ? this.up : this.down;
 		for (Tag<Block> blockTag : blockTags) {
 			count += section.blockTags.getOrDefault(blockTag, 0);
@@ -219,6 +253,18 @@ public class AtmosphericSoundContext {
 
 	public boolean isDaytime() {
 		return this.isDay;
+	}
+
+	public boolean isRainy() {
+		return this.isRainy;
+	}
+
+	public boolean isStormy() {
+		return this.isStormy;
+	}
+
+	public boolean isSubmerged() {
+		return this.isSubmerged;
 	}
 
 	public PlayerEntity getPlayer() {
@@ -258,6 +304,8 @@ public class AtmosphericSoundContext {
 				}
 			}
 
+			// For the MC 1.16.1 legacy support:
+//			this.biomeTypes.merge(Registry.BIOME.getId(world.getBiome(pos)), 1, Integer::sum);
 			this.biomeTypes.merge(world.getRegistryManager().get(Registry.BIOME_KEY).getId(world.getBiome(pos)), 1, Integer::sum);
 			this.numberSkyVisible += world.isSkyVisible(pos) ? 1 : 0;
 			this.blockCount++;
