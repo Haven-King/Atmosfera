@@ -31,7 +31,7 @@ import org.spongepowered.asm.mixin.Shadow;
 @Environment(EnvType.CLIENT)
 @Mixin(Entity.class)
 public class EntityMixin {
-	@Shadow @Nullable protected Tag<Fluid> field_25599;
+	@Shadow @Nullable protected Tag<Fluid> submergedFluidTag;
 
 	/**
 	 * @reason
@@ -41,8 +41,8 @@ public class EntityMixin {
 	 */
 	@Overwrite
 	public boolean isSubmergedIn(Tag<Fluid> tag) {
-		return this.field_25599 == tag || (
-				tag instanceof Tag.Identified && this.field_25599 instanceof Tag.Identified
-				&& ((Tag.Identified<Fluid>) tag).getId().equals(((Tag.Identified<Fluid>) this.field_25599).getId()));
+		return this.submergedFluidTag == tag || (
+				tag instanceof Tag.Identified && this.submergedFluidTag instanceof Tag.Identified
+				&& ((Tag.Identified<Fluid>) tag).getId().equals(((Tag.Identified<Fluid>) this.submergedFluidTag).getId()));
 	}
 }

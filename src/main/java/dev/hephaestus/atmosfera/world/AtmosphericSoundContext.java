@@ -17,7 +17,6 @@
 package dev.hephaestus.atmosfera.world;
 
 import dev.hephaestus.atmosfera.Atmosfera;
-import dev.hephaestus.atmosfera.AtmosferaConfig;
 import dev.hephaestus.atmosfera.client.sound.AtmosphericSoundModifierRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -289,7 +288,7 @@ public class AtmosphericSoundContext {
 			this.blockTypes.merge(block, 1, Integer::sum);
 
 			for (Tag<Block> blockTag : AtmosphericSoundModifierRegistry.USED_BLOCK_TAGS) {
-				if (block.isIn(blockTag)) {
+				if (blockTag.contains(block)) {
 					this.blockTags.merge(blockTag, 1, Integer::sum);
 				}
 			}

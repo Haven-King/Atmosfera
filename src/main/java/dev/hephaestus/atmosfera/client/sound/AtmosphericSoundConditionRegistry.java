@@ -18,7 +18,6 @@ package dev.hephaestus.atmosfera.client.sound;
 
 import com.google.gson.JsonObject;
 import dev.hephaestus.atmosfera.Atmosfera;
-import dev.hephaestus.atmosfera.AtmosferaConfig;
 import dev.hephaestus.atmosfera.client.AtmosphericSoundCondition;
 import dev.hephaestus.atmosfera.client.sound.util.AtmosphericSoundDescription;
 import net.fabricmc.loader.api.FabricLoader;

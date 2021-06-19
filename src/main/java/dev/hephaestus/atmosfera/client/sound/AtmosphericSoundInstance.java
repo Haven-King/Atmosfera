@@ -37,7 +37,6 @@ public class AtmosphericSoundInstance extends AbstractSoundInstance implements T
 		this.done = false;
 		this.repeat = true;
 		this.repeatDelay = 0;
-		this.field_18935 = true;
 		this.looping = true; // `SubtitlesHud.render` throws a `ConcurrentModificationException` because of the off-thread processing.
 	}
 

@@ -51,7 +51,7 @@ public class AtmosphericSoundSerializer implements SimpleSynchronousResourceRelo
 	}
 
 	@Override
-	public void apply(ResourceManager manager) {
+	public void reload(ResourceManager manager) {
 		destination.clear();
 		Collection<Identifier> resources = manager.findResources(folder + "/definitions", (string) -> string.endsWith(".json"));
 		AtmosphericSoundContext.clear();

@@ -118,7 +118,6 @@ The sound events of both built-in packs [support](#supported) the blocks and bio
 * Activate the [built-in](#the-atmosfera-resources) or a custom **Atmosfera** resource pack.
 
 ## Caveats and Known Issues
-* The built-in resource pack cannot be enabled by default. ([ResourcePackActivationType](https://github.com/FabricMC/fabric/blob/1.16/fabric-resource-loader-v0/src/main/java/net/fabricmc/fabric/api/resource/ResourcePackActivationType.java#L30))
 * The system cannot be utilized by a non-player entity like the mob view and [Replay Mod] editor.
 
 ## Feedback
