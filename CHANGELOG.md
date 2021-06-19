@@ -5,7 +5,7 @@ Versioning Format: [MAJOR.MINOR.PATCH-PRE+BUILD](https://semver.org/spec/v2.0.0.
 
 Date Format: [YYYY-MM-DD](https://www.iso.org/iso-8601-date-and-time-format.html)
 
-## 1.4.0 (Unreleased)
+## 1.4.0
 * Added "Rainy", "Stormy" and "Submerged" conditions.
 * Added block tag support for modifiers.
 * Added settings to toggle on/off individual subtitles.
