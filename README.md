@@ -95,22 +95,22 @@ The sound events of both built-in packs [support](#supported) the blocks and bio
 * Similar ambient sound mods or data packs are **not recommended** to be used together with **Atmosfera** since the soundscapes might conflict.
 
 ### Supported
-| Mod | Minecraft 1.16.5 |
-| --- | :--------------: |
-| [Biome Makeover] | ✓ |
-| [Ecotones] | ✓ |
-| [Lakeside] | ✓ |
-| [Oh The Biomes You'll Go] | ✓ |
-| [Promenade] | ✓ |
-| [River Redux] | ✓ |
-| [Sakura Rosea] | ✓ |
-| [Terrestria] | ✓ |
-| [Traverse] | ✓ |
-| [Vanilla Enhanced] | ✓ |
-| [Vanilla+ Biomes] | ✓ |
-| [Wild World] | ✓ |
-| [Woods and Mires] | ✓ |
-|  | **[atmosfera-1.4.0+mc1.16.5]** |
+| Mod | Minecraft 1.16.5 | Minecraft 1.17 |
+| --- | :--------------: | :---: |
+| [Biome Makeover] | ✓ | ✓ |
+| [Ecotones] | ✓ | ✓ |
+| [Lakeside] | ✓ | ✓ |
+| [Oh The Biomes You'll Go] | ✓ | ✓ |
+| [Promenade] | ✓ | ✓ |
+| [River Redux] | ✓ | ✓ |
+| [Sakura Rosea] | ✓ | ✓ |
+| [Terrestria] | ✓ | ✓ |
+| [Traverse] | ✓ | ✓ |
+| [Vanilla Enhanced] | ✓ | ✓ |
+| [Vanilla+ Biomes] | ✓ | ✓ |
+| [Wild World] | ✓ | ✓ |
+| [Woods and Mires] | ✓ | ✓ |
+|  | **[atmosfera-1.4.0+mc1.16.5]** | **[atmosfera-1.4.0+mc1.17]** |
 
 ## Installation
 * Follow the instructions on the [Fabric Wiki] to install the [requirements](#dependency) and **Atmosfera**.
@@ -138,6 +138,7 @@ Users are permitted to use **Atmosfera** in any medium and modpack if an appropr
 [//]: # (Reference Links)
 [Apache License 2.0]: ./LICENSE
 [atmosfera-1.4.0+mc1.16.5]: https://github.com/Haven-King/Atmosfera/releases
+[atmosfera-1.4.0+mc1.17]: https://github.com/Haven-King/Atmosfera/releases
 [Biome Makeover]: https://www.curseforge.com/minecraft/mc-mods/biome-makeover
 [Changelog]: ./CHANGELOG.md
 [Cloth Config API]: https://www.curseforge.com/minecraft/mc-mods/cloth-config
