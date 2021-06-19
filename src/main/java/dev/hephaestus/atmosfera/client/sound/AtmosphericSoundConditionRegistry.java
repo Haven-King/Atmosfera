@@ -18,6 +18,7 @@ package dev.hephaestus.atmosfera.client.sound;
 
 import com.google.gson.JsonObject;
 import dev.hephaestus.atmosfera.Atmosfera;
+import dev.hephaestus.atmosfera.AtmosferaConfig;
 import dev.hephaestus.atmosfera.client.AtmosphericSoundCondition;
 import dev.hephaestus.atmosfera.client.sound.util.AtmosphericSoundDescription;
 import net.fabricmc.loader.api.FabricLoader;
@@ -47,19 +48,25 @@ public class AtmosphericSoundConditionRegistry {
 	static {
 		register("height", (context, element) -> {
 			Vec2f heightBounds = getBounds(element.getAsJsonObject());
-//			Atmosfera.LOG.info("[Atmosfera] Registered height: " + heightBounds.x + " - " + heightBounds.y); // Only for testing.
+
+			Atmosfera.debug("[Atmosfera] Registered height: " + heightBounds.x + " - " + heightBounds.y);
+
 			return ctx -> ctx.getPlayerHeight() >= heightBounds.x && ctx.getPlayerHeight() <= heightBounds.y;
 		});
 
 		register("distance_from_ground", (context, element) -> {
 			Vec2f distanceBounds = getBounds(element.getAsJsonObject());
-//			Atmosfera.LOG.info("[Atmosfera] Registered distance_from_ground: " + distanceBounds.x + " - " + distanceBounds.y); // Only for testing.
+
+			Atmosfera.debug("[Atmosfera] Registered distance_from_ground: " + distanceBounds.x + " - " + distanceBounds.y);
+
 			return ctx -> ctx.getDistanceFromGround() >= distanceBounds.x && ctx.getDistanceFromGround() <= distanceBounds.y;
 		});
 
 		register("percent_sky_visible", (context, element) -> {
 			Vec2f skyVisibilityBounds = getBounds(element.getAsJsonObject());
-//			Atmosfera.LOG.info("[Atmosfera] Registered percent_sky_visible: " + skyVisibilityBounds.x + " - " + skyVisibilityBounds.y); // Only for testing.
+
+			Atmosfera.debug("[Atmosfera] Registered percent_sky_visible: " + skyVisibilityBounds.x + " - " + skyVisibilityBounds.y);
+
 			return ctx -> {
 				float visible = context.shape == AtmosphericSoundDescription.Context.Shape.SPHERE
 						? ctx.percentSkyVisible()
@@ -92,8 +99,6 @@ public class AtmosphericSoundConditionRegistry {
 					Identifier biomeId = new Identifier(biome.getAsString());
 
 					// Registers only the loaded IDs to avoid false triggers.
-					// For the MC 1.16.1 and below legacy support:
-//					if (Registry.BIOME.containsId(biomeId))
 					if (FabricLoader.getInstance().isModLoaded(biomeId.getNamespace())) {
 						biomes.add(biomeId);
 						Atmosfera.LOG.debug("[Atmosfera] Registered biome: " + biome.getAsString());
@@ -106,7 +111,8 @@ public class AtmosphericSoundConditionRegistry {
 				float more = condition.has("more") ? JsonHelper.getFloat(condition, "more") : -Float.MAX_VALUE;
 				float less = condition.has("less") ? JsonHelper.getFloat(condition, "less") : Float.MAX_VALUE;
 
-//				Atmosfera.LOG.info("[Atmosfera] Registered percent_biome: " + more + " - " + less); // Only for testing.
+				Atmosfera.debug("[Atmosfera] Registered percent_biome: " + more + " - " + less);
+
 				collection.add(new ImmutableTriple<>(biomes, more, less));
 			});
 

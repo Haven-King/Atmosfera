@@ -17,6 +17,7 @@
 package dev.hephaestus.atmosfera.mixin;
 
 import dev.hephaestus.atmosfera.Atmosfera;
+import dev.hephaestus.atmosfera.AtmosferaConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.sound.WeightedSoundSet;
@@ -32,16 +33,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Environment(EnvType.CLIENT)
 public class WeightedSoundSetMixin {
     @Shadow @Final @Mutable private Identifier id;
-    // @Shadow @Final @Mutable @Nullable private Text subtitle;
 
     @Inject(method = "getSubtitle", at = @At("HEAD"), cancellable = true)
     public void disableSubtitle(CallbackInfoReturnable<Text> cir) {
         if (Atmosfera.SOUND_DEFINITIONS.containsKey(this.id) && !Atmosfera.SOUND_DEFINITIONS.get(this.id).showSubtitle()) {
+            if (AtmosferaConfig.printDebugMessages()) {
+                Atmosfera.LOG.info("[Atmosfera] Mixin disableSubtitle: " + this.id + " - " + Atmosfera.SOUND_DEFINITIONS.get(this.id).showSubtitle());
+            }
 
-            // Only for testing.
-//          Atmosfera.LOG.info("[Atmosfera] Mixin disableSubtitle: " + this.id + " - " + Atmosfera.SOUND_DEFINITIONS.get(this.id).showSubtitle());
-
-//          this.subtitle = null;
             cir.setReturnValue(null);
         }
     }

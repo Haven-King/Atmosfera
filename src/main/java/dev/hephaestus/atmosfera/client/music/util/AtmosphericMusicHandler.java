@@ -47,7 +47,7 @@ public class AtmosphericMusicHandler {
 				int weight = Objects.requireNonNull(soundManager.get(definition.getSoundEvent().getId())).getWeight();
 
 				SOUNDS.add(new Pair<>(weight, MUSIC.computeIfAbsent(definition.getId(), id -> {
-//					Atmosfera.LOG.info("[Atmosfera] createIngameMusic: " + definition.getId()); // Only for testing.
+					Atmosfera.debug("[Atmosfera] createIngameMusic: " + definition.getId());
 					return MusicType.createIngameMusic(definition.getSoundEvent());
 				})));
 
@@ -70,9 +70,5 @@ public class AtmosphericMusicHandler {
 		SOUNDS.clear();
 
 		return result;
-	}
-
-	public static void clear() {
-		MUSIC.clear();
 	}
 }

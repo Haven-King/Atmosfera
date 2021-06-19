@@ -39,19 +39,16 @@ public class Atmosfera implements ClientModInitializer {
 	public static final Map<Identifier, AtmosphericSoundDefinition> SOUND_DEFINITIONS = new HashMap<>();
 	public static final Map<Identifier, AtmosphericSoundDefinition> MUSIC_DEFINITIONS = new HashMap<>();
 
+	public static void debug(String message) {
+		if (AtmosferaConfig.printDebugMessages()) {
+			LOG.info(message);
+		}
+	}
+
 	@Override
 	public void onInitializeClient() {
 		FabricLoader.getInstance().getModContainer(MODID).ifPresent(modContainer -> {
-
-			/*
-			 * The built-in resource pack cannot be enabled by default.
-			 * Users have to manually activate the built-in or a custom Atmosfera resource pack after the installation.
-			 */
-			ResourceManagerHelper.registerBuiltinResourcePack(rpId("dungeons"), modContainer, ResourcePackActivationType.DEFAULT_ENABLED);
-			// ResourceManagerHelper.registerBuiltinResourcePack(rpId("experimental"), modContainer, ResourcePackActivationType.NORMAL); // Only for testing.
-
-			// Deprecated. The pack might be removed in a future minor/major release to decrease the mod size. Users can archive it in the meantime.
-			ResourceManagerHelper.registerBuiltinResourcePack(rpId("legacy"), modContainer, ResourcePackActivationType.NORMAL);
+			ResourceManagerHelper.registerBuiltinResourcePack(id("dungeons"), modContainer, ResourcePackActivationType.DEFAULT_ENABLED);
 
 			ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(
 					new AtmosphericSoundSerializer("sounds/ambient", SOUND_DEFINITIONS));
@@ -62,11 +59,7 @@ public class Atmosfera implements ClientModInitializer {
 		LOG.info("[Atmosfera] The mod is initialized.");
 	}
 
-	public static Identifier rpId(@NotNull String path) {
-		return new Identifier(MODID, path);
-	}
-
-	public static Identifier id(String... path) {
-		return new Identifier(MODID, String.join(".", path));
+	public static Identifier id(@NotNull String path, String... paths) {
+		return new Identifier(MODID, path + (paths.length == 0 ? "" : "." + String.join(".", paths)));
 	}
 }

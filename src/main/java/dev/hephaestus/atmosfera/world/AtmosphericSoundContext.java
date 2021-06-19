@@ -17,6 +17,7 @@
 package dev.hephaestus.atmosfera.world;
 
 import dev.hephaestus.atmosfera.Atmosfera;
+import dev.hephaestus.atmosfera.AtmosferaConfig;
 import dev.hephaestus.atmosfera.client.sound.AtmosphericSoundModifierRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -46,7 +47,7 @@ public class AtmosphericSoundContext {
 				for (int y = -radius; y <= 0; ++y) {
 					for (int z = 0; z <= radius + 1; ++z) {
 						double distance = origin.getSquaredDistance(x, y, z, true);
-						if (distance <= (radius + 1) * (radius + 1) /*&& distance >= (radius) * (radius)*/) {
+						if (distance <= (radius + 1) * (radius + 1)) {
 							OFFSETS.computeIfAbsent(Direction.DOWN, key -> new HashMap<>()).computeIfAbsent(size, key -> new HashSet<>()).add(
 									new int[] {x, y, z}
 							);
@@ -97,11 +98,10 @@ public class AtmosphericSoundContext {
 			for (AtmosphericSoundContext context : CONTEXTS.values()) {
 				context.update(playerEntity);
 
-				// Only for testing.
-//				Atmosfera.LOG.info("[Atmosfera] percentSkyVisible: Radius = " + context.up.size.radius
-//						+ " - Sphere = " + context.percentSkyVisible()
-//						+ " - Down = " + context.percentSkyVisible(Direction.DOWN)
-//						+ " - Up = " + context.percentSkyVisible(Direction.UP));
+				Atmosfera.debug("[Atmosfera] percentSkyVisible: Radius = " + context.up.size.radius
+						+ " - Sphere = " + context.percentSkyVisible()
+						+ " - Down = " + context.percentSkyVisible(Direction.DOWN)
+						+ " - Up = " + context.percentSkyVisible(Direction.UP));
 			}
 		}
 	}
@@ -135,18 +135,11 @@ public class AtmosphericSoundContext {
 		ClientWorld world = (ClientWorld) playerEntity.world;
 		BlockPos pos = playerEntity.getBlockPos();
 
-//		world.getProfiler().push("atmosfera.update");
 		if (world.isChunkLoaded(pos.getX() >> 4, pos.getZ() >> 4)) {
 			this.blocks = new HashSet<>();
 			this.up.update(world, pos);
 			this.down.update(world, pos);
 
-			// For the MC 1.16.1 legacy support:
-//			this.dimension = world.getDimensionRegistryKey().getValue();
-			// For the MC 1.15.2 legacy support:
-//			this.dimension = Registry.DIMENSION_TYPE.getId(world.getDimension().getType());
-			// For the MC 1.14.4 legacy support:
-//			this.dimension = Registry.DIMENSION.getId(world.getDimension().getType());
 			this.dimension = world.getRegistryManager().get(Registry.DIMENSION_TYPE_KEY).getId(world.getDimension());
 
 			this.distanceFromGround = 0;
@@ -160,12 +153,9 @@ public class AtmosphericSoundContext {
 
 			while (world.getBlockState(mut).isAir() && mut.getY() > 0) {
 				this.distanceFromGround += 1;
-				// For the MC 1.15.2 legacy support:
-//				mut.set(0, -1, 0);
 				mut.move(0, -1, 0);
 			}
 		}
-//		world.getProfiler().pop();
 	}
 
 	public float percentBlockType(Collection<Block> blocks) {
@@ -304,8 +294,6 @@ public class AtmosphericSoundContext {
 				}
 			}
 
-			// For the MC 1.16.1 legacy support:
-//			this.biomeTypes.merge(Registry.BIOME.getId(world.getBiome(pos)), 1, Integer::sum);
 			this.biomeTypes.merge(world.getRegistryManager().get(Registry.BIOME_KEY).getId(world.getBiome(pos)), 1, Integer::sum);
 			this.numberSkyVisible += world.isSkyVisible(pos) ? 1 : 0;
 			this.blockCount++;

@@ -17,6 +17,7 @@
 package dev.hephaestus.atmosfera.client.sound;
 
 import dev.hephaestus.atmosfera.Atmosfera;
+import dev.hephaestus.atmosfera.AtmosferaConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.AbstractSoundInstance;
 import net.minecraft.client.sound.TickableSoundInstance;
@@ -27,7 +28,7 @@ public class AtmosphericSoundInstance extends AbstractSoundInstance implements T
 	private final AtmosphericSoundDefinition definition;
 
 	private int volumeTransitionTimer = 0;
-	private boolean done = false;
+	private boolean done;
 
 	public AtmosphericSoundInstance(AtmosphericSoundDefinition definition, float volume) {
 		super(definition.getSoundEvent(), SoundCategory.AMBIENT);
@@ -54,11 +55,7 @@ public class AtmosphericSoundInstance extends AbstractSoundInstance implements T
 	public void tick() {
 		MinecraftClient client = MinecraftClient.getInstance();
 
-		if (client != null && client.player != null /* && !client.player.removed */ && this.volumeTransitionTimer >= 0) {
-			// For the MC 1.15.2 legacy support:
-//			this.x = (float) client.player.getX();
-			// For the MC 1.14.4 legacy support:
-//			this.x = (float) client.player.getPos().x;
+		if (client != null && client.player != null && this.volumeTransitionTimer >= 0) {
 			this.x = client.player.getX();
 			this.y = client.player.getY();
 			this.z = client.player.getZ();
@@ -74,15 +71,12 @@ public class AtmosphericSoundInstance extends AbstractSoundInstance implements T
 			this.volume = MathHelper.clamp(this.volumeTransitionTimer / 60.0F, 0.0F, 1.0F);
 			this.pitch = this.definition.getPitch();
 
-			// Only for testing.
-//			Atmosfera.LOG.info("[Atmosfera] id: " + this.definition.getId()
-//					+ " - volume: " + volume
-//					+ " - this.volume: " + this.volume
-//					+ " - volumeTransitionTimer: " + this.volumeTransitionTimer);
+			Atmosfera.debug("[Atmosfera] id: " + this.definition.getId()
+					+ " - volume: " + volume
+					+ " - this.volume: " + this.volume
+					+ " - volumeTransitionTimer: " + this.volumeTransitionTimer);
 		} else {
 			this.markDone();
-//			this.done = true;
-//			Atmosfera.LOG.info("[Atmosfera] done: " + this.definition.getId()); // Only for testing.
 		}
 	}
 }

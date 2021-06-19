@@ -17,6 +17,7 @@
 package dev.hephaestus.atmosfera.client.sound;
 
 import dev.hephaestus.atmosfera.Atmosfera;
+import dev.hephaestus.atmosfera.AtmosferaConfig;
 import dev.hephaestus.atmosfera.client.sound.util.AtmosphericSoundDescription;
 import dev.hephaestus.atmosfera.client.sound.util.AtmosphericSoundModifier;
 import net.fabricmc.fabric.api.tag.TagRegistry;
@@ -69,7 +70,8 @@ public class AtmosphericSoundModifierRegistry {
 			float min = element.getAsJsonObject().get("range").getAsJsonArray().get(0).getAsFloat();
 			float max = element.getAsJsonObject().get("range").getAsJsonArray().get(1).getAsFloat();
 
-//			Atmosfera.LOG.info("[Atmosfera] Registered percent_block: " + min + " - " + max); // Only for testing.
+			Atmosfera.debug("[Atmosfera] Registered percent_block: " + min + " - " + max);
+
 			return (ctx, volume) -> {
 				float percent = context.shape == AtmosphericSoundDescription.Context.Shape.HEMISPHERE
 					? ctx.percentBlockType(blocks, context.direction)
@@ -102,7 +104,8 @@ public class AtmosphericSoundModifierRegistry {
 			float min = element.getAsJsonObject().get("range").getAsJsonArray().get(0).getAsFloat();
 			float max = element.getAsJsonObject().get("range").getAsJsonArray().get(1).getAsFloat();
 
-//			Atmosfera.LOG.info("[Atmosfera] Registered percent_block_tag: " + min + " - " + max); // Only for testing.
+			Atmosfera.debug("[Atmosfera] Registered percent_block_tag: " + min + " - " + max);
+
 			return (ctx, volume) -> {
 				float percent = context.shape == AtmosphericSoundDescription.Context.Shape.HEMISPHERE
 						? ctx.percentBlockTag(blockTags, context.direction)
@@ -131,12 +134,10 @@ public class AtmosphericSoundModifierRegistry {
 
 			float factor = JsonHelper.getFloat(element.getAsJsonObject(), "factor");
 
-//			Atmosfera.LOG.info("[Atmosfera] Registered submerged_in: " + factor); // Only for testing.
+			Atmosfera.debug("[Atmosfera] Registered submerged_in: " + factor);
 			return (ctx, pitch) -> {
 				for (Tag<Fluid> fluidTag : fluids) {
 
-					// For the MC 1.15.2 legacy support:
-//					if (ctx.getPlayer().isSubmergedIn(fluidTag, false))
 					if (ctx.getPlayer().isSubmergedIn(fluidTag)) {
 						return factor;
 					}

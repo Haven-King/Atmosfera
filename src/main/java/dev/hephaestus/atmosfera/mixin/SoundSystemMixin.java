@@ -17,6 +17,7 @@
 package dev.hephaestus.atmosfera.mixin;
 
 import dev.hephaestus.atmosfera.Atmosfera;
+import dev.hephaestus.atmosfera.AtmosferaConfig;
 import dev.hephaestus.atmosfera.client.sound.AtmosphericSoundInstance;
 import dev.hephaestus.atmosfera.client.sound.util.AtmosphericSoundHandler;
 import net.fabricmc.api.EnvType;
@@ -51,10 +52,13 @@ public class SoundSystemMixin {
 			 *
 			 * `Atmospheric Sound Instance`s are removed separately to prevent the bloat.
 			 */
-			list.remove(((AtmosphericSoundInstance) o));
-//			Atmosfera.LOG.info("[Atmosfera] Mixin markDone: " + ((AtmosphericSoundInstance) o).getId()); // Only for testing.
+			list.remove(o);
+
+			Atmosfera.debug("[Atmosfera] Mixin markDone: " + ((AtmosphericSoundInstance) o).getId());
 		}
-//		Atmosfera.LOG.info("[Atmosfera] Mixin list: " + list.size() + " - Mixin remove: " + o.toString()); // Only for testing.
+
+		Atmosfera.debug("[Atmosfera] Mixin list: " + list.size() + " - Mixin remove: " + o.toString());
+
 		return list.remove(o);
 	}
 

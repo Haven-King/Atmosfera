@@ -19,22 +19,8 @@ package dev.hephaestus.atmosfera;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 
-// For the MC 1.14.4 legacy support:
-// import net.minecraft.client.gui.screen.Screen;
-// import java.util.function.Function;
-
 public class AtmosferaModMenuEntrypoint implements ModMenuApi {
-
-	// For the MC 1.15.2 legacy support:
-//	@Override
-//	public String getModId() {
-//		return Atmosfera.MODID;
-//	}
-
 	@Override
-
-	// For the MC 1.14.4 legacy support:
-//	public Function<Screen, ? extends Screen> getConfigScreenFactory() {
 	public ConfigScreenFactory<?> getModConfigScreenFactory() {
 		return AtmosferaConfig::getScreen;
 	}
