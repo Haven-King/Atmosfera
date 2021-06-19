@@ -1,0 +1,93 @@
+{
+  "sound": "atmosfera:legacy_desert_nighttime",
+  "default_volume": 100,
+  "default_subtitle": true,
+  "context": {
+    "shape": "hemisphere",
+    "size": "large",
+    "direction": "up"
+  },
+  "modifiers": [
+    {
+      "type": "submerged_in",
+      "modifies": "pitch",
+      "factor": 0.5,
+      "fluids": [
+        "minecraft:lava",
+        "minecraft:water"
+      ]
+    }
+  ],
+  "conditions": {
+    "dimension": "minecraft:overworld",
+    "percent_biome": [
+      {
+        "items": [
+          "minecraft:badlands",
+          "minecraft:badlands_plateau",
+          "minecraft:desert",
+          "minecraft:desert_hills",
+          "minecraft:desert_lakes",
+          "minecraft:eroded_badlands",
+          "minecraft:modified_badlands_plateau",
+          "minecraft:modified_wooded_badlands_plateau",
+          "minecraft:wooded_badlands_plateau",
+          "byg:canyons",
+          "byg:dunes",
+          "byg:lush_red_desert",
+          "byg:mojave_desert",
+          "byg:red_desert",
+          "byg:red_desert_dunes",
+          "byg:shrublands",
+          "byg:sonoran_desert",
+          "ecotones:cool_desert",
+          "ecotones:cool_scrubland",
+          "ecotones:desert",
+          "ecotones:lush_desert",
+          "ecotones:lush_desert_hilly",
+          "ecotones:lush_desert_mountainous",
+          "ecotones:savanna_mesa",
+          "ecotones:savanna_mesa_hilly",
+          "ecotones:savanna_mesa_mountainous",
+          "ecotones:scrubland",
+          "ecotones:wasteland",
+          "ecotones:wasteland_depths",
+          "ecotones:wasteland_flats",
+          "ecotones:wasteland_hills",
+          "ecotones:wasteland_shrub",
+          "ecotones:wasteland_thicket",
+          "ecotones:white_mesa",
+          "ecotones:white_mesa_hilly",
+          "ecotones:white_mesa_mountainous",
+          "ecotones:white_mesa_plateau",
+          "terrestria:canyon_arches",
+          "terrestria:canyon_cliffs",
+          "terrestria:canyon_edge",
+          "terrestria:dunes",
+          "terrestria:lush_desert",
+          "terrestria:outback",
+          "traverse:desert_shrubland",
+          "vanillaenhanced:desert_mountains",
+          "vanillaplusbiomes:barren_desert",
+          "vanillaplusbiomes:desert_plateau",
+          "vanillaplusbiomes:lush_desert",
+          "vanillaplusbiomes:red_desert",
+          "vanillaplusbiomes:red_desert_plateau",
+          "vanillaplusbiomes:rocky_badlands_plateau",
+          "vanillaplusbiomes:weathered_badlands_plateau"
+        ],
+        "more": 0.5
+      }
+    ],
+    "distance_from_ground": {
+      "less": 20
+    },
+    "height": {
+      "more": 60
+    },
+    "percent_sky_visible": {
+      "more": 0.3
+    },
+    "is_daytime": false
+  }
+}

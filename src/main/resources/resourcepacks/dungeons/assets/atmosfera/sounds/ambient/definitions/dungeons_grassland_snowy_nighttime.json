@@ -1,0 +1,40 @@
+{
+  "sound": "atmosfera:dungeons_grassland_snowy_nighttime",
+  "default_volume": 100,
+  "default_subtitle": true,
+  "context": {
+    "shape": "hemisphere",
+    "size": "large",
+    "direction": "up"
+  },
+  "modifiers": [
+    {
+      "type": "submerged_in",
+      "modifies": "pitch",
+      "factor": 0.5,
+      "fluids": [
+        "minecraft:lava",
+        "minecraft:water"
+      ]
+    }
+  ],
+  "conditions": {
+    "dimension": "minecraft:overworld",
+    "percent_biome": [
+      {
+        "items": [
+          "minecraft:snowy_tundra",
+          "byg:lush_tundra"
+        ],
+        "more": 0.1
+      }
+    ],
+    "distance_from_ground": {
+      "less": 20
+    },
+    "percent_sky_visible": {
+      "more": 0.4
+    },
+    "is_daytime": false
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "sound": "atmosfera:dungeons_shore",
+  "default_volume": 100,
+  "default_subtitle": true,
+  "context": {
+    "shape": "sphere",
+    "size": "large"
+  },
+  "modifiers": [
+    {
+      "type": "percent_block",
+      "blocks": [
+        "minecraft:water"
+      ],
+      "range": [
+        0.0,
+        0.2
+      ]
+    },
+    {
+      "type": "submerged_in",
+      "modifies": "pitch",
+      "factor": 0.5,
+      "fluids": [
+        "minecraft:lava",
+        "minecraft:water"
+      ]
+    }
+  ],
+  "conditions": {
+    "dimension": "minecraft:overworld",
+    "percent_biome": [
+      {
+        "items": [
+          "minecraft:cold_ocean",
+          "minecraft:deep_cold_ocean",
+          "minecraft:deep_lukewarm_ocean",
+          "minecraft:deep_ocean",
+          "minecraft:deep_warm_ocean",
+          "minecraft:lukewarm_ocean",
+          "minecraft:ocean",
+          "minecraft:warm_ocean",
+          "byg:dead_sea",
+          "byg:fresh_water_lake",
+          "byg:great_lakes",
+          "byg:polluted_lake",
+          "lakeside:cold_lake",
+          "lakeside:mountain_lake",
+          "lakeside:warm_lake",
+          "terrestria:caldera",
+          "vanillaplusbiomes:birch_forest_lake",
+          "vanillaplusbiomes:cold_ocean_lagoon",
+          "vanillaplusbiomes:forest_lake",
+          "vanillaplusbiomes:lukewarm_ocean_lagoon",
+          "vanillaplusbiomes:ocean_lagoon",
+          "vanillaplusbiomes:warm_ocean_lagoon",
+          "vanillaplusbiomes:savanna_lake",
+          "vanillaplusbiomes:snowy_taiga_lake",
+          "vanillaplusbiomes:taiga_lake",
+          "woods_and_mires:kettle_pond"
+        ],
+        "more": 0.0,
+        "less": 0.5
+      }
+    ],
+    "distance_from_ground": {
+      "less": 20
+    },
+    "percent_sky_visible": {
+      "more": 0.15
+    }
+  }
+}
