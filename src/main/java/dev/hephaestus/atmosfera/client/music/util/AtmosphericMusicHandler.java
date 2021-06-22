@@ -51,13 +51,13 @@ public class AtmosphericMusicHandler {
 					return MusicType.createIngameMusic(definition.getSoundEvent());
 				})));
 
-				total += AtmosferaConfig.weight(definition.getId()) * volume;
+				total += 5 * volume;
 			}
 		}
 
 		MusicSound result = sound;
 
-		int i = RANDOM.nextInt(total);
+		int i = total <= 0 ? 0 : RANDOM.nextInt(total);
 
 		for (Pair<Integer, MusicSound> pair : SOUNDS) {
 			i -= pair.getLeft();
