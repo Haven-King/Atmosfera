@@ -140,7 +140,7 @@ public class AtmosphericSoundContext {
 			this.up.update(world, pos);
 			this.down.update(world, pos);
 
-			this.dimension = world.getRegistryManager().get(Registry.DIMENSION_TYPE_KEY).getId(world.getDimension());
+			this.dimension = world.getDimension().getSkyProperties();
 
 			this.distanceFromGround = 0;
 			BlockPos.Mutable mut = new BlockPos.Mutable(pos.getX(), pos.getY(), pos.getZ());
