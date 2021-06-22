@@ -17,7 +17,6 @@
 package dev.hephaestus.atmosfera.client.music.util;
 
 import dev.hephaestus.atmosfera.Atmosfera;
-import dev.hephaestus.atmosfera.AtmosferaConfig;
 import dev.hephaestus.atmosfera.client.sound.AtmosphericSoundDefinition;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.MusicType;
