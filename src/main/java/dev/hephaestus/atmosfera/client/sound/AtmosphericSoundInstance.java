@@ -17,7 +17,6 @@
 package dev.hephaestus.atmosfera.client.sound;
 
 import dev.hephaestus.atmosfera.Atmosfera;
-import dev.hephaestus.atmosfera.AtmosferaConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.AbstractSoundInstance;
 import net.minecraft.client.sound.TickableSoundInstance;

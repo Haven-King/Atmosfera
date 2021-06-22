@@ -52,7 +52,6 @@ public class AtmosferaConfig {
 
 	private static final TreeMap<Identifier, Integer> VOLUME_MODIFIERS = new TreeMap<>(Comparator.comparing(id -> I18n.translate(id.toString())));
 	private static final TreeMap<Identifier, Boolean> SUBTITLE_MODIFIERS = new TreeMap<>(Comparator.comparing(id -> I18n.translate(id.toString())));
-	private static final TreeMap<Identifier, Integer> MUSIC_WEIGHTS = new TreeMap<>(Comparator.comparing(id -> I18n.translate(id.toString())));
 	private static boolean PRINT_DEBUG_MESSAGES = false;
 
 	static {
@@ -145,10 +144,6 @@ public class AtmosferaConfig {
 
 	public static boolean subtitleModifier(Identifier soundId) {
 		return SUBTITLE_MODIFIERS.getOrDefault(soundId, Atmosfera.SOUND_DEFINITIONS.get(soundId).getDefaultSubtitle());
-	}
-
-	public static int weight(Identifier musicId) {
-		return MUSIC_WEIGHTS.getOrDefault(musicId, 5);
 	}
 
 	public static void refreshConfig() {
