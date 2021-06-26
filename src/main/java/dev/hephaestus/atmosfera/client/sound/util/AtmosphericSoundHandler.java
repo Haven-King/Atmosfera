@@ -48,7 +48,6 @@ public class AtmosphericSoundHandler {
 	}
 
 	public static void endTick() {
-
 		if (AtmosferaConfig.printDebugMessages()) {
 			tickCounter++;
 			if (tickCounter >= 10) {
@@ -87,7 +86,7 @@ public class AtmosphericSoundHandler {
 
 						Atmosfera.debug("[Atmosfera] isDone: " + entry.getValue().getId());
 					} else if (!soundManager.isPlaying(entry.getValue())) {
-						soundManager.play(entry.getValue());
+						MinecraftClient.getInstance().submit(() -> soundManager.play(entry.getValue()));
 
 						Atmosfera.debug("[Atmosfera] play: " + entry.getValue().getId());
 					}
