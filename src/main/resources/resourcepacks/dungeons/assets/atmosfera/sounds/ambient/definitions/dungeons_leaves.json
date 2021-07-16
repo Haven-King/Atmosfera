@@ -2,10 +2,8 @@
   "sound": "atmosfera:dungeons_leaves",
   "default_volume": 100,
   "default_subtitle": true,
-  "context": {
-    "shape": "sphere",
-    "size": "medium"
-  },
+  "shape": "sphere",
+  "size": "medium",
   "modifiers": [
     {
       "type": "percent_block",
@@ -126,12 +124,10 @@
         "minecraft:lava",
         "minecraft:water"
       ]
+    },
+    {
+      "type": "sky_visibility",
+      "min": 0.1
     }
-  ],
-  "conditions": {
-    "dimension": "minecraft:overworld",
-    "percent_sky_visible": {
-      "more": 0.15
-    }
-  }
+  ]
 }

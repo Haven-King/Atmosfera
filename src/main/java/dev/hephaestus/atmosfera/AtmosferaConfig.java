@@ -97,12 +97,12 @@ public class AtmosferaConfig {
 			e.printStackTrace();
 		} finally {
 			for (AtmosphericSoundDefinition sound : Atmosfera.SOUND_DEFINITIONS.values()) {
-				VOLUME_MODIFIERS.putIfAbsent(sound.getId(), sound.getDefaultVolume());
-				SUBTITLE_MODIFIERS.putIfAbsent(sound.getId(), sound.getDefaultSubtitle());
+				VOLUME_MODIFIERS.putIfAbsent(sound.id(), sound.defaultVolume());
+				SUBTITLE_MODIFIERS.putIfAbsent(sound.id(), sound.hasSubtitleByDefault());
 			}
 
 			for (AtmosphericSoundDefinition sound : Atmosfera.MUSIC_DEFINITIONS.values()) {
-				VOLUME_MODIFIERS.putIfAbsent(sound.getId(), sound.getDefaultVolume());
+				VOLUME_MODIFIERS.putIfAbsent(sound.id(), sound.defaultVolume());
 			}
 
 			write();
@@ -136,15 +136,15 @@ public class AtmosferaConfig {
 		try {
 			return (VOLUME_MODIFIERS.getOrDefault(
 					soundId, Atmosfera.SOUND_DEFINITIONS.getOrDefault(
-							soundId, Atmosfera.MUSIC_DEFINITIONS.get(soundId)).getDefaultVolume())) / 100F;
+							soundId, Atmosfera.MUSIC_DEFINITIONS.get(soundId)).defaultVolume())) / 100F;
 		} catch (NullPointerException e) {
 			Atmosfera.LOG.warn("[Atmosfera] Unknown sound: {}", soundId);
 			throw e;
 		}
 	}
 
-	public static boolean subtitleModifier(Identifier soundId) {
-		return SUBTITLE_MODIFIERS.getOrDefault(soundId, Atmosfera.SOUND_DEFINITIONS.get(soundId).getDefaultSubtitle());
+	public static boolean showSubtitle(Identifier soundId) {
+		return SUBTITLE_MODIFIERS.getOrDefault(soundId, Atmosfera.SOUND_DEFINITIONS.get(soundId).hasSubtitleByDefault());
 	}
 
 	public static int weight(Identifier musicId) {
@@ -201,7 +201,7 @@ public class AtmosferaConfig {
 
 					soundSubcategory.add(
 							entryBuilder.startIntSlider(new TranslatableText(soundLangID), sound.getValue(), 0, 200)
-									.setDefaultValue(soundType.get(sound.getKey()).getDefaultVolume())
+									.setDefaultValue(soundType.get(sound.getKey()).defaultVolume())
 									.setTooltip(tooltipText.formatted(Formatting.GRAY))
 									.setTextGetter(integer -> new LiteralText(integer + "%"))
 									.setSaveConsumer(volume -> VOLUME_MODIFIERS.put(sound.getKey(), volume))
@@ -215,7 +215,7 @@ public class AtmosferaConfig {
 
 					musicSubcategory.add(
 							entryBuilder.startIntSlider(new TranslatableText(soundLangID), sound.getValue(), 0, 200)
-									.setDefaultValue(soundType.get(sound.getKey()).getDefaultVolume())
+									.setDefaultValue(soundType.get(sound.getKey()).defaultVolume())
 									.setTooltip(new LiteralText(soundLangID).formatted(Formatting.GRAY))
 									.setTextGetter(integer -> new LiteralText(integer + "%"))
 									.setSaveConsumer(volume -> VOLUME_MODIFIERS.put(sound.getKey(), volume))
@@ -237,7 +237,7 @@ public class AtmosferaConfig {
 
 				subtitlesCategory.addEntry(
 						entryBuilder.startBooleanToggle(new TranslatableText(soundLangID), sound.getValue())
-								.setDefaultValue(Atmosfera.SOUND_DEFINITIONS.get(sound.getKey()).getDefaultSubtitle())
+								.setDefaultValue(Atmosfera.SOUND_DEFINITIONS.get(sound.getKey()).hasSubtitleByDefault())
 								.setTooltip(tooltipText.formatted(Formatting.GRAY))
 								.setSaveConsumer(subtitle -> SUBTITLE_MODIFIERS.put(sound.getKey(), subtitle))
 								.build()

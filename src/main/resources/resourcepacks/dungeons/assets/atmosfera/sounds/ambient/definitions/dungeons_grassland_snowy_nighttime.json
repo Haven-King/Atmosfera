@@ -2,11 +2,8 @@
   "sound": "atmosfera:dungeons_grassland_snowy_nighttime",
   "default_volume": 100,
   "default_subtitle": true,
-  "context": {
-    "shape": "hemisphere",
-    "size": "large",
-    "direction": "up"
-  },
+  "shape": "upper_hemisphere",
+  "size": "large",
   "modifiers": [
     {
       "type": "submerged_in",
@@ -16,25 +13,26 @@
         "minecraft:lava",
         "minecraft:water"
       ]
+    },
+    {
+      "type": "percent_biome",
+      "min": 0.1,
+      "biomes": [
+        "minecraft:snowy_tundra",
+        "byg:lush_tundra"
+      ]
+    },
+    {
+      "type": "altitude",
+      "max": 20
+    },
+    {
+      "type": "sky_visibility",
+      "min": 0.4
+    },
+    {
+      "type": "is_daytime",
+      "value": false
     }
-  ],
-  "conditions": {
-    "dimension": "minecraft:overworld",
-    "percent_biome": [
-      {
-        "items": [
-          "minecraft:snowy_tundra",
-          "byg:lush_tundra"
-        ],
-        "more": 0.1
-      }
-    ],
-    "distance_from_ground": {
-      "less": 20
-    },
-    "percent_sky_visible": {
-      "more": 0.4
-    },
-    "is_daytime": false
-  }
+  ]
 }

@@ -2,11 +2,8 @@
   "sound": "atmosfera:dungeons_forest_snowy_daytime",
   "default_volume": 100,
   "default_subtitle": true,
-  "context": {
-    "shape": "hemisphere",
-    "size": "large",
-    "direction": "up"
-  },
+  "shape": "upper_hemisphere",
+  "size": "large",
   "modifiers": [
     {
       "type": "submerged_in",
@@ -16,51 +13,53 @@
         "minecraft:lava",
         "minecraft:water"
       ]
+    },
+    {
+      "type": "percent_biome",
+      "min": 0.1,
+      "biomes": [
+        "#taiga",
+        "minecraft:snowy_taiga",
+        "minecraft:snowy_taiga_hills",
+        "minecraft:snowy_taiga_mountains",
+        "byg:northern_forest",
+        "byg:snowy_blue_taiga",
+        "byg:snowy_blue_giant_taiga",
+        "byg:snowy_blue_taiga_hills",
+        "byg:snowy_coniferous_clearing",
+        "byg:snowy_coniferous_forest",
+        "byg:snowy_coniferous_forest_hills",
+        "byg:snowy_deciduous_clearing",
+        "byg:snowy_deciduous_forest",
+        "byg:snowy_deciduous_forest_hills",
+        "byg:snowy_evergreen_clearing",
+        "byg:snowy_evergreen_hills",
+        "byg:snowy_evergreen_taiga",
+        "terrestria:caldera_foothils",
+        "terrestria:snowy_hemlock_forest",
+        "terrestria:snowy_hemlock_clearing",
+        "traverse:snowy_coniferous_forest",
+        "traverse:snowy_coniferous_wooded_hills",
+        "traverse:snowy_high_coniferous_forest",
+        "vanillaplusbiomes:snowy_berry_fields",
+        "vanillaplusbiomes:snowy_pine_taiga",
+        "vanillaplusbiomes:snowy_taiga_clearing",
+        "vanillaplusbiomes:snowy_taiga_edge",
+        "vanillaplusbiomes:tall_snowy_pine_taiga",
+        "vanillaplusbiomes:tall_snowy_taiga"
+      ]
+    },
+    {
+      "type": "altitude",
+      "max": 20
+    },
+    {
+      "type": "sky_visibility",
+      "min": 0.4
+    },
+    {
+      "type": "is_daytime",
+      "value": true
     }
-  ],
-  "conditions": {
-    "dimension": "minecraft:overworld",
-    "percent_biome": [
-      {
-        "items": [
-          "minecraft:snowy_taiga",
-          "minecraft:snowy_taiga_hills",
-          "minecraft:snowy_taiga_mountains",
-          "byg:northern_forest",
-          "byg:snowy_blue_taiga",
-          "byg:snowy_blue_giant_taiga",
-          "byg:snowy_blue_taiga_hills",
-          "byg:snowy_coniferous_clearing",
-          "byg:snowy_coniferous_forest",
-          "byg:snowy_coniferous_forest_hills",
-          "byg:snowy_deciduous_clearing",
-          "byg:snowy_deciduous_forest",
-          "byg:snowy_deciduous_forest_hills",
-          "byg:snowy_evergreen_clearing",
-          "byg:snowy_evergreen_hills",
-          "byg:snowy_evergreen_taiga",
-          "terrestria:caldera_foothils",
-          "terrestria:snowy_hemlock_forest",
-          "terrestria:snowy_hemlock_clearing",
-          "traverse:snowy_coniferous_forest",
-          "traverse:snowy_coniferous_wooded_hills",
-          "traverse:snowy_high_coniferous_forest",
-          "vanillaplusbiomes:snowy_berry_fields",
-          "vanillaplusbiomes:snowy_pine_taiga",
-          "vanillaplusbiomes:snowy_taiga_clearing",
-          "vanillaplusbiomes:snowy_taiga_edge",
-          "vanillaplusbiomes:tall_snowy_pine_taiga",
-          "vanillaplusbiomes:tall_snowy_taiga"
-        ],
-        "more": 0.1
-      }
-    ],
-    "distance_from_ground": {
-      "less": 20
-    },
-    "percent_sky_visible": {
-      "more": 0.4
-    },
-    "is_daytime": true
-  }
+  ]
 }

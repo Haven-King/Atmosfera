@@ -2,11 +2,8 @@
   "sound": "atmosfera:dungeons_rainforest_tropical_nighttime",
   "default_volume": 100,
   "default_subtitle": true,
-  "context": {
-    "shape": "hemisphere",
-    "size": "large",
-    "direction": "up"
-  },
+  "shape": "upper_hemisphere",
+  "size": "large",
   "modifiers": [
     {
       "type": "submerged_in",
@@ -16,56 +13,58 @@
         "minecraft:lava",
         "minecraft:water"
       ]
+    },
+    {
+      "type": "percent_biome",
+      "min": 0.1,
+      "biomes": [
+        "#jungle",
+        "minecraft:bamboo_jungle",
+        "minecraft:bamboo_jungle_hills",
+        "minecraft:jungle",
+        "minecraft:jungle_edge",
+        "minecraft:jungle_hills",
+        "minecraft:modified_jungle",
+        "minecraft:modified_jungle_edge",
+        "byg:bamboo_forest",
+        "byg:crag_gardens",
+        "byg:fungal_patch",
+        "byg:guiana_clearing",
+        "byg:guiana_shield",
+        "byg:jacaranda_clearing",
+        "byg:jacaranda_forest",
+        "byg:jacaranda_forest_hills",
+        "byg:tropical_fungal_forest",
+        "byg:tropical_fungal_rainforest_hills",
+        "byg:tropical_islands",
+        "byg:tropical_rainforest",
+        "byg:tropical_rainforest_hills",
+        "ecotones:green_spires",
+        "ecotones:palm_forest",
+        "ecotones:palm_forest_hilly",
+        "ecotones:palm_forest_mountainous",
+        "ecotones:temperate_rainforest",
+        "ecotones:tropical_rainforest",
+        "terrestria:rainbow_rainforest",
+        "terrestria:rainbow_rainforest_lake",
+        "terrestria:rainbow_rainforest_mountains",
+        "terrestria:volcanic_island",
+        "traverse:mini_jungle",
+        "vanillaenhanced:extreme_jungle",
+        "vanillaplusbiomes:jungle_clearing"
+      ]
+    },
+    {
+      "type": "altitude",
+      "max": 20
+    },
+    {
+      "type": "sky_visibility",
+      "min": 0.3
+    },
+    {
+      "type": "is_daytime",
+      "value": false
     }
-  ],
-  "conditions": {
-    "dimension": "minecraft:overworld",
-    "percent_biome": [
-      {
-        "items": [
-          "minecraft:bamboo_jungle",
-          "minecraft:bamboo_jungle_hills",
-          "minecraft:jungle",
-          "minecraft:jungle_edge",
-          "minecraft:jungle_hills",
-          "minecraft:modified_jungle",
-          "minecraft:modified_jungle_edge",
-          "byg:bamboo_forest",
-          "byg:crag_gardens",
-          "byg:fungal_patch",
-          "byg:guiana_clearing",
-          "byg:guiana_shield",
-          "byg:jacaranda_clearing",
-          "byg:jacaranda_forest",
-          "byg:jacaranda_forest_hills",
-          "byg:tropical_fungal_forest",
-          "byg:tropical_fungal_rainforest_hills",
-          "byg:tropical_islands",
-          "byg:tropical_rainforest",
-          "byg:tropical_rainforest_hills",
-          "ecotones:green_spires",
-          "ecotones:palm_forest",
-          "ecotones:palm_forest_hilly",
-          "ecotones:palm_forest_mountainous",
-          "ecotones:temperate_rainforest",
-          "ecotones:tropical_rainforest",
-          "terrestria:rainbow_rainforest",
-          "terrestria:rainbow_rainforest_lake",
-          "terrestria:rainbow_rainforest_mountains",
-          "terrestria:volcanic_island",
-          "traverse:mini_jungle",
-          "vanillaenhanced:extreme_jungle",
-          "vanillaplusbiomes:jungle_clearing"
-        ],
-        "more": 0.1
-      }
-    ],
-    "distance_from_ground": {
-      "less": 20
-    },
-    "percent_sky_visible": {
-      "more": 0.3
-    },
-    "is_daytime": false
-  }
+  ]
 }

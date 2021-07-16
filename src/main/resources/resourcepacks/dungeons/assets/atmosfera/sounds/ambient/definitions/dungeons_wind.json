@@ -2,10 +2,8 @@
   "sound": "atmosfera:dungeons_wind",
   "default_volume": 100,
   "default_subtitle": true,
-  "context": {
-    "shape": "sphere",
-    "size": "small"
-  },
+  "shape": "sphere",
+  "size": "small",
   "modifiers": [
     {
       "type": "percent_block",
@@ -25,13 +23,14 @@
         "minecraft:lava",
         "minecraft:water"
       ]
-    }
-  ],
-  "conditions": {
-    "dimension": "minecraft:overworld",
-    "percent_sky_visible": {
-      "more": 0.63
     },
-    "is_submerged": false
-  }
+    {
+      "type": "sky_visibility",
+      "min": 0.63
+    },
+    {
+      "type": "is_submerged",
+      "value": false
+    }
+  ]
 }

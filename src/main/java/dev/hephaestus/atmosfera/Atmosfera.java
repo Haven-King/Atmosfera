@@ -17,7 +17,7 @@
 package dev.hephaestus.atmosfera;
 
 import dev.hephaestus.atmosfera.client.sound.AtmosphericSoundDefinition;
-import dev.hephaestus.atmosfera.client.sound.util.AtmosphericSoundSerializer;
+import dev.hephaestus.atmosfera.client.sound.AtmosphericSoundSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;

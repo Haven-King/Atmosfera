@@ -1,11 +1,8 @@
 {
   "sound": "atmosfera:dungeons_camp",
   "default_volume": 100,
-  "context": {
-    "shape": "hemisphere",
-    "size": "small",
-    "direction": "down"
-  },
+  "shape": "lower_hemisphere",
+  "size": "small",
   "modifiers": [
     {
       "type": "submerged_in",
@@ -16,8 +13,5 @@
         "minecraft:water"
       ]
     }
-  ],
-  "conditions": {
-    "dimension": "minecraft:overworld"
-  }
+  ]
 }

@@ -2,10 +2,8 @@
   "sound": "atmosfera:dungeons_cave",
   "default_volume": 100,
   "default_subtitle": true,
-  "context": {
-    "shape": "sphere",
-    "size": "large"
-  },
+  "shape": "sphere",
+  "size": "large",
   "modifiers": [
     {
       "type": "percent_block",
@@ -47,13 +45,14 @@
         "minecraft:lava",
         "minecraft:water"
       ]
-    }
-  ],
-  "conditions": {
-    "dimension": "minecraft:overworld",
-    "percent_sky_visible": {
-      "less": 0.15
     },
-    "is_submerged": false
-  }
+    {
+      "type": "sky_visibility",
+      "max": 0.15
+    },
+    {
+      "type": "is_submerged",
+      "value": false
+    }
+  ]
 }

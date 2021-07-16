@@ -17,7 +17,6 @@
 package dev.hephaestus.atmosfera.client.sound;
 
 import dev.hephaestus.atmosfera.Atmosfera;
-import dev.hephaestus.atmosfera.AtmosferaConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.AbstractSoundInstance;
 import net.minecraft.client.sound.TickableSoundInstance;
@@ -25,13 +24,13 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.MathHelper;
 
 public class AtmosphericSoundInstance extends AbstractSoundInstance implements TickableSoundInstance {
-	private final AtmosphericSoundDefinition definition;
+	private final AtmosphericSound definition;
 
 	private int volumeTransitionTimer = 0;
 	private boolean done;
 
-	public AtmosphericSoundInstance(AtmosphericSoundDefinition definition, float volume) {
-		super(definition.getSoundEvent(), SoundCategory.AMBIENT);
+	public AtmosphericSoundInstance(AtmosphericSound definition, float volume) {
+		super(definition.soundEvent(), SoundCategory.AMBIENT);
 		this.definition = definition;
 		this.volume = volume;
 		this.done = false;
@@ -70,7 +69,7 @@ public class AtmosphericSoundInstance extends AbstractSoundInstance implements T
 			this.volume = MathHelper.clamp(this.volumeTransitionTimer / 60.0F, 0.0F, 1.0F);
 			this.pitch = this.definition.getPitch();
 
-			Atmosfera.debug("[Atmosfera] id: " + this.definition.getId()
+			Atmosfera.debug("[Atmosfera] id: " + this.definition.id()
 					+ " - volume: " + volume
 					+ " - this.volume: " + this.volume
 					+ " - volumeTransitionTimer: " + this.volumeTransitionTimer);

@@ -2,11 +2,8 @@
   "sound": "atmosfera:dungeons_swamp_daytime",
   "default_volume": 100,
   "default_subtitle": true,
-  "context": {
-    "shape": "hemisphere",
-    "size": "large",
-    "direction": "up"
-  },
+  "shape": "upper_hemisphere",
+  "size": "large",
   "modifiers": [
     {
       "type": "submerged_in",
@@ -16,50 +13,58 @@
         "minecraft:lava",
         "minecraft:water"
       ]
+    },
+    {
+      "type": "percent_biome",
+      "min": 0.1,
+      "biomes": [
+        "#swamp",
+        "minecraft:swamp",
+        "minecraft:swamp_hills",
+        "byg:bayou",
+        "byg:bog",
+        "byg:cold_swamplands",
+        "byg:coral_mangroves",
+        "byg:cypress_swamplands",
+        "byg:glowshroom_bayou",
+        "byg:mangrove_marshes",
+        "byg:marshlands",
+        "byg:vibrant_swamplands",
+        "ecotones:mangrove_swamp",
+        "ecotones:spruce_marsh",
+        "ecotones:spruce_marsh_hilly",
+        "ecotones:spruce_marsh_mountainous",
+        "ecotones:spruce_marsh_thicket",
+        "ecotones:swamp",
+        "terrestria:cypress_swamp",
+        "traverse:lush_swamp",
+        "vanillaplusbiomes:decaying_swamp",
+        "vanillaplusbiomes:lush_swamp",
+        "vanillaplusbiomes:mushroomy_swamp",
+        "vanillaplusbiomes:swamp_clearing",
+        "vanillaplusbiomes:swamp_edge",
+        "woods_and_mires:pine_mire"
+      ]
+    },
+    {
+      "type": "altitude",
+      "max": 20
+    },
+    {
+      "type": "sky_visibility",
+      "min": 0.4
+    },
+    {
+      "type": "is_daytime",
+      "value": true
+    },
+    {
+      "type": "is_rainy",
+      "value": false
+    },
+    {
+      "type": "is_stormy",
+      "value": false
     }
-  ],
-  "conditions": {
-    "dimension": "minecraft:overworld",
-    "percent_biome": [
-      {
-        "items": [
-          "minecraft:swamp",
-          "minecraft:swamp_hills",
-          "byg:bayou",
-          "byg:bog",
-          "byg:cold_swamplands",
-          "byg:coral_mangroves",
-          "byg:cypress_swamplands",
-          "byg:glowshroom_bayou",
-          "byg:mangrove_marshes",
-          "byg:marshlands",
-          "byg:vibrant_swamplands",
-          "ecotones:mangrove_swamp",
-          "ecotones:spruce_marsh",
-          "ecotones:spruce_marsh_hilly",
-          "ecotones:spruce_marsh_mountainous",
-          "ecotones:spruce_marsh_thicket",
-          "ecotones:swamp",
-          "terrestria:cypress_swamp",
-          "traverse:lush_swamp",
-          "vanillaplusbiomes:decaying_swamp",
-          "vanillaplusbiomes:lush_swamp",
-          "vanillaplusbiomes:mushroomy_swamp",
-          "vanillaplusbiomes:swamp_clearing",
-          "vanillaplusbiomes:swamp_edge",
-          "woods_and_mires:pine_mire"
-        ],
-        "more": 0.1
-      }
-    ],
-    "distance_from_ground": {
-      "less": 20
-    },
-    "percent_sky_visible": {
-      "more": 0.4
-    },
-    "is_daytime": true,
-    "is_rainy": false,
-    "is_stormy": false
-  }
+  ]
 }

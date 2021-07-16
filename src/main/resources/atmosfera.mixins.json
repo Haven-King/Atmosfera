@@ -3,12 +3,13 @@
   "minVersion": "0.8",
   "package": "dev.hephaestus.atmosfera.mixin",
   "compatibilityLevel": "JAVA_8",
-  "mixins": [],
+  "mixins": [
+  ],
   "client": [
     "EntityMixin",
     "MinecraftClientMixin",
-    "SoundSystemMixin",
-    "WeightedSoundSetMixin"
+    "WeightedSoundSetMixin",
+    "MixinClientWorld"
   ],
   "injectors": {
     "defaultRequire": 1

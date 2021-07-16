@@ -2,11 +2,8 @@
   "sound": "atmosfera:dungeons_shore_beach_nighttime",
   "default_volume": 100,
   "default_subtitle": true,
-  "context": {
-    "shape": "hemisphere",
-    "size": "large",
-    "direction": "up"
-  },
+  "shape": "upper_hemisphere",
+  "size": "large",
   "modifiers": [
     {
       "type": "submerged_in",
@@ -16,38 +13,46 @@
         "minecraft:lava",
         "minecraft:water"
       ]
+    },
+    {
+      "type": "percent_biome",
+      "min": 0.0,
+      "biomes": [
+        "#beach",
+        "minecraft:beach",
+        "minecraft:snowy_beach",
+        "minecraft:stone_shore",
+        "byg:rainbow_beach",
+        "byg:rocky_beach",
+        "byg:snowy_black_beach",
+        "byg:snowy_rocky_black_beach",
+        "byg:white_beach",
+        "ecotones:beach",
+        "ecotones:dry_beach",
+        "ecotones:gravel_beach",
+        "terrestria:volcanic_island_beach",
+        "terrestria:volcanic_island_shore"
+      ]
+    },
+    {
+      "type": "altitude",
+      "max": 20
+    },
+    {
+      "type": "sky_visibility",
+      "min": 0.3
+    },
+    {
+      "type": "is_daytime",
+      "value": false
+    },
+    {
+      "type": "is_rainy",
+      "value": false
+    },
+    {
+      "type": "is_stormy",
+      "value": false
     }
-  ],
-  "conditions": {
-    "dimension": "minecraft:overworld",
-    "percent_biome": [
-      {
-        "items": [
-          "minecraft:beach",
-          "minecraft:snowy_beach",
-          "minecraft:stone_shore",
-          "byg:rainbow_beach",
-          "byg:rocky_beach",
-          "byg:snowy_black_beach",
-          "byg:snowy_rocky_black_beach",
-          "byg:white_beach",
-          "ecotones:beach",
-          "ecotones:dry_beach",
-          "ecotones:gravel_beach",
-          "terrestria:volcanic_island_beach",
-          "terrestria:volcanic_island_shore"
-        ],
-        "more": 0.0
-      }
-    ],
-    "distance_from_ground": {
-      "less": 25
-    },
-    "percent_sky_visible": {
-      "more": 0.3
-    },
-    "is_daytime": false,
-    "is_rainy": false,
-    "is_stormy": false
-  }
+  ]
 }
