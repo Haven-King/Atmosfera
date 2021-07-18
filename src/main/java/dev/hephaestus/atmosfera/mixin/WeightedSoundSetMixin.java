@@ -38,7 +38,7 @@ public class WeightedSoundSetMixin {
     public void disableSubtitle(CallbackInfoReturnable<Text> cir) {
         if (Atmosfera.SOUND_DEFINITIONS.containsKey(this.id) && !AtmosferaConfig.showSubtitle(this.id)) {
             if (AtmosferaConfig.printDebugMessages()) {
-                Atmosfera.LOG.info("[Atmosfera] Mixin disableSubtitle: " + this.id + " - " + AtmosferaConfig.showSubtitle(this.id));
+                Atmosfera.LOG.info(String.format("[%s] Mixin disableSubtitle: %s - %b", Atmosfera.MOD_NAME, this.id, AtmosferaConfig.showSubtitle(this.id)));
             }
 
             cir.setReturnValue(null);

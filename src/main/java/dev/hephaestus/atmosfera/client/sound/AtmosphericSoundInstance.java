@@ -69,10 +69,9 @@ public class AtmosphericSoundInstance extends AbstractSoundInstance implements T
 			this.volume = MathHelper.clamp(this.volumeTransitionTimer / 60.0F, 0.0F, 1.0F);
 			this.pitch = this.definition.getPitch();
 
-			Atmosfera.debug("[Atmosfera] id: " + this.definition.id()
-					+ " - volume: " + volume
-					+ " - this.volume: " + this.volume
-					+ " - volumeTransitionTimer: " + this.volumeTransitionTimer);
+			Atmosfera.debug(String.format("[%s] id: %s - volume: %f - this.volume: %f - volumeTransitionTimer: %d",
+					Atmosfera.MOD_NAME, this.definition.id(), volume, this.volume, this.volumeTransitionTimer
+			));
 		} else {
 			this.markDone();
 		}

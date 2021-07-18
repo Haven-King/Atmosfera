@@ -82,7 +82,7 @@ public class AtmosphericSoundHandler {
                     this.soundInstances.put(id, soundInstance);
                     soundManager.playNextTick(soundInstance);
 
-                    Atmosfera.debug("[Atmosfera] volume > 0: " + definition.id() + " - " + volume);
+                    Atmosfera.debug(String.format("[%s] volume > 0: %s - %f", Atmosfera.MOD_NAME, definition.id(), volume));
                 }
             }
         }
@@ -102,7 +102,7 @@ public class AtmosphericSoundHandler {
                 int weight = Objects.requireNonNull(soundManager.get(definition.soundEvent().getId())).getWeight();
 
                 sounds.add(new Pair<>(weight, MUSIC.computeIfAbsent(definition.id(), id -> {
-                    Atmosfera.debug("[Atmosfera] createIngameMusic: " + definition.id());
+                    Atmosfera.debug(String.format("[%s] createIngameMusic: %s", Atmosfera.MOD_NAME, definition.id()));
                     return MusicType.createIngameMusic(definition.soundEvent());
                 })));
 

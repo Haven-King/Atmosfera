@@ -10,6 +10,11 @@ abstract class AbstractEnvironmentContext implements EnvironmentContext {
     boolean isRainy = false;
     boolean isStormy = false;
     boolean isSubmergedInFluid = false;
+    boolean isInRaid = false;
+    boolean isDefeatedInRaid = false;
+    boolean isVictoriousInRaid = false;
+    boolean isInWitherFight = false;
+    boolean isInEnderDragonFight = false;
     @Nullable Entity vehicle = null;
 
     @Override
@@ -43,6 +48,31 @@ abstract class AbstractEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
+    public boolean isInRaid() {
+        return this.isInRaid;
+    }
+
+    @Override
+    public boolean isDefeatedInRaid() {
+        return this.isDefeatedInRaid;
+    }
+
+    @Override
+    public boolean isVictoriousInRaid() {
+        return this.isVictoriousInRaid;
+    }
+
+    @Override
+    public boolean isInWitherFight() {
+        return this.isInWitherFight;
+    }
+
+    @Override
+    public boolean isInEnderDragonFight() {
+        return this.isInEnderDragonFight;
+    }
+
+    @Override
     public @Nullable Entity getVehicle() {
         return this.vehicle;
     }
@@ -54,6 +84,11 @@ abstract class AbstractEnvironmentContext implements EnvironmentContext {
         this.isRainy = context.isRainy;
         this.isStormy = context.isStormy;
         this.isSubmergedInFluid = context.isSubmergedInFluid;
+        this.isInRaid = context.isInRaid;
+        this.isDefeatedInRaid = context.isDefeatedInRaid;
+        this.isVictoriousInRaid = context.isVictoriousInRaid;
+        this.isInWitherFight = context.isInWitherFight;
+        this.isInEnderDragonFight = context.isInEnderDragonFight;
         this.vehicle = context.vehicle;
     }
 }

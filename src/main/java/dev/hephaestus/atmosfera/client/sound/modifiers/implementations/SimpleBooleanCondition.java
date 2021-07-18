@@ -35,6 +35,25 @@ public record SimpleBooleanCondition(boolean expectedValue, Function<Environment
         return create(object, EnvironmentContext::isSubmergedInFluid);
     }
 
+    public static SimpleBooleanCondition isInRaid(JsonObject object) {
+        return create(object, EnvironmentContext::isInRaid);
+    }
+
+    public static SimpleBooleanCondition isVictoriousInRaid(JsonObject object) {
+        return create(object, EnvironmentContext::isVictoriousInRaid);
+    }
+    public static SimpleBooleanCondition isDefeatedInRaid(JsonObject object) {
+        return create(object, EnvironmentContext::isDefeatedInRaid);
+    }
+
+    public static SimpleBooleanCondition isInWitherFight(JsonObject object) {
+        return create(object, EnvironmentContext::isInWitherFight);
+    }
+
+    public static SimpleBooleanCondition isInEnderDragonFight(JsonObject object) {
+        return create(object, EnvironmentContext::isInEnderDragonFight);
+    }
+
     public static SimpleBooleanCondition create(JsonObject object, Function<EnvironmentContext, Boolean> valueGetter) {
         boolean value = true;
 

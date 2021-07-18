@@ -56,7 +56,7 @@ public class Atmosfera implements ClientModInitializer {
 					new AtmosphericSoundSerializer("sounds/music", MUSIC_DEFINITIONS));
 		});
 
-		LOG.info("[Atmosfera] The mod is initialized.");
+		LOG.info(String.format("[%s] The mod is initialized.", MOD_NAME));
 	}
 
 	public static Identifier id(@NotNull String path, String... paths) {

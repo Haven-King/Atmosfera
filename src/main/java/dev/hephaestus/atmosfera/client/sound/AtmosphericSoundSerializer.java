@@ -70,7 +70,7 @@ public class AtmosphericSoundSerializer implements SimpleSynchronousResourceRelo
                     this.destination.put(id, new AtmosphericSoundDefinition(id, sound, shape, size, defaultVolume, showSubtitlesByDefault, modifiers));
                 }
             } catch (IOException exception) {
-                Atmosfera.LOG.info("[Atmosfera] Failed to load sound event '{}'", id);
+                Atmosfera.LOG.info(String.format("[%s] Failed to load sound event '%s'", Atmosfera.MOD_NAME, id));
             }
         }
     }
@@ -126,7 +126,7 @@ public class AtmosphericSoundSerializer implements SimpleSynchronousResourceRelo
                         .get(type);
 
                 if (factory == null) {
-                    Atmosfera.LOG.info("[Atmosfera] Failed to create modifier of type '{}'", type);
+                    Atmosfera.LOG.info(String.format("[%s] Failed to create modifier of type '%s'", Atmosfera.MOD_NAME, type));
                 } else {
                     modifiers.put(
                             JsonHelper.getString(element.getAsJsonObject(), "modifies", "volume"),

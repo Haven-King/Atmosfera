@@ -92,7 +92,7 @@ public class AtmosferaConfig {
 
 			fi.close();
 		} catch (FileNotFoundException e) {
-			Atmosfera.LOG.info("[Atmosfera] The user config file was not found. Creating the default config...");
+			Atmosfera.LOG.info(String.format("[%s] The user config file was not found. Creating the default config...", Atmosfera.MOD_NAME));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -128,7 +128,7 @@ public class AtmosferaConfig {
 			writer.write(gson.toJson(jsonObject));
 			writer.close();
 		} catch (IOException e) {
-			Atmosfera.LOG.warn("[Atmosfera] Failed to save the config to the file.");
+			Atmosfera.LOG.warn(String.format("[%s] Failed to save the config to the file.", Atmosfera.MOD_NAME));
 		}
 	}
 
@@ -138,7 +138,7 @@ public class AtmosferaConfig {
 					soundId, Atmosfera.SOUND_DEFINITIONS.getOrDefault(
 							soundId, Atmosfera.MUSIC_DEFINITIONS.get(soundId)).defaultVolume())) / 100F;
 		} catch (NullPointerException e) {
-			Atmosfera.LOG.warn("[Atmosfera] Unknown sound: {}", soundId);
+			Atmosfera.LOG.warn(String.format("[%s] Unknown sound: '%s'", Atmosfera.MOD_NAME, soundId));
 			throw e;
 		}
 	}
@@ -152,7 +152,7 @@ public class AtmosferaConfig {
 	}
 
 	public static void refreshConfig() {
-		Atmosfera.LOG.info("[Atmosfera] Refreshing the user config...");
+		Atmosfera.LOG.info(String.format("[%s] Refreshing the user config...", Atmosfera.MOD_NAME));
 		read();
 	}
 

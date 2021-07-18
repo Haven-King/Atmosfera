@@ -1,15 +1,21 @@
 package dev.hephaestus.atmosfera.world.context;
 
+import dev.hephaestus.atmosfera.Atmosfera;
+import dev.hephaestus.atmosfera.mixin.BossBarHudAccessor;
 import net.minecraft.block.Block;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.hud.BossBarHud;
+import net.minecraft.client.gui.hud.ClientBossBar;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.boss.BossBar;
 import net.minecraft.tag.Tag;
+import net.minecraft.text.MutableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 import java.util.concurrent.*;
 
 public class Sphere extends AbstractEnvironmentContext {
@@ -124,6 +130,39 @@ public class Sphere extends AbstractEnvironmentContext {
             while (world.getBlockState(mut).isAir() && mut.getY() > 0) {
                 this.altitude += 1;
                 mut.move(Direction.DOWN);
+            }
+
+            BossBarHud bossBarHud = MinecraftClient.getInstance().inGameHud.getBossBarHud();
+            Map<UUID, ClientBossBar> bossBars = ((BossBarHudAccessor) bossBarHud).getBossBars();
+
+            this.isInRaid = false;
+            this.isDefeatedInRaid = false;
+            this.isVictoriousInRaid = false;
+            this.isInWitherFight = false;
+            this.isInEnderDragonFight = false;
+            if (!bossBars.isEmpty()) {
+                Iterator var1 = bossBars.values().iterator();
+
+                while(var1.hasNext()) {
+                    BossBar bossBar = (BossBar)var1.next();
+                    MutableText bossBarText = bossBar.getName().copy();
+                    if(bossBarText.toString().contains("'event.minecraft.raid'")) {
+                        this.isInRaid = true;
+                        if(bossBarText.toString().contains("'event.minecraft.raid.victory'")) {
+                            this.isVictoriousInRaid = true;
+                            this.isDefeatedInRaid = false;
+                        } else if(bossBarText.toString().contains("'event.minecraft.raid.defeat'")) {
+                            this.isDefeatedInRaid = true;
+                            this.isVictoriousInRaid = false;
+                        }
+                    } else if(bossBarText.toString().contains("'entity.minecraft.wither'")) {
+                        this.isInWitherFight = true;
+                    } else if(bossBarText.toString().contains("'entity.minecraft.ender_dragon'")) {
+                        this.isInEnderDragonFight = true;
+                    } else {
+                        // Atmosfera.debug(String.format("[%s] Unhandled Bar: %s", Atmosfera.MOD_NAME, bossBarText));
+                    }
+                }
             }
 
             this.elevation = pos.getY();

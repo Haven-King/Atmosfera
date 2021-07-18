@@ -41,6 +41,16 @@ public interface EnvironmentContext {
 
     boolean isSubmergedInFluid();
 
+    boolean isInRaid();
+
+    boolean isVictoriousInRaid();
+
+    boolean isDefeatedInRaid();
+
+    boolean isInWitherFight();
+
+    boolean isInEnderDragonFight();
+
     Entity getVehicle();
 
     static EnvironmentContext getInstance(Size size, Shape shape) {
