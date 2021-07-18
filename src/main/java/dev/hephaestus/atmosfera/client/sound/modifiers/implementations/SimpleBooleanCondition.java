@@ -31,10 +31,6 @@ public record SimpleBooleanCondition(boolean expectedValue, Function<Environment
         return create(object, EnvironmentContext::isStormy);
     }
 
-    public static SimpleBooleanCondition isSubmergedInFluid(JsonObject object) {
-        return create(object, EnvironmentContext::isSubmergedInFluid);
-    }
-
     public static SimpleBooleanCondition create(JsonObject object, Function<EnvironmentContext, Boolean> valueGetter) {
         boolean value = true;
 

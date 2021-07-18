@@ -2,16 +2,15 @@
   "sound": "atmosfera:dungeons_desert_daytime",
   "default_volume": 100,
   "default_subtitle": true,
-  "shape": "upper_hemisphere",
+  "shape": "sphere",
   "size": "large",
   "modifiers": [
     {
-      "type": "submerged_in",
-      "modifies": "pitch",
-      "factor": 0.5,
-      "fluids": [
-        "minecraft:lava",
-        "minecraft:water"
+      "type": "percent_block",
+      "max": 0.95,
+      "blocks": [
+        "minecraft:air",
+        "minecraft:cave_air"
       ]
     },
     {
@@ -73,10 +72,6 @@
         "vanillaplusbiomes:rocky_badlands_plateau",
         "vanillaplusbiomes:weathered_badlands_plateau"
       ]
-    },
-    {
-      "type": "altitude",
-      "max": 20
     },
     {
       "type": "is_daytime"

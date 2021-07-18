@@ -12,18 +12,17 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
 import java.util.Collection;
-import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 class Hemisphere extends AbstractEnvironmentContext {
     private final Collection<int[]> offsets;
 
-    private final Map<Block, Integer> blockTypes = new HashMap<>();
-    private final Map<Tag<Block>, Integer> blockTags = new HashMap<>();
-    private final Map<Biome, Integer> biomeTypes = new HashMap<>();
-    private final Map<Tag<Biome>, Integer> biomeTags = new HashMap<>();
-    private final Map<Biome.Category, Integer> biomeCategories = new EnumMap<>(Biome.Category.class);
+    private final Map<Block, Integer> blockTypes = new ConcurrentHashMap<>();
+    private final Map<Tag<Block>, Integer> blockTags = new ConcurrentHashMap<>();
+    private final Map<Biome, Integer> biomeTypes = new ConcurrentHashMap<>();
+    private final Map<Tag<Biome>, Integer> biomeTags = new ConcurrentHashMap<>();
+    private final Map<Biome.Category, Integer> biomeCategories = new ConcurrentHashMap<>();
 
     private int blockCount = 0;
     private int skyVisibility = 0;
@@ -59,7 +58,7 @@ class Hemisphere extends AbstractEnvironmentContext {
 
     @Override
     public float getSkyVisibility() {
-        return this.skyVisibility;
+        return this.skyVisibility / (float) this.blockCount;
     }
 
     private void clear() {

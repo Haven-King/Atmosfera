@@ -1,6 +1,7 @@
 package dev.hephaestus.atmosfera.client.sound;
 
-import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ImmutableCollection;
+import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -15,21 +16,12 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.registry.Registry;
 
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 
-public class AtmosphericSoundSerializer implements SimpleSynchronousResourceReloadListener {
-    private final String sourceFolder;
-    private final Map<Identifier, AtmosphericSoundDefinition> destination;
-
-    public AtmosphericSoundSerializer(String sourceFolder, Map<Identifier, AtmosphericSoundDefinition> destination) {
-        this.sourceFolder = sourceFolder;
-        this.destination = destination;
-    }
-
+public record AtmosphericSoundSerializer(String sourceFolder, Map<Identifier, AtmosphericSoundDefinition> destination) implements SimpleSynchronousResourceReloadListener {
     @Override
     public Identifier getFabricId() {
         return Atmosfera.id(this.sourceFolder);
@@ -63,14 +55,15 @@ public class AtmosphericSoundSerializer implements SimpleSynchronousResourceRelo
                 if (sound != null) {
                     EnvironmentContext.Shape shape = getShape(json, id);
                     EnvironmentContext.Size size = getSize(json, id);
-                    ImmutableMultimap<String, AtmosphericSoundModifier.Factory> modifiers = getModifiers(json, id);
+                    ImmutableCollection<AtmosphericSoundModifier.Factory> modifiers = getModifiers(json, id);
                     int defaultVolume = getInteger(json, "default_volume", 100);
                     boolean showSubtitlesByDefault = getBoolean(json, "show_subtitles_by_default", true);
 
                     this.destination.put(id, new AtmosphericSoundDefinition(id, sound, shape, size, defaultVolume, showSubtitlesByDefault, modifiers));
                 }
-            } catch (IOException exception) {
-                Atmosfera.LOG.info("[Atmosfera] Failed to load sound event '{}'", id);
+            } catch (Exception exception) {
+                Atmosfera.error("Failed to load sound event '{}'", id);
+                exception.printStackTrace();
             }
         }
     }
@@ -110,10 +103,10 @@ public class AtmosphericSoundSerializer implements SimpleSynchronousResourceRelo
         }
     }
 
-    private static ImmutableMultimap<String, AtmosphericSoundModifier.Factory> getModifiers(JsonObject json, Identifier id) {
-        ImmutableMultimap.Builder<String, AtmosphericSoundModifier.Factory> modifiers = ImmutableMultimap.builder();
+    private static ImmutableCollection<AtmosphericSoundModifier.Factory> getModifiers(JsonObject json, Identifier id) {
+        ImmutableCollection.Builder<AtmosphericSoundModifier.Factory> modifiers = ImmutableList.builder();
 
-        modifiers.put("volume", new ConfigModifier(id));
+        modifiers.add(new ConfigModifier(id));
 
         if (json.has("modifiers")) {
             for (JsonElement element : json.get("modifiers").getAsJsonArray()) {
@@ -126,11 +119,9 @@ public class AtmosphericSoundSerializer implements SimpleSynchronousResourceRelo
                         .get(type);
 
                 if (factory == null) {
-                    Atmosfera.LOG.info("[Atmosfera] Failed to create modifier of type '{}'", type);
+                    Atmosfera.log("Failed to create modifier of type '{}'", type);
                 } else {
-                    modifiers.put(
-                            JsonHelper.getString(element.getAsJsonObject(), "modifies", "volume"),
-                            factory.create(element.getAsJsonObject()));
+                    modifiers.add(factory.create(element.getAsJsonObject()));
                 }
             }
         }

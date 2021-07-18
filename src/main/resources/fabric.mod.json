@@ -49,7 +49,7 @@
   "conflicts": {
     "charmonium": "*",
     "mambience": "*",
-    "primalwinter:": "*"
+    "primalwinter": "*"
   },
   "breaks": {
     "modmenu": "<1.14.0"

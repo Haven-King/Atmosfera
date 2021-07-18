@@ -14,8 +14,8 @@ import net.minecraft.util.JsonHelper;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
-public record PercentBlockModifier(float min, float max, ImmutableCollection<Block> blocks, ImmutableCollection<Tag<Block>> blockTags) implements AtmosphericSoundModifier, AtmosphericSoundModifier.Factory {
-    public PercentBlockModifier(float min, float max, ImmutableCollection<Block> blocks, ImmutableCollection<Tag<Block>> blockTags) {
+public record PercentBlockModifier(float lowerVolumeSlider, float upperVolumeSlider, float min, float max, ImmutableCollection<Block> blocks, ImmutableCollection<Tag<Block>> blockTags) implements AtmosphericSoundModifier, AtmosphericSoundModifier.Factory {
+    public PercentBlockModifier(float lowerVolumeSlider, float upperVolumeSlider, float min, float max, ImmutableCollection<Block> blocks, ImmutableCollection<Tag<Block>> blockTags) {
         ImmutableCollection.Builder<Block> blocksBuilder = ImmutableList.builder();
 
         // Remove blocks that are already present in tags so that they aren't counted twice
@@ -32,6 +32,8 @@ public record PercentBlockModifier(float min, float max, ImmutableCollection<Blo
 
         this.blocks = blocksBuilder.build();
         this.blockTags = blockTags;
+        this.lowerVolumeSlider = lowerVolumeSlider;
+        this.upperVolumeSlider = upperVolumeSlider;
         this.min = min;
         this.max = max;
     }
@@ -48,8 +50,8 @@ public record PercentBlockModifier(float min, float max, ImmutableCollection<Blo
             modifier += context.getBlockTagPercentage(tag);
         }
 
-        return modifier >= this.min
-                ? (modifier - this.min) * (1.0F / (this.max - this.min))
+        return modifier >= this.lowerVolumeSlider && modifier >= this.min && modifier <= this.max
+                ? (modifier - this.lowerVolumeSlider) * (1.0F / (this.upperVolumeSlider - this.lowerVolumeSlider))
                 : 0;
     }
 
@@ -73,15 +75,18 @@ public record PercentBlockModifier(float min, float max, ImmutableCollection<Blo
             }
         });
 
-        float min = 0, max = 1;
+        float lowerVolumeSlider = 0, upperVolumeSlider = 1;
 
         if (object.has("range")) {
             JsonArray array = object.getAsJsonArray("range");
-            min = array.get(0).getAsFloat();
-            max = array.get(1).getAsFloat();
+            lowerVolumeSlider = array.get(0).getAsFloat();
+            upperVolumeSlider = array.get(1).getAsFloat();
         }
 
-        return new PercentBlockModifier(min, max, blocks.build(), tags.build());
+        float min = object.has("min") ? object.get("min").getAsFloat() : -Float.MAX_VALUE;
+        float max = object.has("max") ? object.get("max").getAsFloat() : Float.MAX_VALUE;
+
+        return new PercentBlockModifier(lowerVolumeSlider, upperVolumeSlider, min, max, blocks.build(), tags.build());
     }
 
     @Override

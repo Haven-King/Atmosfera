@@ -37,8 +37,8 @@ public record SimpleBoundedCondition(float min, float max, Function<EnvironmentC
     public static SimpleBoundedCondition create(JsonElement element, Function<EnvironmentContext, Number> valueGetter) {
         JsonObject object = element.getAsJsonObject();
 
-        float min = object.has("min") ? JsonHelper.getFloat(object, "min") : -Float.MAX_VALUE;
-        float max = object.has("max") ? JsonHelper.getFloat(object, "max") : Float.MAX_VALUE;
+        float min = object.has("lowerVolumeSlider") ? JsonHelper.getFloat(object, "lowerVolumeSlider") : -Float.MAX_VALUE;
+        float max = object.has("upperVolumeSlider") ? JsonHelper.getFloat(object, "upperVolumeSlider") : Float.MAX_VALUE;
 
         return new SimpleBoundedCondition(min, max, valueGetter);
     }

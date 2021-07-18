@@ -39,8 +39,8 @@ public class MinecraftClientMixin {
 	private void getAmbientMusicType(CallbackInfoReturnable<MusicSound> cir) {
 		MusicSound sound = cir.getReturnValue();
 
-		if (!sound.equals(MusicType.CREATIVE) && !sound.equals(MusicType.MENU) && this.world != null) {
-			MusicSound atmosphericMusic = ((ClientWorldDuck) this.world).getHandler().getMusicSound(sound);
+		if ((sound.equals(MusicType.CREATIVE) || sound.equals(MusicType.GAME)) && this.world != null) {
+			MusicSound atmosphericMusic = ((ClientWorldDuck) this.world).atmosfera$getAtmosphericSoundHandler().getMusicSound(sound);
 			cir.setReturnValue(atmosphericMusic);
 		}
 	}
