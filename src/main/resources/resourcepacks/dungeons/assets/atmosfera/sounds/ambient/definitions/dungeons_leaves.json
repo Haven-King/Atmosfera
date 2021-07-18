@@ -8,6 +8,7 @@
     {
       "type": "percent_block",
       "blocks": [
+        "#leaves",
         "minecraft:acacia_leaves",
         "minecraft:bamboo",
         "minecraft:birch_leaves",
@@ -117,17 +118,8 @@
       ]
     },
     {
-      "type": "submerged_in",
-      "modifies": "pitch",
-      "factor": 0.5,
-      "fluids": [
-        "minecraft:lava",
-        "minecraft:water"
-      ]
-    },
-    {
       "type": "sky_visibility",
-      "min": 0.1
+      "min": 0.2
     }
   ]
 }

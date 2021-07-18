@@ -11,12 +11,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
-public class RidingCondition implements AtmosphericSoundModifier, AtmosphericSoundModifier.Factory {
-    private final ImmutableList<EntityType<?>> types;
-
-    public RidingCondition(ImmutableList<EntityType<?>> types) {
-        this.types = types;
-    }
+public record RidingCondition(ImmutableList<EntityType<?>> types) implements AtmosphericSoundModifier, AtmosphericSoundModifier.Factory {
 
     @Override
     public float getModifier(EnvironmentContext context) {

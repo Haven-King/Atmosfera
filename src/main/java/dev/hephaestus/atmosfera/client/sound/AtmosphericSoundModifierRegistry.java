@@ -30,10 +30,6 @@ public final class AtmosphericSoundModifierRegistry {
         return FACTORIES.get(type);
     }
 
-    public Iterable<Map.Entry<String, AtmosphericSoundModifier.FactoryFactory>> getFactories() {
-        return FACTORIES.entrySet();
-    }
-
     static {
         register(SimpleBoundedCondition::altitude, "altitude", "distance_from_ground");
         register(SimpleBoundedCondition::elevation, "elevation", "height");
@@ -50,5 +46,6 @@ public final class AtmosphericSoundModifierRegistry {
         register(PercentBlockModifier::create, "percent_block");
         register(PercentBiomeModifier::create, "percent_biome");
         register(RidingCondition::create, "vehicle", "riding");
+        register(SkyPropertiesModifier::create, "sky_properties");
     }
 }

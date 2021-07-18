@@ -23,8 +23,10 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.sound.WeightedSoundSet;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -38,7 +40,7 @@ public class WeightedSoundSetMixin {
     public void disableSubtitle(CallbackInfoReturnable<Text> cir) {
         if (Atmosfera.SOUND_DEFINITIONS.containsKey(this.id) && !AtmosferaConfig.showSubtitle(this.id)) {
             if (AtmosferaConfig.printDebugMessages()) {
-                Atmosfera.LOG.info(String.format("[%s] Mixin disableSubtitle: %s - %b", Atmosfera.MOD_NAME, this.id, AtmosferaConfig.showSubtitle(this.id)));
+                Atmosfera.log("Mixin disableSubtitle: {} - {}", this.id, AtmosferaConfig.showSubtitle(this.id));
             }
 
             cir.setReturnValue(null);

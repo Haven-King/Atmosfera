@@ -5,15 +5,6 @@
   "size": "small",
   "modifiers": [
     {
-      "type": "submerged_in",
-      "modifies": "pitch",
-      "factor": 0.5,
-      "fluids": [
-        "minecraft:lava",
-        "minecraft:water"
-      ]
-    },
-    {
       "type": "percent_biome",
       "min": 0.75,
       "biomes": [

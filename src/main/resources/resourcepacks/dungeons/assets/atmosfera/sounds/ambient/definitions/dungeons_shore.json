@@ -16,15 +16,6 @@
       ]
     },
     {
-      "type": "submerged_in",
-      "modifies": "pitch",
-      "factor": 0.5,
-      "fluids": [
-        "minecraft:lava",
-        "minecraft:water"
-      ]
-    },
-    {
       "type": "percent_biome",
       "min": 0.0,
       "max": 0.5,
@@ -59,8 +50,12 @@
       ]
     },
     {
-      "type": "altitude",
-      "max": 20
+      "type": "percent_block",
+      "max": 0.95,
+      "blocks": [
+        "minecraft:air",
+        "minecraft:cave_air"
+      ]
     },
     {
       "type": "sky_visibility",

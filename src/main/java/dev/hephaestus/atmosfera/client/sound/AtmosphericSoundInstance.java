@@ -53,12 +53,12 @@ public class AtmosphericSoundInstance extends AbstractSoundInstance implements T
 	public void tick() {
 		MinecraftClient client = MinecraftClient.getInstance();
 
-		if (client != null && client.player != null && this.volumeTransitionTimer >= 0) {
+		if (client != null && client.world != null && client.player != null && this.volumeTransitionTimer >= 0) {
 			this.x = client.player.getX();
 			this.y = client.player.getY();
 			this.z = client.player.getZ();
 
-			float volume = this.definition.getVolume();
+			float volume = this.definition.getVolume(client.world);
 			if (volume >= this.volume + 0.0125) {
 				++this.volumeTransitionTimer;
 			} else if (volume < this.volume - 0.0125 || this.volumeTransitionTimer == 0) { // Completes the transition by not getting stuck at zero.
@@ -67,11 +67,8 @@ public class AtmosphericSoundInstance extends AbstractSoundInstance implements T
 
 			this.volumeTransitionTimer = Math.min(this.volumeTransitionTimer, 60); // 80 does not get fully completed.
 			this.volume = MathHelper.clamp(this.volumeTransitionTimer / 60.0F, 0.0F, 1.0F);
-			this.pitch = this.definition.getPitch();
 
-			Atmosfera.debug(String.format("[%s] id: %s - volume: %f - this.volume: %f - volumeTransitionTimer: %d",
-					Atmosfera.MOD_NAME, this.definition.id(), volume, this.volume, this.volumeTransitionTimer
-			));
+			Atmosfera.debug("id: {} - volume: {} - this.volume: {} - volumeTransitionTimer: " + this.definition.id(), volume, this.volume, this.volumeTransitionTimer);
 		} else {
 			this.markDone();
 		}

@@ -18,6 +18,7 @@ package dev.hephaestus.atmosfera;
 
 import dev.hephaestus.atmosfera.client.sound.AtmosphericSoundDefinition;
 import dev.hephaestus.atmosfera.client.sound.AtmosphericSoundSerializer;
+import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
@@ -34,15 +35,27 @@ import java.util.Map;
 public class Atmosfera implements ClientModInitializer {
 	public static final String MODID = "atmosfera";
 	public static final String MOD_NAME = "Atmosfera";
-	public static final Logger LOG = LogManager.getLogger(MOD_NAME);
+	private static final Logger LOG = LogManager.getLogger(MOD_NAME);
 
 	public static final Map<Identifier, AtmosphericSoundDefinition> SOUND_DEFINITIONS = new HashMap<>();
 	public static final Map<Identifier, AtmosphericSoundDefinition> MUSIC_DEFINITIONS = new HashMap<>();
 
-	public static void debug(String message) {
+	public static void debug(String message, Object... args) {
 		if (AtmosferaConfig.printDebugMessages()) {
-			LOG.info(message);
+			LOG.info("[" + MOD_NAME + "] " +  message, args);
 		}
+	}
+
+	public static void log(String message, Object... args) {
+		LOG.info("[" + MOD_NAME + "] " +  message, args);
+	}
+
+	public static void warn(String message, Object... args) {
+		LOG.warn("[" + MOD_NAME + "] " +  message, args);
+	}
+
+	public static void error(String message, Object... args) {
+		LOG.error("[" + MOD_NAME + "] " +  message, args);
 	}
 
 	@Override
@@ -56,7 +69,9 @@ public class Atmosfera implements ClientModInitializer {
 					new AtmosphericSoundSerializer("sounds/music", MUSIC_DEFINITIONS));
 		});
 
-		LOG.info(String.format("[%s] The mod is initialized.", MOD_NAME));
+		EnvironmentContext.init();
+
+		log("Finished initialization.");
 	}
 
 	public static Identifier id(@NotNull String path, String... paths) {

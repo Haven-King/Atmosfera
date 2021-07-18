@@ -2,18 +2,9 @@
   "sound": "atmosfera:dungeons_forest_snowy_nighttime",
   "default_volume": 100,
   "default_subtitle": true,
-  "shape": "upper_hemisphere",
+  "shape": "sphere",
   "size": "large",
   "modifiers": [
-    {
-      "type": "submerged_in",
-      "modifies": "pitch",
-      "factor": 0.5,
-      "fluids": [
-        "minecraft:lava",
-        "minecraft:water"
-      ]
-    },
     {
       "type": "percent_biome",
       "min": 0.1,
@@ -50,12 +41,16 @@
       ]
     },
     {
-      "type": "altitude",
-      "max": 20
+      "type": "percent_block",
+      "max": 0.95,
+      "blocks": [
+        "minecraft:air",
+        "minecraft:cave_air"
+      ]
     },
     {
       "type": "sky_visibility",
-      "min": 0.4
+      "min": 0.2
     },
     {
       "type": "is_daytime",

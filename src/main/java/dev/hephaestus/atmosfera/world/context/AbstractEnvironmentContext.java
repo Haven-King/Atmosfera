@@ -1,9 +1,11 @@
 package dev.hephaestus.atmosfera.world.context;
 
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 
 abstract class AbstractEnvironmentContext implements EnvironmentContext {
+    ClientPlayerEntity player;
     int altitude = 0;
     int elevation = -1;
     boolean isDay = false;
@@ -43,8 +45,8 @@ abstract class AbstractEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
-    public boolean isSubmergedInFluid() {
-        return this.isSubmergedInFluid;
+    public @Nullable Entity getVehicle() {
+        return this.vehicle;
     }
 
     @Override
@@ -75,9 +77,13 @@ abstract class AbstractEnvironmentContext implements EnvironmentContext {
     @Override
     public @Nullable Entity getVehicle() {
         return this.vehicle;
+    
+    public ClientPlayerEntity getPlayer() {
+        return this.player;
     }
 
     void copy(AbstractEnvironmentContext context) {
+        this.player = context.player;
         this.altitude = context.altitude;
         this.elevation = context.elevation;
         this.isDay = context.isDay;

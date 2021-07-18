@@ -16,21 +16,8 @@
       ]
     },
     {
-      "type": "submerged_in",
-      "modifies": "pitch",
-      "factor": 0.5,
-      "fluids": [
-        "minecraft:lava",
-        "minecraft:water"
-      ]
-    },
-    {
       "type": "sky_visibility",
-      "min": 0.63
-    },
-    {
-      "type": "is_submerged",
-      "value": false
+      "min": 0.5
     }
   ]
 }
