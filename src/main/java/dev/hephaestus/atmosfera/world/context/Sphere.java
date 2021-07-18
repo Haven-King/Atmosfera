@@ -1,6 +1,5 @@
 package dev.hephaestus.atmosfera.world.context;
 
-import dev.hephaestus.atmosfera.Atmosfera;
 import dev.hephaestus.atmosfera.mixin.BossBarHudAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -11,14 +10,13 @@ import net.minecraft.client.gui.hud.ClientBossBar;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.tag.Tag;
-import net.minecraft.text.MutableText;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
 import java.util.*;
-import java.util.concurrent.*;
 
 @Environment(EnvType.CLIENT)
 public class Sphere extends AbstractEnvironmentContext {
@@ -28,6 +26,7 @@ public class Sphere extends AbstractEnvironmentContext {
     public Sphere(Size size) {
         this.upperHemisphere = new Hemisphere(ContextUtil.OFFSETS.get(Shape.UPPER_HEMISPHERE).get(size));
         this.lowerHemisphere = new Hemisphere(ContextUtil.OFFSETS.get(Shape.LOWER_HEMISPHERE).get(size));
+        this.bossBars = new HashSet<>();
     }
 
     @Override
@@ -74,37 +73,14 @@ public class Sphere extends AbstractEnvironmentContext {
                 mut.move(Direction.DOWN);
             }
 
+            this.bossBars.clear();
+
             BossBarHud bossBarHud = MinecraftClient.getInstance().inGameHud.getBossBarHud();
-            Map<UUID, ClientBossBar> bossBars = ((BossBarHudAccessor) bossBarHud).getBossBars();
+            Map<UUID, ClientBossBar> bossBarMap = ((BossBarHudAccessor) bossBarHud).getBossBars();
 
-            this.isInRaid = false;
-            this.isDefeatedInRaid = false;
-            this.isVictoriousInRaid = false;
-            this.isInWitherFight = false;
-            this.isInEnderDragonFight = false;
-            if (!bossBars.isEmpty()) {
-                Iterator var1 = bossBars.values().iterator();
-
-                while(var1.hasNext()) {
-                    BossBar bossBar = (BossBar)var1.next();
-                    MutableText bossBarText = bossBar.getName().copy();
-                    if(bossBarText.toString().contains("'event.minecraft.raid'")) {
-                        this.isInRaid = true;
-                        if(bossBarText.toString().contains("'event.minecraft.raid.victory'")) {
-                            this.isVictoriousInRaid = true;
-                            this.isDefeatedInRaid = false;
-                        } else if(bossBarText.toString().contains("'event.minecraft.raid.defeat'")) {
-                            this.isDefeatedInRaid = true;
-                            this.isVictoriousInRaid = false;
-                        }
-                    } else if(bossBarText.toString().contains("'entity.minecraft.wither'")) {
-                        this.isInWitherFight = true;
-                    } else if(bossBarText.toString().contains("'entity.minecraft.ender_dragon'")) {
-                        this.isInEnderDragonFight = true;
-                    } else {
-                        // Atmosfera.debug(String.format("[%s] Unhandled Bar: %s", Atmosfera.MOD_NAME, bossBarText));
-                    }
-                }
+            for(BossBar bossBar : bossBarMap.values()) {
+                String value = bossBar.getName() instanceof TranslatableText translatable ? translatable.getKey() : bossBar.getName().toString();
+                this.bossBars.add(value);
             }
 
             this.player = player;

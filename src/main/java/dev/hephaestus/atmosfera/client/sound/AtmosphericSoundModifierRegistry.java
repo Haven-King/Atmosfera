@@ -37,15 +37,10 @@ public final class AtmosphericSoundModifierRegistry {
         register(SimpleBooleanCondition::isDaytime, "is_daytime");
         register(SimpleBooleanCondition::isRainy, "is_rainy");
         register(SimpleBooleanCondition::isStormy, "is_stormy");
-        register(SimpleBooleanCondition::isSubmergedInFluid, "is_submerged");
-        register(SimpleBooleanCondition::isInRaid, "raid_fight");
-        register(SimpleBooleanCondition::isDefeatedInRaid, "raid_defeat");
-        register(SimpleBooleanCondition::isVictoriousInRaid, "raid_victory");
-        register(SimpleBooleanCondition::isInWitherFight, "wither_fight");
-        register(SimpleBooleanCondition::isInEnderDragonFight, "ender_dragon_fight");
         register(PercentBlockModifier::create, "percent_block");
         register(PercentBiomeModifier::create, "percent_biome");
         register(RidingCondition::create, "vehicle", "riding");
         register(SkyPropertiesModifier::create, "sky_properties");
+        register(BossBarCondition::create, "boss_bar");
     }
 }

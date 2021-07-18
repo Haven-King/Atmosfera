@@ -4,6 +4,8 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.*;
+
 abstract class AbstractEnvironmentContext implements EnvironmentContext {
     ClientPlayerEntity player;
     int altitude = 0;
@@ -11,13 +13,8 @@ abstract class AbstractEnvironmentContext implements EnvironmentContext {
     boolean isDay = false;
     boolean isRainy = false;
     boolean isStormy = false;
-    boolean isSubmergedInFluid = false;
-    boolean isInRaid = false;
-    boolean isDefeatedInRaid = false;
-    boolean isVictoriousInRaid = false;
-    boolean isInWitherFight = false;
-    boolean isInEnderDragonFight = false;
     @Nullable Entity vehicle = null;
+    Collection<String> bossBars;
 
     @Override
     public float getAltitude() {
@@ -50,36 +47,13 @@ abstract class AbstractEnvironmentContext implements EnvironmentContext {
     }
 
     @Override
-    public boolean isInRaid() {
-        return this.isInRaid;
-    }
-
-    @Override
-    public boolean isDefeatedInRaid() {
-        return this.isDefeatedInRaid;
-    }
-
-    @Override
-    public boolean isVictoriousInRaid() {
-        return this.isVictoriousInRaid;
-    }
-
-    @Override
-    public boolean isInWitherFight() {
-        return this.isInWitherFight;
-    }
-
-    @Override
-    public boolean isInEnderDragonFight() {
-        return this.isInEnderDragonFight;
-    }
-
-    @Override
-    public @Nullable Entity getVehicle() {
-        return this.vehicle;
-    
     public ClientPlayerEntity getPlayer() {
         return this.player;
+    }
+
+    @Override
+    public Collection<String> getBossBars() {
+        return this.bossBars;
     }
 
     void copy(AbstractEnvironmentContext context) {
@@ -89,12 +63,7 @@ abstract class AbstractEnvironmentContext implements EnvironmentContext {
         this.isDay = context.isDay;
         this.isRainy = context.isRainy;
         this.isStormy = context.isStormy;
-        this.isSubmergedInFluid = context.isSubmergedInFluid;
-        this.isInRaid = context.isInRaid;
-        this.isDefeatedInRaid = context.isDefeatedInRaid;
-        this.isVictoriousInRaid = context.isVictoriousInRaid;
-        this.isInWitherFight = context.isInWitherFight;
-        this.isInEnderDragonFight = context.isInEnderDragonFight;
         this.vehicle = context.vehicle;
+        this.bossBars = context.bossBars;
     }
 }
