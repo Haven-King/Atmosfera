@@ -4,6 +4,8 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.*;
+
 abstract class AbstractEnvironmentContext implements EnvironmentContext {
     ClientPlayerEntity player;
     int altitude = 0;
@@ -12,6 +14,7 @@ abstract class AbstractEnvironmentContext implements EnvironmentContext {
     boolean isRainy = false;
     boolean isStormy = false;
     @Nullable Entity vehicle = null;
+    Collection<String> bossBars;
 
     @Override
     public float getAltitude() {
@@ -48,6 +51,11 @@ abstract class AbstractEnvironmentContext implements EnvironmentContext {
         return this.player;
     }
 
+    @Override
+    public Collection<String> getBossBars() {
+        return this.bossBars;
+    }
+
     void copy(AbstractEnvironmentContext context) {
         this.player = context.player;
         this.altitude = context.altitude;
@@ -56,5 +64,6 @@ abstract class AbstractEnvironmentContext implements EnvironmentContext {
         this.isRainy = context.isRainy;
         this.isStormy = context.isStormy;
         this.vehicle = context.vehicle;
+        this.bossBars = context.bossBars;
     }
 }

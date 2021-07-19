@@ -82,7 +82,6 @@ public class AtmosphericSoundHandler {
                         AtmosphericSoundInstance soundInstance = new AtmosphericSoundInstance(definition, 0.0001F);
                         this.soundInstances.put(definition, soundInstance);
                         soundManager.playNextTick(soundInstance);
-
                         Atmosfera.debug("volume > 0: {} - {}", definition.id(), volume);
                     }
                 }
@@ -108,12 +107,10 @@ public class AtmosphericSoundHandler {
 
                 if (volume > 0.0125) {
                     int weight = Objects.requireNonNull(soundManager.get(definition.soundEvent().getId())).getWeight();
-
                     sounds.add(new Pair<>(weight, MUSIC.computeIfAbsent(definition, id -> {
                         Atmosfera.debug("createIngameMusic: {}", definition.id());
                         return MusicType.createIngameMusic(definition.soundEvent());
                     })));
-
                     total += 5 * volume;
                 }
             }

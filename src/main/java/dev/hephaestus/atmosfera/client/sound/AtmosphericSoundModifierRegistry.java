@@ -41,5 +41,6 @@ public final class AtmosphericSoundModifierRegistry {
         register(PercentBiomeModifier::create, "percent_biome");
         register(RidingCondition::create, "vehicle", "riding");
         register(SkyPropertiesModifier::create, "sky_properties");
+        register(BossBarCondition::create, "boss_bar");
     }
 }

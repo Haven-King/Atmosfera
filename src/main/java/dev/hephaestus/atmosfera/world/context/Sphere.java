@@ -1,14 +1,22 @@
 package dev.hephaestus.atmosfera.world.context;
 
+import dev.hephaestus.atmosfera.mixin.BossBarHudAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.hud.BossBarHud;
+import net.minecraft.client.gui.hud.ClientBossBar;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.boss.BossBar;
 import net.minecraft.tag.Tag;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+
+import java.util.*;
 
 @Environment(EnvType.CLIENT)
 public class Sphere extends AbstractEnvironmentContext {
@@ -18,6 +26,7 @@ public class Sphere extends AbstractEnvironmentContext {
     public Sphere(Size size) {
         this.upperHemisphere = new Hemisphere(ContextUtil.OFFSETS.get(Shape.UPPER_HEMISPHERE).get(size));
         this.lowerHemisphere = new Hemisphere(ContextUtil.OFFSETS.get(Shape.LOWER_HEMISPHERE).get(size));
+        this.bossBars = new HashSet<>();
     }
 
     @Override
@@ -62,6 +71,16 @@ public class Sphere extends AbstractEnvironmentContext {
             while (world.getBlockState(mut).isAir() && mut.getY() > 0) {
                 this.altitude += 1;
                 mut.move(Direction.DOWN);
+            }
+
+            this.bossBars.clear();
+
+            BossBarHud bossBarHud = MinecraftClient.getInstance().inGameHud.getBossBarHud();
+            Map<UUID, ClientBossBar> bossBarMap = ((BossBarHudAccessor) bossBarHud).getBossBars();
+
+            for(BossBar bossBar : bossBarMap.values()) {
+                String value = bossBar.getName() instanceof TranslatableText translatable ? translatable.getKey() : bossBar.getName().toString();
+                this.bossBars.add(value);
             }
 
             this.player = player;

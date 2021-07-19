@@ -9,7 +9,8 @@
     "EntityMixin",
     "MinecraftClientMixin",
     "WeightedSoundSetMixin",
-    "MixinClientWorld"
+    "MixinClientWorld",
+    "BossBarHudAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

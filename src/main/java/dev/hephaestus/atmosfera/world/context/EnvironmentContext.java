@@ -6,6 +6,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.tag.Tag;
 import net.minecraft.world.biome.Biome;
 
+import java.util.Collection;
+
 public interface EnvironmentContext {
     ClientPlayerEntity getPlayer();
 
@@ -39,8 +41,10 @@ public interface EnvironmentContext {
     boolean isRainy();
 
     boolean isStormy();
-
+  
     Entity getVehicle();
+
+    Collection<String> getBossBars();
 
     static void init() {
         ContextUtil.init();
