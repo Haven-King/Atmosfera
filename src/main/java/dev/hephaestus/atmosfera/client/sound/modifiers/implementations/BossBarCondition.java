@@ -14,7 +14,10 @@ public record BossBarCondition(String text, boolean isRegex) implements Atmosphe
             for (String value : context.getBossBars()) {
                 if (Pattern.matches(this.text, value)) return 1;
             }
-        } else if (context.getBossBars().contains(this.text)) return 1;
+        } else if (context.getBossBars().contains(this.text)) {
+            return 1;
+        }
+
         return 0;
     }
 
@@ -24,22 +27,12 @@ public record BossBarCondition(String text, boolean isRegex) implements Atmosphe
     }
 
     public static Factory create(JsonObject object) {
-        boolean isRegex = false;
-        String value = null;
-
         if(object.has("matches")) {
-            value = object.get("matches").getAsString();
-            isRegex = true;
+            return new BossBarCondition(object.get("matches").getAsString(), true);
         } else if(object.has("text")) {
-            value = object.get("text").getAsString();
+            return new BossBarCondition(object.get("text").getAsString(), false);
         } else {
             throw new RuntimeException("Modifier for 'boss_bar' is missing 'matches' or 'text' field.");
-        }
-
-        if(value != null) {
-            return new BossBarCondition(value, isRegex);
-        } else {
-            throw new RuntimeException("Fields 'matches' or 'text' for modifier 'boss_bar' are null.");
         }
     }
 }

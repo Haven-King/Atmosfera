@@ -36,10 +36,10 @@ public class MinecraftClientMixin {
 	@Shadow @Nullable public ClientWorld world;
 
 	@Inject(method = "getMusicType", at = @At("RETURN"), cancellable = true)
-	private void getAmbientMusicType(CallbackInfoReturnable<MusicSound> cir) {
+	private void atmosfera$getAmbientMusicType(CallbackInfoReturnable<MusicSound> cir) {
 		MusicSound sound = cir.getReturnValue();
 
-		if ((sound.equals(MusicType.CREATIVE) || sound.equals(MusicType.GAME)) && this.world != null) {
+		if (sound != MusicType.MENU && sound != MusicType.CREDITS && this.world != null) {
 			MusicSound atmosphericMusic = ((ClientWorldDuck) this.world).atmosfera$getAtmosphericSoundHandler().getMusicSound(sound);
 			cir.setReturnValue(atmosphericMusic);
 		}

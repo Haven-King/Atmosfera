@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableList;
 import dev.hephaestus.atmosfera.Atmosfera;
 import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.client.sound.util.ClientWorldDuck;
-import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.MusicType;
 import net.minecraft.client.sound.SoundManager;
@@ -107,10 +106,12 @@ public class AtmosphericSoundHandler {
 
                 if (volume > 0.0125) {
                     int weight = Objects.requireNonNull(soundManager.get(definition.soundEvent().getId())).getWeight();
+
                     sounds.add(new Pair<>(weight, MUSIC.computeIfAbsent(definition, id -> {
                         Atmosfera.debug("createIngameMusic: {}", definition.id());
                         return MusicType.createIngameMusic(definition.soundEvent());
                     })));
+
                     total += 5 * volume;
                 }
             }
