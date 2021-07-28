@@ -25,7 +25,9 @@ import dev.hephaestus.atmosfera.client.sound.AtmosphericSoundDefinition;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import me.shedaniel.clothconfig2.gui.entries.IntegerSliderEntry;
 import me.shedaniel.clothconfig2.impl.builders.BooleanToggleBuilder;
+import me.shedaniel.clothconfig2.impl.builders.IntFieldBuilder;
 import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screen.Screen;
@@ -54,6 +56,8 @@ public class AtmosferaConfig {
 	private static final TreeMap<Identifier, Boolean> SUBTITLE_MODIFIERS = new TreeMap<>(Comparator.comparing(id -> I18n.translate(id.toString())));
 	private static final TreeMap<Identifier, Integer> MUSIC_WEIGHTS = new TreeMap<>(Comparator.comparing(id -> I18n.translate(id.toString())));
 	private static boolean PRINT_DEBUG_MESSAGES = false;
+	private static boolean OVERRIDE_MUSIC_DELAY = false;
+	private static int MAX_MUSIC_DELAY = 0;
 
 	static {
 		read();
@@ -90,6 +94,12 @@ public class AtmosferaConfig {
 				}
 			}
 
+			if (json.has("misc")) {
+				JsonObject misc = json.getAsJsonObject("misc");
+				OVERRIDE_MUSIC_DELAY = misc.get("override_music_delay").getAsBoolean();
+				MAX_MUSIC_DELAY = misc.get("max_music_delay").getAsInt();
+			}
+
 			fi.close();
 		} catch (FileNotFoundException e) {
 			Atmosfera.log("The user config file was not found. Creating the default config...");
@@ -120,10 +130,13 @@ public class AtmosferaConfig {
 			jsonObject.add("subtitles", gson.toJsonTree(SUBTITLE_MODIFIERS));
 
 			JsonObject debug = new JsonObject();
-
 			debug.addProperty("print_debug_messages", PRINT_DEBUG_MESSAGES);
-
 			jsonObject.add("debug", debug);
+
+			JsonObject misc = new JsonObject();
+			misc.addProperty("max_music_delay", MAX_MUSIC_DELAY);
+			misc.addProperty("override_music_delay", OVERRIDE_MUSIC_DELAY);
+			jsonObject.add("misc", misc);
 
 			writer.write(gson.toJson(jsonObject));
 			writer.close();
@@ -164,15 +177,32 @@ public class AtmosferaConfig {
 
 		ConfigCategory volumesCategory = builder.getOrCreateCategory(new TranslatableText("config.category.atmosfera.volumes"));
 		ConfigCategory subtitlesCategory = builder.getOrCreateCategory(new TranslatableText("config.category.atmosfera.subtitles"));
+		ConfigCategory miscCategory = builder.getOrCreateCategory(new TranslatableText("config.category.atmosfera.misc"));
+
+		miscCategory.addEntry(new BooleanToggleBuilder(
+				new TranslatableText("text.cloth-config.reset_value"), new TranslatableText("config.value.atmosfera.override_music_delay"), OVERRIDE_MUSIC_DELAY)
+				.setDefaultValue(false)
+				.setSaveConsumer(b -> OVERRIDE_MUSIC_DELAY = b)
+				.build()
+		);
+
+		miscCategory.addEntry(new IntFieldBuilder(
+				new TranslatableText("text.cloth-config.reset_value"), new TranslatableText("config.value.atmosfera.max_music_delay"), MAX_MUSIC_DELAY)
+				.setDefaultValue(0)
+				.setSaveConsumer(i -> MAX_MUSIC_DELAY = i)
+				.build()
+		);
 
 		if (IS_DEVELOPMENT_ENVIRONMENT) {
 			ConfigCategory debugCategory = builder.getOrCreateCategory(new TranslatableText("config.category.atmosfera.debug"));
 			debugCategory.addEntry(new BooleanToggleBuilder(
-					new TranslatableText("text.cloth-config.reset_value"), new TranslatableText("config.value.atmosfera.print_debug_messages"), false)
+					new TranslatableText("text.cloth-config.reset_value"), new TranslatableText("config.value.atmosfera.print_debug_messages"), PRINT_DEBUG_MESSAGES)
+					.setDefaultValue(false)
 					.setSaveConsumer(b -> PRINT_DEBUG_MESSAGES = b)
 					.build()
 			);
 		}
+
 
 		SubCategoryBuilder soundSubcategory = new SubCategoryBuilder(
 				new TranslatableText("text.cloth-config.reset_value"), new TranslatableText("config.subcategory.atmosfera.ambient_sound"))
@@ -216,7 +246,6 @@ public class AtmosferaConfig {
 					musicSubcategory.add(
 							entryBuilder.startIntSlider(new TranslatableText(soundLangID), sound.getValue(), 0, 200)
 									.setDefaultValue(soundType.get(sound.getKey()).defaultVolume())
-									.setTooltip(new LiteralText(soundLangID).formatted(Formatting.GRAY))
 									.setTextGetter(integer -> new LiteralText(integer + "%"))
 									.setSaveConsumer(volume -> VOLUME_MODIFIERS.put(sound.getKey(), volume))
 									.build()
@@ -260,5 +289,13 @@ public class AtmosferaConfig {
 
 	public static boolean printDebugMessages() {
 		return PRINT_DEBUG_MESSAGES && IS_DEVELOPMENT_ENVIRONMENT;
+	}
+
+	public static boolean overrideMusicDelay() {
+		return OVERRIDE_MUSIC_DELAY;
+	}
+
+	public static int getMaxMusicDelay() {
+		return MAX_MUSIC_DELAY * 20;
 	}
 }

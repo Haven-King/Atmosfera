@@ -10,7 +10,8 @@
     "MinecraftClientMixin",
     "WeightedSoundSetMixin",
     "MixinClientWorld",
-    "BossBarHudAccessor"
+    "BossBarHudAccessor",
+    "MusicTrackerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
