@@ -70,6 +70,13 @@
       "atmosfera:ambient/forest/forest_wind_rustles_loop_1"
     ]
   },
+  "dungeons_forest_nighttime_owl": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_forest_nighttime_owl",
+    "sounds": [
+      "atmosfera:ambient/forest/forest_night_owl_loop_1"
+    ]
+  },
   "dungeons_forest_nighttime": {
     "category": "ambient",
     "subtitle": "subtitle.atmosfera.dungeons_forest_nighttime",
@@ -78,7 +85,6 @@
       "atmosfera:ambient/common/surface_wind_howls_loop_1",
       "atmosfera:ambient/common/surface_wind_howls_loop_2",
       "atmosfera:ambient/common/surface_wind_howls_loop_3",
-      "atmosfera:ambient/forest/forest_night_owl_loop_1",
       "atmosfera:ambient/forest/forest_wind_rustles_loop_1"
     ]
   },
@@ -109,7 +115,6 @@
       "atmosfera:ambient/common/surface_wind_howls_loop_1",
       "atmosfera:ambient/common/surface_wind_howls_loop_2",
       "atmosfera:ambient/common/surface_wind_howls_loop_3",
-      "atmosfera:ambient/forest/forest_night_owl_loop_1",
       "atmosfera:ambient/forest/forest_wind_rustles_loop_1"
     ]
   },
@@ -142,6 +147,13 @@
       "atmosfera:ambient/grassland/grassland_day_wind_birds_insects_ruminants_loop_1_4"
     ]
   },
+  "dungeons_grassland_nighttime_owl": {
+    "category": "ambient",
+    "subtitle": "subtitle.atmosfera.dungeons_grassland_nighttime_owl",
+    "sounds": [
+      "atmosfera:ambient/grassland/grassland_night_owl_loop_1"
+    ]
+  },
   "dungeons_grassland_nighttime": {
     "category": "ambient",
     "subtitle": "subtitle.atmosfera.dungeons_grassland_nighttime",
@@ -149,8 +161,7 @@
       "atmosfera:ambient/common/night_crickets_loop_1",
       "atmosfera:ambient/common/surface_wind_howls_loop_1",
       "atmosfera:ambient/common/surface_wind_howls_loop_2",
-      "atmosfera:ambient/common/surface_wind_howls_loop_3",
-      "atmosfera:ambient/grassland/grassland_night_owl_loop_1"
+      "atmosfera:ambient/common/surface_wind_howls_loop_3"
     ]
   },
   "dungeons_grassland_rainy": {
@@ -177,8 +188,7 @@
     "sounds": [
       "atmosfera:ambient/common/surface_wind_howls_loop_1",
       "atmosfera:ambient/common/surface_wind_howls_loop_2",
-      "atmosfera:ambient/common/surface_wind_howls_loop_3",
-      "atmosfera:ambient/grassland/grassland_night_owl_loop_1"
+      "atmosfera:ambient/common/surface_wind_howls_loop_3"
     ]
   },
   "dungeons_leaves": {
