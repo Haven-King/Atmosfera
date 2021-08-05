@@ -55,12 +55,12 @@ public interface EnvironmentContext {
     }
 
     enum Size {
-        SMALL(4),
-        MEDIUM(8),
-        LARGE(16);
+        SMALL((byte) 4),
+        MEDIUM((byte) 8),
+        LARGE((byte) 16);
 
-        public final int radius;
-        Size(int radius) {
+        public final byte radius;
+        Size(byte radius) {
             this.radius = radius;
         }
     }

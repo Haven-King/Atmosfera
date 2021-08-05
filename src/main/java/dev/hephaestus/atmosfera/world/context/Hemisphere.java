@@ -11,12 +11,11 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
-import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 class Hemisphere extends AbstractEnvironmentContext {
-    private final Collection<int[]> offsets;
+    private final byte[][] offsets;
 
     private final Map<Block, Integer> blockTypes = new ConcurrentHashMap<>();
     private final Map<Tag<Block>, Integer> blockTags = new ConcurrentHashMap<>();
@@ -27,7 +26,7 @@ class Hemisphere extends AbstractEnvironmentContext {
     private int blockCount = 0;
     private int skyVisibility = 0;
 
-    Hemisphere(Collection<int[]> offsets) {
+    Hemisphere(byte[][] offsets) {
         this.offsets = offsets;
     }
 
@@ -98,7 +97,9 @@ class Hemisphere extends AbstractEnvironmentContext {
         BlockPos.Mutable mut = new BlockPos.Mutable();
         World world = player.world;
 
-        for (int[] a : this.offsets) {
+        for (int i = 0; i < this.offsets.length; ++i) {
+            byte[] a = this.offsets[i];
+
             mut.set(center.getX() + a[0], center.getY() + a[1], center.getZ() + a[2]);
             this.add(world, mut);
         }

@@ -24,8 +24,8 @@ public class Sphere extends AbstractEnvironmentContext {
     final Hemisphere lowerHemisphere;
 
     public Sphere(Size size) {
-        this.upperHemisphere = new Hemisphere(ContextUtil.OFFSETS.get(Shape.UPPER_HEMISPHERE).get(size));
-        this.lowerHemisphere = new Hemisphere(ContextUtil.OFFSETS.get(Shape.LOWER_HEMISPHERE).get(size));
+        this.upperHemisphere = new Hemisphere(ContextUtil.OFFSETS[Shape.UPPER_HEMISPHERE.ordinal()][size.ordinal()]);
+        this.lowerHemisphere = new Hemisphere(ContextUtil.OFFSETS[Shape.LOWER_HEMISPHERE.ordinal()][size.ordinal()]);
         this.bossBars = new HashSet<>();
     }
 
