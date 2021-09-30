@@ -23,9 +23,10 @@ public class Sphere extends AbstractEnvironmentContext {
     final Hemisphere upperHemisphere;
     final Hemisphere lowerHemisphere;
 
-    public Sphere(Size size) {
-        this.upperHemisphere = new Hemisphere(ContextUtil.OFFSETS[Shape.UPPER_HEMISPHERE.ordinal()][size.ordinal()]);
-        this.lowerHemisphere = new Hemisphere(ContextUtil.OFFSETS[Shape.LOWER_HEMISPHERE.ordinal()][size.ordinal()]);
+    public Sphere(Size size, ClientPlayerEntity player) {
+        super(player);
+        this.upperHemisphere = new Hemisphere(ContextUtil.OFFSETS[Shape.UPPER_HEMISPHERE.ordinal()][size.ordinal()], this);
+        this.lowerHemisphere = new Hemisphere(ContextUtil.OFFSETS[Shape.LOWER_HEMISPHERE.ordinal()][size.ordinal()], this);
         this.bossBars = new HashSet<>();
     }
 
@@ -35,7 +36,7 @@ public class Sphere extends AbstractEnvironmentContext {
     }
 
     @Override
-    public float getBlockTagPercentage(Tag<Block> blocks) {
+    public float getBlockTagPercentage(Tag.Identified<Block> blocks) {
         return (this.upperHemisphere.getBlockTagPercentage(blocks) + this.lowerHemisphere.getBlockTagPercentage(blocks)) / 2F;
     }
 
@@ -45,7 +46,7 @@ public class Sphere extends AbstractEnvironmentContext {
     }
 
     @Override
-    public float getBiomeTagPercentage(Tag<Biome> biomes) {
+    public float getBiomeTagPercentage(Tag.Identified<Biome> biomes) {
         return (this.upperHemisphere.getBiomeTagPercentage(biomes) + this.lowerHemisphere.getBiomeTagPercentage(biomes)) / 2F;
     }
 
@@ -59,9 +60,9 @@ public class Sphere extends AbstractEnvironmentContext {
         return (this.upperHemisphere.getSkyVisibility() + this.lowerHemisphere.getSkyVisibility()) / 2F;
     }
 
-    public void update(ClientPlayerEntity player) {
-        World world = player.world;
-        BlockPos pos = player.getBlockPos();
+    public void update() {
+        World world = getPlayer().world;
+        BlockPos pos = getPlayer().getBlockPos();
 
         if (world.isChunkLoaded(pos.getX() >> 4, pos.getZ() << 4)) {
             this.altitude = 0;
@@ -83,18 +84,14 @@ public class Sphere extends AbstractEnvironmentContext {
                 this.bossBars.add(value);
             }
 
-            this.player = player;
             this.elevation = pos.getY();
             this.isDay = world.isDay();
             this.isRainy = world.isRaining();
             this.isStormy = world.isThundering();
-            this.vehicle = player.getVehicle();
+            this.vehicle = getPlayer().getVehicle();
 
-            this.upperHemisphere.copy(this);
-            this.lowerHemisphere.copy(this);
-
-            ContextUtil.EXECUTOR.execute(() -> this.upperHemisphere.update(player, pos.up()));
-            ContextUtil.EXECUTOR.execute(() -> this.lowerHemisphere.update(player, pos.down()));
+            ContextUtil.EXECUTOR.execute(() -> this.upperHemisphere.update(pos.up()));
+            ContextUtil.EXECUTOR.execute(() -> this.lowerHemisphere.update(pos.down()));
         }
     }
 
