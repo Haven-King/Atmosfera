@@ -29,7 +29,7 @@ public class MixinClientWorld implements ClientWorldDuck {
     private HashMap<EnvironmentContext.Size, Sphere> atmosfera$environmentContexts;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void initializeSoundHandler(ClientPlayNetworkHandler networkHandler, ClientWorld.Properties properties, RegistryKey<World> registryRef, DimensionType dimensionType, int loadDistance, Supplier<Profiler> profiler, WorldRenderer worldRenderer, boolean debugWorld, long seed, CallbackInfo ci) {
+    private void initializeSoundHandler(ClientPlayNetworkHandler netHandler, ClientWorld.Properties properties, RegistryKey registryRef, DimensionType dimensionType, int loadDistance, int simulationDistance, Supplier profiler, WorldRenderer worldRenderer, boolean debugWorld, long seed, CallbackInfo ci) {
         this.atmosfera$soundHandler = new AtmosphericSoundHandler((ClientWorld) (Object) this);
         this.atmosfera$environmentContexts = new HashMap<>();
     }

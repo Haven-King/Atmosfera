@@ -5,6 +5,7 @@ The following acknowledges the notable contributors and utilized resources of th
 * [Haven King](https://github.com/Haven-King) - Author, Maintainer
 * [NeRdTheNed](https://github.com/NeRdTheNed) - Contributor
 * [zeydOpr](https://github.com/zeydOpr) - Contributor
+* [Zetabite](https://github.com/Zetabite) - Contributor
 
 ## Technologies
 * [Fabric API](https://github.com/FabricMC/fabric) under [Apache License 2.0]
