@@ -5,7 +5,7 @@
   "size": "small",
   "modifiers": [
     {
-      "type": "sky_properties",
+      "type": "dimension_effects",
       "id": "minecraft:overworld"
     }
   ]
