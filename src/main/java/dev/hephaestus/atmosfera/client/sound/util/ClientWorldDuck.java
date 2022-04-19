@@ -4,11 +4,17 @@ import dev.hephaestus.atmosfera.client.sound.AtmosphericSoundHandler;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
 
 public interface ClientWorldDuck {
-    AtmosphericSoundHandler atmosfera$getAtmosphericSoundHandler();
+    default AtmosphericSoundHandler atmosfera$getAtmosphericSoundHandler() {
+        return null;
+    }
 
-    EnvironmentContext atmosfera$getEnvironmentContext(EnvironmentContext.Size size, EnvironmentContext.Shape shape);
+    default EnvironmentContext atmosfera$getEnvironmentContext(EnvironmentContext.Size size, EnvironmentContext.Shape shape) {
+        return null;
+    }
 
-    void atmosfera$updateEnvironmentContext();
+    default void atmosfera$updateEnvironmentContext() { }
 
-    boolean atmosfera$isEnvironmentContextInitialized();
+    default boolean atmosfera$isEnvironmentContextInitialized() {
+        return false;
+    }
 }

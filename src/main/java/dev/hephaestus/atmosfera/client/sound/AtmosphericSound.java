@@ -2,7 +2,6 @@ package dev.hephaestus.atmosfera.client.sound;
 
 import com.google.common.collect.ImmutableCollection;
 import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
-import dev.hephaestus.atmosfera.client.sound.util.ClientWorldDuck;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.sound.SoundEvent;
@@ -15,7 +14,7 @@ public record AtmosphericSound(Identifier id, SoundEvent soundEvent,
                                          ImmutableCollection<AtmosphericSoundModifier> modifiers) {
     public float getVolume(ClientWorld world) {
         float volume = 1F;
-        EnvironmentContext context = ((ClientWorldDuck) world).atmosfera$getEnvironmentContext(this.size, this.shape);
+        EnvironmentContext context = world.atmosfera$getEnvironmentContext(this.size, this.shape);
         if(context == null) return 0;
 
         for (AtmosphericSoundModifier modifier : this.modifiers) {

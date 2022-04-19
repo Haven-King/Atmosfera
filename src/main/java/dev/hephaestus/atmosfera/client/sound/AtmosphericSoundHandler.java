@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import dev.hephaestus.atmosfera.Atmosfera;
 import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
-import dev.hephaestus.atmosfera.client.sound.util.ClientWorldDuck;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.MusicType;
 import net.minecraft.client.sound.SoundManager;
@@ -70,7 +69,7 @@ public class AtmosphericSoundHandler {
         if (world != null) {
             SoundManager soundManager = MinecraftClient.getInstance().getSoundManager();
 
-            ((ClientWorldDuck) world).atmosfera$updateEnvironmentContext();
+            world.atmosfera$updateEnvironmentContext();
 
             for (AtmosphericSound definition : this.sounds) {
                 if (!this.soundInstances.containsKey(definition) || this.soundInstances.get(definition).isDone()) {
@@ -94,7 +93,7 @@ public class AtmosphericSoundHandler {
         MusicSound result = defaultSound;
         ClientWorld world = MinecraftClient.getInstance().world;
 
-        if (world != null && MinecraftClient.getInstance().options.getSoundVolume(SoundCategory.MUSIC) > 0 && MinecraftClient.getInstance().player != null && ((ClientWorldDuck) world).atmosfera$isEnvironmentContextInitialized()) {
+        if (world != null && MinecraftClient.getInstance().options.getSoundVolume(SoundCategory.MUSIC) > 0 && MinecraftClient.getInstance().player != null && world.atmosfera$isEnvironmentContextInitialized()) {
             SoundManager soundManager = MinecraftClient.getInstance().getSoundManager();
             int total = Objects.requireNonNull(soundManager.get(defaultSound.getSound().getId())).getWeight();
 

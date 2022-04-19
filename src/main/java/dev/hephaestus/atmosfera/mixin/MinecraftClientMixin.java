@@ -16,7 +16,6 @@
 
 package dev.hephaestus.atmosfera.mixin;
 
-import dev.hephaestus.atmosfera.client.sound.util.ClientWorldDuck;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -40,7 +39,7 @@ public class MinecraftClientMixin {
 		MusicSound sound = cir.getReturnValue();
 
 		if (sound != MusicType.MENU && sound != MusicType.CREDITS && this.world != null) {
-			MusicSound atmosphericMusic = ((ClientWorldDuck) this.world).atmosfera$getAtmosphericSoundHandler().getMusicSound(sound);
+			MusicSound atmosphericMusic = this.world.atmosfera$getAtmosphericSoundHandler().getMusicSound(sound);
 			cir.setReturnValue(atmosphericMusic);
 		}
 	}
