@@ -6,17 +6,16 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
-import net.fabricmc.fabric.api.tag.TagRegistry;
+import net.fabricmc.fabric.api.tag.TagFactory;
 import net.minecraft.tag.Tag;
-import net.minecraft.tag.TagGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
-public record PercentBiomeModifier(float min, float max, ImmutableCollection<Biome> biomes, ImmutableCollection<Tag<Biome>> biomeTags, ImmutableCollection<Biome.Category> biomeCategories) implements AtmosphericSoundModifier {
-    public PercentBiomeModifier(float min, float max, ImmutableCollection<Biome> biomes, ImmutableCollection<Tag<Biome>> biomeTags, ImmutableCollection<Biome.Category> biomeCategories) {
+public record PercentBiomeModifier(float min, float max, ImmutableCollection<Biome> biomes, ImmutableCollection<Tag.Identified<Biome>> biomeTags, ImmutableCollection<Biome.Category> biomeCategories) implements AtmosphericSoundModifier {
+    public PercentBiomeModifier(float min, float max, ImmutableCollection<Biome> biomes, ImmutableCollection<Tag.Identified<Biome>> biomeTags, ImmutableCollection<Biome.Category> biomeCategories) {
         ImmutableCollection.Builder<Biome> biomesBuilder = ImmutableList.builder();
 
         // Remove blocks that are already present in tags so that they aren't counted twice
@@ -46,7 +45,7 @@ public record PercentBiomeModifier(float min, float max, ImmutableCollection<Bio
             modifier += context.getBiomePercentage(biome);
         }
 
-        for (Tag<Biome> tag : this.biomeTags) {
+        for (Tag.Identified<Biome> tag : this.biomeTags) {
             modifier += context.getBiomeTagPercentage(tag);
         }
 
@@ -108,12 +107,10 @@ public record PercentBiomeModifier(float min, float max, ImmutableCollection<Bio
                 }
             }
 
-            ImmutableCollection.Builder<Tag<Biome>> tags = ImmutableList.builder();
-
-            TagGroup<Biome> biomeTags = world.getTagManager().getOrCreateTagGroup(Registry.BIOME_KEY);
+            ImmutableCollection.Builder<Tag.Identified<Biome>> tags = ImmutableList.builder();
 
             for (Identifier id : this.biomeTags) {
-                tags.add(TagRegistry.create(id, () -> biomeTags));
+                tags.add(TagFactory.BIOME.create(id));
             }
 
             return new PercentBiomeModifier(this.min, this.max, biomes.build(), tags.build(), this.biomeCategories);
