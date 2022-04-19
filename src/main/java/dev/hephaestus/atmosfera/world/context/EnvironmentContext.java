@@ -13,11 +13,11 @@ public interface EnvironmentContext {
 
     float getBlockTypePercentage(Block block);
 
-    float getBlockTagPercentage(Tag<Block> blocks);
+    float getBlockTagPercentage(Tag.Identified<Block> blocks);
 
     float getBiomePercentage(Biome biome);
 
-    float getBiomeTagPercentage(Tag<Biome> biomes);
+    float getBiomeTagPercentage(Tag.Identified<Biome> biomes);
 
     float getBiomeCategoryPercentage(Biome.Category biomes);
 

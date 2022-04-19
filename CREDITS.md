@@ -5,6 +5,7 @@ The following acknowledges the notable contributors and utilized resources of th
 * [Haven King](https://github.com/Haven-King) - Author, Maintainer
 * [NeRdTheNed](https://github.com/NeRdTheNed) - Contributor
 * [zeydOpr](https://github.com/zeydOpr) - Contributor
+* [Qendolin](https://github.com/Qendolin) - Contributor
 * [Zetabite](https://github.com/Zetabite) - Contributor
 
 ## Technologies

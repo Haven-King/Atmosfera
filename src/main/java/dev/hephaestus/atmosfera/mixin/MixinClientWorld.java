@@ -14,7 +14,9 @@ import net.minecraft.util.profiler.Profiler;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -27,11 +29,11 @@ import java.util.function.Supplier;
 public class MixinClientWorld implements ClientWorldDuck {
     private AtmosphericSoundHandler atmosfera$soundHandler;
     private HashMap<EnvironmentContext.Size, Sphere> atmosfera$environmentContexts;
+    private boolean atmosfera$initialized;
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void initializeSoundHandler(ClientPlayNetworkHandler netHandler, ClientWorld.Properties properties, RegistryKey registryRef, DimensionType dimensionType, int loadDistance, int simulationDistance, Supplier profiler, WorldRenderer worldRenderer, boolean debugWorld, long seed, CallbackInfo ci) {
         this.atmosfera$soundHandler = new AtmosphericSoundHandler((ClientWorld) (Object) this);
-        this.atmosfera$environmentContexts = new HashMap<>();
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
@@ -46,26 +48,34 @@ public class MixinClientWorld implements ClientWorldDuck {
 
     @Override
     public EnvironmentContext atmosfera$getEnvironmentContext(EnvironmentContext.Size size, EnvironmentContext.Shape shape) {
+        if(!atmosfera$isEnvironmentContextInitialized()) return null;
         return switch (shape) {
-            case UPPER_HEMISPHERE -> this.atmosfera$environmentContexts.computeIfAbsent(size, Sphere::new).getUpperHemisphere();
-            case LOWER_HEMISPHERE -> this.atmosfera$environmentContexts.computeIfAbsent(size, Sphere::new).getLowerHemisphere();
+            case UPPER_HEMISPHERE -> this.atmosfera$environmentContexts.get(size).getUpperHemisphere();
+            case LOWER_HEMISPHERE -> this.atmosfera$environmentContexts.get(size).getLowerHemisphere();
             case SPHERE -> this.atmosfera$environmentContexts.get(size);
         };
     }
 
     @Override
     public void atmosfera$updateEnvironmentContext() {
-        ClientPlayerEntity player = MinecraftClient.getInstance().player;
-
-        if (player != null && ContextUtil.TASK_QUEUE.isEmpty()) {
-            this.atmosfera$environmentContexts.computeIfAbsent(EnvironmentContext.Size.SMALL, Sphere::new).update(player);
-            this.atmosfera$environmentContexts.computeIfAbsent(EnvironmentContext.Size.MEDIUM, Sphere::new).update(player);
-            this.atmosfera$environmentContexts.computeIfAbsent(EnvironmentContext.Size.LARGE, Sphere::new).update(player);
+        if(!this.atmosfera$initialized) {
+            ClientPlayerEntity player = MinecraftClient.getInstance().player;
+            this.atmosfera$environmentContexts = new HashMap<>();
+            this.atmosfera$environmentContexts.put(EnvironmentContext.Size.SMALL, new Sphere(EnvironmentContext.Size.SMALL, player));
+            this.atmosfera$environmentContexts.put(EnvironmentContext.Size.MEDIUM, new Sphere(EnvironmentContext.Size.MEDIUM, player));
+            this.atmosfera$environmentContexts.put(EnvironmentContext.Size.LARGE, new Sphere(EnvironmentContext.Size.LARGE, player));
+            // set initialized last to prevent race condition for filling the hash map
+            atmosfera$initialized = true;
+        }
+        if (ContextUtil.TASK_QUEUE.isEmpty()) {
+            this.atmosfera$environmentContexts.get(EnvironmentContext.Size.SMALL).update();
+            this.atmosfera$environmentContexts.get(EnvironmentContext.Size.MEDIUM).update();
+            this.atmosfera$environmentContexts.get(EnvironmentContext.Size.LARGE).update();
         }
     }
 
     @Override
     public boolean atmosfera$isEnvironmentContextInitialized() {
-        return !this.atmosfera$environmentContexts.isEmpty() && this.atmosfera$environmentContexts.get(EnvironmentContext.Size.SMALL).getPlayer() != null;
+        return atmosfera$initialized;
     }
 }

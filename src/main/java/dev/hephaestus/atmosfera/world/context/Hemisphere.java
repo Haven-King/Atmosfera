@@ -1,33 +1,47 @@
 package dev.hephaestus.atmosfera.world.context;
 
-import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.tag.Tag;
 import net.minecraft.tag.TagGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-class Hemisphere extends AbstractEnvironmentContext {
+class Hemisphere implements EnvironmentContext {
     private final byte[][] offsets;
+    private final Sphere sphere;
 
     private final Map<Block, Integer> blockTypes = new ConcurrentHashMap<>();
-    private final Map<Tag<Block>, Integer> blockTags = new ConcurrentHashMap<>();
+    private final Map<Identifier, Integer> blockTags = new ConcurrentHashMap<>();
     private final Map<Biome, Integer> biomeTypes = new ConcurrentHashMap<>();
-    private final Map<Tag<Biome>, Integer> biomeTags = new ConcurrentHashMap<>();
+    private final Map<Identifier, Integer> biomeTags = new ConcurrentHashMap<>();
     private final Map<Biome.Category, Integer> biomeCategories = new ConcurrentHashMap<>();
+
+    private final TagGroup<Block> blockTagGroup;
+    private final TagGroup<Biome> biomeTagGroup;
 
     private int blockCount = 0;
     private int skyVisibility = 0;
 
-    Hemisphere(byte[][] offsets) {
+    Hemisphere(byte[][] offsets, Sphere sphere) {
+        this.sphere = sphere;
         this.offsets = offsets;
+        this.blockTagGroup = getPlayer().world.getTagManager().getOrCreateTagGroup(Registry.BLOCK_KEY);
+        this.biomeTagGroup = getPlayer().world.getTagManager().getOrCreateTagGroup(Registry.BIOME_KEY);
+    }
+
+    @Override
+    public ClientPlayerEntity getPlayer() {
+        return this.sphere.player;
     }
 
     @Override
@@ -36,8 +50,8 @@ class Hemisphere extends AbstractEnvironmentContext {
     }
 
     @Override
-    public float getBlockTagPercentage(Tag<Block> blocks) {
-        return this.blockTags.getOrDefault(blocks, 0) / (float) this.blockCount;
+    public float getBlockTagPercentage(Tag.Identified<Block> blocks) {
+        return this.blockTags.getOrDefault(blocks.getId(), 0) / (float) this.blockCount;
     }
 
     @Override
@@ -46,8 +60,8 @@ class Hemisphere extends AbstractEnvironmentContext {
     }
 
     @Override
-    public float getBiomeTagPercentage(Tag<Biome> biomes) {
-        return this.biomeTags.getOrDefault(biomes, 0) / (float) this.blockCount;
+    public float getBiomeTagPercentage(Tag.Identified<Biome> biomes) {
+        return this.biomeTags.getOrDefault(biomes.getId(), 0) / (float) this.blockCount;
     }
 
     @Override
@@ -56,46 +70,83 @@ class Hemisphere extends AbstractEnvironmentContext {
     }
 
     @Override
+    public float getAltitude() {
+        return this.sphere.altitude;
+    }
+
+    @Override
+    public float getElevation() {
+        return this.sphere.elevation;
+    }
+
+    @Override
     public float getSkyVisibility() {
         return this.skyVisibility / (float) this.blockCount;
+    }
+
+    @Override
+    public boolean isDaytime() {
+        return this.sphere.isDay;
+    }
+
+    @Override
+    public boolean isRainy() {
+        return this.sphere.isRainy;
+    }
+
+    @Override
+    public boolean isStormy() {
+        return this.sphere.isStormy;
+    }
+
+    @Override
+    public Entity getVehicle() {
+        return this.sphere.vehicle;
+    }
+
+    @Override
+    public Collection<String> getBossBars() {
+        return this.sphere.bossBars;
     }
 
     private void clear() {
         this.blockCount = 0;
         this.skyVisibility = 0;
-        this.blockTypes.clear();
-        this.blockTags.clear();
-        this.biomeTypes.clear();
-        this.biomeTags.clear();
-        this.biomeCategories.clear();
+        this.blockTypes.replaceAll((block, integer) -> 0);
+        this.blockTags.replaceAll((identifier, integer) -> 0);
+        this.biomeTypes.replaceAll((biome, integer) -> 0);
+        this.blockTags.replaceAll((identifier, integer) -> 0);
+        this.biomeCategories.replaceAll((category, integer) -> 0);
+    }
+
+    private <T> void mergeTagsFor(TagGroup<T> tagGroup, T object, Map<Identifier, Integer> tagMap) {
+        tagGroup.getTags().forEach((id, tag) -> {
+            if(tag.contains(object)) {
+                tagMap.merge(id, 1, Integer::sum);
+            }
+        });
     }
 
     private void add(World world, BlockPos pos) {
         Block block = world.getBlockState(pos).getBlock();
         this.blockTypes.merge(block, 1, Integer::sum);
 
-        for (Identifier tag : world.getTagManager().getOrCreateTagGroup(Registry.BLOCK_KEY).getTagsFor(block)) {
-            this.blockTags.merge(TagRegistry.block(tag), 1, Integer::sum);
-        }
+        mergeTagsFor(blockTagGroup, block, this.blockTags);
 
         Biome biome = world.getBiome(pos);
-        TagGroup<Biome> biomeTags = world.getTagManager().getOrCreateTagGroup(Registry.BIOME_KEY);
-
-        for (Identifier tag : biomeTags.getTagsFor(biome)) {
-            this.biomeTags.merge(TagRegistry.create(tag, () -> biomeTags), 1, Integer::sum);
-        }
+        mergeTagsFor(this.biomeTagGroup, biome, this.biomeTags);
 
         this.biomeTypes.merge(biome, 1, Integer::sum);
         this.biomeCategories.merge(biome.getCategory(), 1, Integer::sum);
-        this.skyVisibility += world.isSkyVisible(pos) ? 1 : 0;
+        this.skyVisibility += world.getLightLevel(LightType.SKY, pos) /  world.getMaxLightLevel();
         this.blockCount++;
     }
 
-    void update(ClientPlayerEntity player, BlockPos center) {
+    void update(BlockPos center) {
         this.clear();
 
         BlockPos.Mutable mut = new BlockPos.Mutable();
-        World world = player.world;
+        World world = getPlayer().world;
 
         for (int i = 0; i < this.offsets.length; ++i) {
             byte[] a = this.offsets[i];

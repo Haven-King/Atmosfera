@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 abstract class AbstractEnvironmentContext implements EnvironmentContext {
-    ClientPlayerEntity player;
+    final ClientPlayerEntity player;
     int altitude = 0;
     int elevation = -1;
     boolean isDay = false;
@@ -15,6 +15,10 @@ abstract class AbstractEnvironmentContext implements EnvironmentContext {
     boolean isStormy = false;
     @Nullable Entity vehicle = null;
     Collection<String> bossBars;
+
+    protected AbstractEnvironmentContext(ClientPlayerEntity player) {
+        this.player = player;
+    }
 
     @Override
     public float getAltitude() {
@@ -54,16 +58,5 @@ abstract class AbstractEnvironmentContext implements EnvironmentContext {
     @Override
     public Collection<String> getBossBars() {
         return this.bossBars;
-    }
-
-    void copy(AbstractEnvironmentContext context) {
-        this.player = context.player;
-        this.altitude = context.altitude;
-        this.elevation = context.elevation;
-        this.isDay = context.isDay;
-        this.isRainy = context.isRainy;
-        this.isStormy = context.isStormy;
-        this.vehicle = context.vehicle;
-        this.bossBars = context.bossBars;
     }
 }
