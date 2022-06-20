@@ -39,11 +39,11 @@
   "depends": {
     "fabricloader": ">=0.14.6",
     "fabric": ">=0.56.0",
-    "cloth-config": ">=6.2.62",
-    "minecraft": ">=1.18.2"
+    "cloth-config": ">=7.0.72",
+    "minecraft": ">=1.19"
   },
   "recommends": {
-    "modmenu": ">=3.0.0"
+    "modmenu": ">=4.0.0"
   },
   "suggests": {
     "presencefootsteps": "*"

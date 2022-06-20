@@ -19,8 +19,6 @@ public interface EnvironmentContext {
 
     float getBiomeTagPercentage(TagKey<Biome> biomes);
 
-    float getBiomeCategoryPercentage(Biome.Category biomes);
-
     /**
      * @return the distance in blocks between the player and the ground
      */

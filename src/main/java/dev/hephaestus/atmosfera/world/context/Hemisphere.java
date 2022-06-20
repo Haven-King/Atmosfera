@@ -23,7 +23,6 @@ class Hemisphere implements EnvironmentContext {
     private final Map<Identifier, Integer> blockTags = new ConcurrentHashMap<>();
     private final Map<Biome, Integer> biomeTypes = new ConcurrentHashMap<>();
     private final Map<Identifier, Integer> biomeTags = new ConcurrentHashMap<>();
-    private final Map<Biome.Category, Integer> biomeCategories = new ConcurrentHashMap<>();
 
     private int blockCount = 0;
     private int skyVisibility = 0;
@@ -56,11 +55,6 @@ class Hemisphere implements EnvironmentContext {
     @Override
     public float getBiomeTagPercentage(TagKey<Biome> biomes) {
         return this.biomeTags.getOrDefault(biomes.id(), 0) / (float) this.blockCount;
-    }
-
-    @Override
-    public float getBiomeCategoryPercentage(Biome.Category biomes) {
-        return this.biomeCategories.getOrDefault(biomes, 0) / (float) this.blockCount;
     }
 
     @Override
@@ -110,7 +104,6 @@ class Hemisphere implements EnvironmentContext {
         this.blockTags.replaceAll((identifier, integer) -> 0);
         this.biomeTypes.replaceAll((biome, integer) -> 0);
         this.blockTags.replaceAll((identifier, integer) -> 0);
-        this.biomeCategories.replaceAll((category, integer) -> 0);
     }
 
     private void add(World world, BlockPos pos) {
@@ -127,7 +120,6 @@ class Hemisphere implements EnvironmentContext {
         });
 
         this.biomeTypes.merge(biome, 1, Integer::sum);
-        this.biomeCategories.merge(Biome.getCategory(biomeEntry), 1, Integer::sum);
         this.skyVisibility += world.getLightLevel(LightType.SKY, pos) /  world.getMaxLightLevel();
         this.blockCount++;
     }
