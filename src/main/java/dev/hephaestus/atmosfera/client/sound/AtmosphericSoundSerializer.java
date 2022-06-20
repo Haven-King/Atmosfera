@@ -50,7 +50,7 @@ public record AtmosphericSoundSerializer(String sourceFolder, Map<Identifier, At
                 Identifier soundId = new Identifier(JsonHelper.getString(json, "sound"));
                 SoundEvent sound = Registry.SOUND_EVENT.containsId(soundId)
                         ? Registry.SOUND_EVENT.get(soundId)
-                        : Registry.register(Registry.SOUND_EVENT, soundId, new SoundEvent(soundId));
+                        : Registry.register(Registry.SOUND_EVENT, soundId, new SoundEvent(soundId)); // TODO registry is already frozen
 
                 if (sound != null) {
                     EnvironmentContext.Shape shape = getShape(json, id);

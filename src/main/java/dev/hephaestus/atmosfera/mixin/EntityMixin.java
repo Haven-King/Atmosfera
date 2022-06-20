@@ -18,31 +18,39 @@ package dev.hephaestus.atmosfera.mixin;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.fluid.Fluid;
-import net.minecraft.tag.Tag;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
+import java.util.Set;
+
 @Environment(EnvType.CLIENT)
 @Mixin(Entity.class)
 public class EntityMixin {
-	@Shadow @Nullable protected Tag<Fluid> submergedFluidTag;
+	@Shadow @Final private Set<TagKey<Fluid>> submergedFluidTag;
 
 	/**
 	 * @reason
 	 * The vanilla version of this method only checks that the instances are the same.
-	 * This is not compatible with the tags returned by {@link TagRegistry#fluid(Identifier)}.
+	 * This is not compatible with the tags returned by {@link TagRegistry#fluid(Identifier)}. // TODO check
 	 * @author Haven King
 	 */
 	@Overwrite
-	public boolean isSubmergedIn(Tag<Fluid> tag) {
-		return this.submergedFluidTag == tag || (
-				tag instanceof Tag.Identified && this.submergedFluidTag instanceof Tag.Identified
-				&& ((Tag.Identified<Fluid>) tag).getId().equals(((Tag.Identified<Fluid>) this.submergedFluidTag).getId()));
+	public boolean isSubmergedIn(TagKey<Fluid> tag) {
+		if (this.submergedFluidTag.contains(tag))
+			return true;
+
+		for (TagKey<Fluid> fluidTag : submergedFluidTag) {
+			if (fluidTag.id().equals(tag.id())) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

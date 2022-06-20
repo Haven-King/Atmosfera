@@ -3,11 +3,10 @@ package dev.hephaestus.atmosfera.world.context;
 import net.minecraft.block.Block;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.tag.Tag;
-import net.minecraft.tag.TagGroup;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -26,8 +25,8 @@ class Hemisphere implements EnvironmentContext {
     private final Map<Identifier, Integer> biomeTags = new ConcurrentHashMap<>();
     private final Map<Biome.Category, Integer> biomeCategories = new ConcurrentHashMap<>();
 
-    private final TagGroup<Block> blockTagGroup;
-    private final TagGroup<Biome> biomeTagGroup;
+//    private final TagGroup<Block> blockTagGroup;
+//    private final TagGroup<Biome> biomeTagGroup;
 
     private int blockCount = 0;
     private int skyVisibility = 0;
@@ -35,8 +34,9 @@ class Hemisphere implements EnvironmentContext {
     Hemisphere(byte[][] offsets, Sphere sphere) {
         this.sphere = sphere;
         this.offsets = offsets;
-        this.blockTagGroup = getPlayer().world.getTagManager().getOrCreateTagGroup(Registry.BLOCK_KEY);
-        this.biomeTagGroup = getPlayer().world.getTagManager().getOrCreateTagGroup(Registry.BIOME_KEY);
+        // these aren't easily accesible anymore
+//        this.blockTagGroup = getPlayer().world.getTagManager().getOrCreateTagGroup(Registry.BLOCK_KEY);
+//        this.biomeTagGroup = getPlayer().world.getTagManager().getOrCreateTagGroup(Registry.BIOME_KEY);
     }
 
     @Override
@@ -50,8 +50,8 @@ class Hemisphere implements EnvironmentContext {
     }
 
     @Override
-    public float getBlockTagPercentage(Tag.Identified<Block> blocks) {
-        return this.blockTags.getOrDefault(blocks.getId(), 0) / (float) this.blockCount;
+    public float getBlockTagPercentage(TagKey<Block> blocks) {
+        return this.blockTags.getOrDefault(blocks.id(), 0) / (float) this.blockCount;
     }
 
     @Override
@@ -60,8 +60,8 @@ class Hemisphere implements EnvironmentContext {
     }
 
     @Override
-    public float getBiomeTagPercentage(Tag.Identified<Biome> biomes) {
-        return this.biomeTags.getOrDefault(biomes.getId(), 0) / (float) this.blockCount;
+    public float getBiomeTagPercentage(TagKey<Biome> biomes) {
+        return this.biomeTags.getOrDefault(biomes.id(), 0) / (float) this.blockCount;
     }
 
     @Override
@@ -119,25 +119,29 @@ class Hemisphere implements EnvironmentContext {
         this.biomeCategories.replaceAll((category, integer) -> 0);
     }
 
-    private <T> void mergeTagsFor(TagGroup<T> tagGroup, T object, Map<Identifier, Integer> tagMap) {
-        tagGroup.getTags().forEach((id, tag) -> {
-            if(tag.contains(object)) {
-                tagMap.merge(id, 1, Integer::sum);
-            }
-        });
-    }
+//    private <T> void mergeTagsFor(TagGroup<T> tagGroup, T object, Map<Identifier, Integer> tagMap) {
+//        tagGroup.getTags().forEach((id, tag) -> {
+//            if(tag.contains(object)) {
+//                tagMap.merge(id, 1, Integer::sum);
+//            }
+//        });
+//    }
 
     private void add(World world, BlockPos pos) {
         Block block = world.getBlockState(pos).getBlock();
         this.blockTypes.merge(block, 1, Integer::sum);
 
-        mergeTagsFor(blockTagGroup, block, this.blockTags);
+        // FIXME find way to add block tags
+//        mergeTagsFor(blockTagGroup, block, this.blockTags);
 
-        Biome biome = world.getBiome(pos);
-        mergeTagsFor(this.biomeTagGroup, biome, this.biomeTags);
+        RegistryEntry<Biome> biomeEntry = world.getBiome(pos);
+        Biome biome = biomeEntry.value();
+
+        // FIXME find way to add biome tags
+//        mergeTagsFor(this.biomeTagGroup, biome, this.biomeTags);
 
         this.biomeTypes.merge(biome, 1, Integer::sum);
-        this.biomeCategories.merge(biome.getCategory(), 1, Integer::sum);
+        this.biomeCategories.merge(Biome.getCategory(biomeEntry), 1, Integer::sum);
         this.skyVisibility += world.getLightLevel(LightType.SKY, pos) /  world.getMaxLightLevel();
         this.blockCount++;
     }
