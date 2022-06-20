@@ -30,7 +30,7 @@ public class AtmosphericSoundInstance extends AbstractSoundInstance implements T
 	private boolean done;
 
 	public AtmosphericSoundInstance(AtmosphericSound definition, float volume) {
-		super(definition.soundEvent(), SoundCategory.AMBIENT);
+		super(definition.soundId(), SoundCategory.AMBIENT);
 		this.definition = definition;
 		this.volume = volume;
 		this.done = false;

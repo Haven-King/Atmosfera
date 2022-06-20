@@ -10,6 +10,7 @@ import net.minecraft.client.sound.SoundManager;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.sound.MusicSound;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Pair;
 
 import java.util.*;
@@ -43,7 +44,7 @@ public class AtmosphericSoundHandler {
                 modifiers.add(factory.create(world));
             }
 
-            this.sounds.add(new AtmosphericSound(definition.id(), definition.soundEvent(), definition.shape(), definition.size(), definition.defaultVolume(), definition.hasSubtitleByDefault(), modifiers.build()));
+            this.sounds.add(new AtmosphericSound(definition.id(), definition.soundId(), definition.shape(), definition.size(), definition.defaultVolume(), definition.hasSubtitleByDefault(), modifiers.build()));
         }
 
         for (AtmosphericSoundDefinition definition : Atmosfera.MUSIC_DEFINITIONS.values()) {
@@ -53,7 +54,7 @@ public class AtmosphericSoundHandler {
                 modifiers.add(factory.create(world));
             }
 
-            this.musics.add(new AtmosphericSound(definition.id(), definition.soundEvent(), definition.shape(), definition.size(), definition.defaultVolume(), definition.hasSubtitleByDefault(), modifiers.build()));
+            this.musics.add(new AtmosphericSound(definition.id(), definition.soundId(), definition.shape(), definition.size(), definition.defaultVolume(), definition.hasSubtitleByDefault(), modifiers.build()));
         }
     }
 
@@ -104,11 +105,11 @@ public class AtmosphericSoundHandler {
                 float volume = definition.getVolume(world);
 
                 if (volume > 0.0125) {
-                    int weight = Objects.requireNonNull(soundManager.get(definition.soundEvent().getId())).getWeight();
+                    int weight = Objects.requireNonNull(soundManager.get(definition.soundId())).getWeight();
 
                     sounds.add(new Pair<>(weight, MUSIC.computeIfAbsent(definition, id -> {
                         Atmosfera.debug("createIngameMusic: {}", definition.id());
-                        return MusicType.createIngameMusic(definition.soundEvent());
+                        return MusicType.createIngameMusic(new SoundEvent(definition.soundId()));
                     })));
 
                     total += 5 * volume;
