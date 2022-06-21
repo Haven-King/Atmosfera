@@ -12,12 +12,13 @@ import net.minecraft.sound.MusicSound;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Pair;
+import net.minecraft.util.math.random.Random;
 
 import java.util.*;
 import java.util.concurrent.*;
 
 public class AtmosphericSoundHandler {
-    private static final Random RANDOM = new Random();
+    private static final Random RANDOM = Random.create();
 
     private static final Map<AtmosphericSound, MusicSound> MUSIC = new HashMap<>();
 
