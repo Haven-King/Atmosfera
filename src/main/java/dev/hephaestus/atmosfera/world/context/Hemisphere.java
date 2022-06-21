@@ -25,18 +25,12 @@ class Hemisphere implements EnvironmentContext {
     private final Map<Identifier, Integer> biomeTags = new ConcurrentHashMap<>();
     private final Map<Biome.Category, Integer> biomeCategories = new ConcurrentHashMap<>();
 
-//    private final TagGroup<Block> blockTagGroup;
-//    private final TagGroup<Biome> biomeTagGroup;
-
     private int blockCount = 0;
     private int skyVisibility = 0;
 
     Hemisphere(byte[][] offsets, Sphere sphere) {
         this.sphere = sphere;
         this.offsets = offsets;
-        // these aren't easily accesible anymore
-//        this.blockTagGroup = getPlayer().world.getTagManager().getOrCreateTagGroup(Registry.BLOCK_KEY);
-//        this.biomeTagGroup = getPlayer().world.getTagManager().getOrCreateTagGroup(Registry.BIOME_KEY);
     }
 
     @Override
@@ -119,26 +113,18 @@ class Hemisphere implements EnvironmentContext {
         this.biomeCategories.replaceAll((category, integer) -> 0);
     }
 
-//    private <T> void mergeTagsFor(TagGroup<T> tagGroup, T object, Map<Identifier, Integer> tagMap) {
-//        tagGroup.getTags().forEach((id, tag) -> {
-//            if(tag.contains(object)) {
-//                tagMap.merge(id, 1, Integer::sum);
-//            }
-//        });
-//    }
-
     private void add(World world, BlockPos pos) {
         Block block = world.getBlockState(pos).getBlock();
         this.blockTypes.merge(block, 1, Integer::sum);
-
-        // FIXME find way to add block tags
-//        mergeTagsFor(blockTagGroup, block, this.blockTags);
+        block.getRegistryEntry().streamTags().forEach(blockTag -> {
+            this.blockTags.merge(blockTag.id(), 1, Integer::sum);
+        });
 
         RegistryEntry<Biome> biomeEntry = world.getBiome(pos);
         Biome biome = biomeEntry.value();
-
-        // FIXME find way to add biome tags
-//        mergeTagsFor(this.biomeTagGroup, biome, this.biomeTags);
+        biomeEntry.streamTags().forEach(biomeTag -> {
+            this.biomeTags.merge(biomeTag.id(), 1, Integer::sum);
+        });
 
         this.biomeTypes.merge(biome, 1, Integer::sum);
         this.biomeCategories.merge(Biome.getCategory(biomeEntry), 1, Integer::sum);
