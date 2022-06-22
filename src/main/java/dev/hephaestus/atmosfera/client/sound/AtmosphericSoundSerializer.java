@@ -12,13 +12,10 @@ import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.registry.Registry;
 
 import java.io.InputStreamReader;
-import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 

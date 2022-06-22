@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableCollection;
 import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 
 public record AtmosphericSound(Identifier id, Identifier soundId,

@@ -79,7 +79,7 @@ public record PercentBiomeModifier(float min, float max, ImmutableCollection<Pai
             max = array.get(1).getAsFloat();
         }
 
-        return new dev.hephaestus.atmosfera.client.sound.modifiers.implementations.PercentBiomeModifier.Factory(min, max, biomes.build(), tags.build());
+        return new PercentBiomeModifier.Factory(min, max, biomes.build(), tags.build());
     }
 
     private record Factory(float min, float max, ImmutableCollection<Identifier> biomes, ImmutableCollection<Identifier> biomeTags) implements AtmosphericSoundModifier.Factory {
