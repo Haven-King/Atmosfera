@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.mojang.datafixers.util.Pair;
 import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
 import net.minecraft.tag.TagKey;
@@ -15,23 +14,20 @@ import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
-public record PercentBiomeModifier(float min, float max, ImmutableCollection<Pair<Biome, RegistryEntry<Biome>>> biomes, ImmutableCollection<TagKey<Biome>> biomeTags, ImmutableCollection<Biome.Category> biomeCategories) implements AtmosphericSoundModifier {
-    public PercentBiomeModifier(float min, float max, ImmutableCollection<Pair<Biome, RegistryEntry<Biome>>> biomes, ImmutableCollection<TagKey<Biome>> biomeTags, ImmutableCollection<Biome.Category> biomeCategories) {
-        ImmutableCollection.Builder<Pair<Biome, RegistryEntry<Biome>>> biomesBuilder = ImmutableList.builder();
+public record PercentBiomeModifier(float min, float max, ImmutableCollection<RegistryEntry<Biome>> biomes, ImmutableCollection<TagKey<Biome>> biomeTags, ImmutableCollection<Biome.Category> biomeCategories) implements AtmosphericSoundModifier {
+    public PercentBiomeModifier(float min, float max, ImmutableCollection<RegistryEntry<Biome>> biomes, ImmutableCollection<TagKey<Biome>> biomeTags, ImmutableCollection<Biome.Category> biomeCategories) {
+        ImmutableCollection.Builder<RegistryEntry<Biome>> biomesBuilder = ImmutableList.builder();
 
         // Remove biomes that are already present in tags so that they aren't counted twice
         biomes:
-        for (Pair<Biome, RegistryEntry<Biome>> biomePair : biomes) {
-            Biome biome = biomePair.getFirst();
-            RegistryEntry<Biome> biomeEntry = biomePair.getSecond();
-
+        for (RegistryEntry<Biome> biomeEntry : biomes) {
             for (TagKey<Biome> tag : biomeTags) {
                 if (biomeEntry.isIn(tag) || biomeCategories.contains(Biome.getCategory(biomeEntry))) {
                     continue biomes;
                 }
             }
 
-            biomesBuilder.add(Pair.of(biome, biomeEntry));
+            biomesBuilder.add(biomeEntry);
         }
 
         this.biomes = biomesBuilder.build();
@@ -45,8 +41,8 @@ public record PercentBiomeModifier(float min, float max, ImmutableCollection<Pai
     public float getModifier(EnvironmentContext context) {
         float modifier = 0F;
 
-        for (Pair<Biome, RegistryEntry<Biome>> biomePair : this.biomes) {
-            modifier += context.getBiomePercentage(biomePair.getFirst());
+        for (RegistryEntry<Biome> biomeEntry : this.biomes) {
+            modifier += context.getBiomePercentage(biomeEntry.value());
         }
 
         for (TagKey<Biome> tag : this.biomeTags) {
@@ -101,7 +97,7 @@ public record PercentBiomeModifier(float min, float max, ImmutableCollection<Pai
 
         @Override
         public AtmosphericSoundModifier create(World world) {
-            ImmutableCollection.Builder<Pair<Biome, RegistryEntry<Biome>>> biomes = ImmutableList.builder();
+            ImmutableCollection.Builder<RegistryEntry<Biome>> biomes = ImmutableList.builder();
 
             Registry<Biome> biomeRegistry = world.getRegistryManager().get(Registry.BIOME_KEY);
 
@@ -109,8 +105,8 @@ public record PercentBiomeModifier(float min, float max, ImmutableCollection<Pai
                 Biome biome = biomeRegistry.get(id);
 
                 if (biome != null) {
-                    RegistryEntry<Biome> biomeEntry = biomeRegistry.entryOf(biomeRegistry.getKey(biome).get());// should never throw
-                    biomes.add(Pair.of(biome, biomeEntry));
+                    RegistryEntry<Biome> biomeEntry = biomeRegistry.entryOf(biomeRegistry.getKey(biome).get()); // should never throw
+                    biomes.add(biomeEntry);
                 }
             }
 
