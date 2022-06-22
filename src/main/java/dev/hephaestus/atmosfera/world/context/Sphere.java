@@ -75,7 +75,7 @@ public class Sphere extends AbstractEnvironmentContext {
             Map<UUID, ClientBossBar> bossBarMap = ((BossBarHudAccessor) bossBarHud).getBossBars();
 
             for(BossBar bossBar : bossBarMap.values()) {
-                String value = bossBar.getName() instanceof TranslatableTextContent translatable ? translatable.getKey() : bossBar.getName().toString();
+                String value = bossBar.getName().getContent() instanceof TranslatableTextContent translatable ? translatable.getKey() : bossBar.getName().toString();
                 this.bossBars.add(value);
             }
 
