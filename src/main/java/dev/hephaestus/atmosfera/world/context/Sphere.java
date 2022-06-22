@@ -9,7 +9,7 @@ import net.minecraft.client.gui.hud.BossBarHud;
 import net.minecraft.client.gui.hud.ClientBossBar;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.boss.BossBar;
-import net.minecraft.tag.Tag;
+import net.minecraft.tag.TagKey;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -36,7 +36,7 @@ public class Sphere extends AbstractEnvironmentContext {
     }
 
     @Override
-    public float getBlockTagPercentage(Tag.Identified<Block> blocks) {
+    public float getBlockTagPercentage(TagKey<Block> blocks) {
         return (this.upperHemisphere.getBlockTagPercentage(blocks) + this.lowerHemisphere.getBlockTagPercentage(blocks)) / 2F;
     }
 
@@ -46,7 +46,7 @@ public class Sphere extends AbstractEnvironmentContext {
     }
 
     @Override
-    public float getBiomeTagPercentage(Tag.Identified<Biome> biomes) {
+    public float getBiomeTagPercentage(TagKey<Biome> biomes) {
         return (this.upperHemisphere.getBiomeTagPercentage(biomes) + this.lowerHemisphere.getBiomeTagPercentage(biomes)) / 2F;
     }
 

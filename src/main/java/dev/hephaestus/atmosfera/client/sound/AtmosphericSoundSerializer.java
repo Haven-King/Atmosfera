@@ -48,19 +48,14 @@ public record AtmosphericSoundSerializer(String sourceFolder, Map<Identifier, At
                 JsonObject json = parser.parse(new InputStreamReader(manager.getResource(resource).getInputStream())).getAsJsonObject();
 
                 Identifier soundId = new Identifier(JsonHelper.getString(json, "sound"));
-                SoundEvent sound = Registry.SOUND_EVENT.containsId(soundId)
-                        ? Registry.SOUND_EVENT.get(soundId)
-                        : Registry.register(Registry.SOUND_EVENT, soundId, new SoundEvent(soundId));
 
-                if (sound != null) {
-                    EnvironmentContext.Shape shape = getShape(json, id);
-                    EnvironmentContext.Size size = getSize(json, id);
-                    ImmutableCollection<AtmosphericSoundModifier.Factory> modifiers = getModifiers(json, id);
-                    int defaultVolume = getInteger(json, "default_volume", 100);
-                    boolean showSubtitlesByDefault = getBoolean(json, "show_subtitles_by_default", true);
+                EnvironmentContext.Shape shape = getShape(json, id);
+                EnvironmentContext.Size size = getSize(json, id);
+                ImmutableCollection<AtmosphericSoundModifier.Factory> modifiers = getModifiers(json, id);
+                int defaultVolume = getInteger(json, "default_volume", 100);
+                boolean showSubtitlesByDefault = getBoolean(json, "show_subtitles_by_default", true);
 
-                    this.destination.put(id, new AtmosphericSoundDefinition(id, sound, shape, size, defaultVolume, showSubtitlesByDefault, modifiers));
-                }
+                this.destination.put(id, new AtmosphericSoundDefinition(id, soundId, shape, size, defaultVolume, showSubtitlesByDefault, modifiers));
             } catch (Exception exception) {
                 Atmosfera.error("Failed to load sound event '{}'", id);
                 exception.printStackTrace();
