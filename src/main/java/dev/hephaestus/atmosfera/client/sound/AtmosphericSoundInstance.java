@@ -19,6 +19,7 @@ package dev.hephaestus.atmosfera.client.sound;
 import dev.hephaestus.atmosfera.Atmosfera;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.AbstractSoundInstance;
+import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.client.sound.TickableSoundInstance;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.MathHelper;
@@ -30,7 +31,7 @@ public class AtmosphericSoundInstance extends AbstractSoundInstance implements T
 	private boolean done;
 
 	public AtmosphericSoundInstance(AtmosphericSound definition, float volume) {
-		super(definition.soundEvent(), SoundCategory.AMBIENT);
+		super(definition.soundId(), SoundCategory.AMBIENT, SoundInstance.createRandom());
 		this.definition = definition;
 		this.volume = volume;
 		this.done = false;

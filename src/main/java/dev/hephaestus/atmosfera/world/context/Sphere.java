@@ -9,8 +9,8 @@ import net.minecraft.client.gui.hud.BossBarHud;
 import net.minecraft.client.gui.hud.ClientBossBar;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.boss.BossBar;
-import net.minecraft.tag.Tag;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.tag.TagKey;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -36,7 +36,7 @@ public class Sphere extends AbstractEnvironmentContext {
     }
 
     @Override
-    public float getBlockTagPercentage(Tag.Identified<Block> blocks) {
+    public float getBlockTagPercentage(TagKey<Block> blocks) {
         return (this.upperHemisphere.getBlockTagPercentage(blocks) + this.lowerHemisphere.getBlockTagPercentage(blocks)) / 2F;
     }
 
@@ -46,13 +46,8 @@ public class Sphere extends AbstractEnvironmentContext {
     }
 
     @Override
-    public float getBiomeTagPercentage(Tag.Identified<Biome> biomes) {
+    public float getBiomeTagPercentage(TagKey<Biome> biomes) {
         return (this.upperHemisphere.getBiomeTagPercentage(biomes) + this.lowerHemisphere.getBiomeTagPercentage(biomes)) / 2F;
-    }
-
-    @Override
-    public float getBiomeCategoryPercentage(Biome.Category biomes) {
-        return (this.upperHemisphere.getBiomeCategoryPercentage(biomes) + this.lowerHemisphere.getBiomeCategoryPercentage(biomes)) / 2F;
     }
 
     @Override
@@ -80,7 +75,7 @@ public class Sphere extends AbstractEnvironmentContext {
             Map<UUID, ClientBossBar> bossBarMap = ((BossBarHudAccessor) bossBarHud).getBossBars();
 
             for(BossBar bossBar : bossBarMap.values()) {
-                String value = bossBar.getName() instanceof TranslatableText translatable ? translatable.getKey() : bossBar.getName().toString();
+                String value = bossBar.getName().getContent() instanceof TranslatableTextContent translatable ? translatable.getKey() : bossBar.getName().toString();
                 this.bossBars.add(value);
             }
 

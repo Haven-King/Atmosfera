@@ -3,7 +3,7 @@ package dev.hephaestus.atmosfera.world.context;
 import net.minecraft.block.Block;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.tag.Tag;
+import net.minecraft.tag.TagKey;
 import net.minecraft.world.biome.Biome;
 
 import java.util.Collection;
@@ -13,13 +13,11 @@ public interface EnvironmentContext {
 
     float getBlockTypePercentage(Block block);
 
-    float getBlockTagPercentage(Tag.Identified<Block> blocks);
+    float getBlockTagPercentage(TagKey<Block> blocks);
 
     float getBiomePercentage(Biome biome);
 
-    float getBiomeTagPercentage(Tag.Identified<Biome> biomes);
-
-    float getBiomeCategoryPercentage(Biome.Category biomes);
+    float getBiomeTagPercentage(TagKey<Biome> biomes);
 
     /**
      * @return the distance in blocks between the player and the ground
@@ -41,7 +39,7 @@ public interface EnvironmentContext {
     boolean isRainy();
 
     boolean isStormy();
-  
+
     Entity getVehicle();
 
     Collection<String> getBossBars();
