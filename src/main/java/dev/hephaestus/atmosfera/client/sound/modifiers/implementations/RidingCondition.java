@@ -7,7 +7,7 @@ import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.registry.Registry;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
@@ -39,10 +39,10 @@ public record RidingCondition(ImmutableList<EntityType<?>> types) implements Atm
         JsonElement value = object.get("value");
 
         if (value.isJsonPrimitive()) {
-            Registry.ENTITY_TYPE.getOrEmpty(new Identifier(value.getAsString())).ifPresent(types::add);
+            Registries.ENTITY_TYPE.getOrEmpty(new Identifier(value.getAsString())).ifPresent(types::add);
         } else if (value.isJsonArray()) {
             for (JsonElement e : value.getAsJsonArray()) {
-                Registry.ENTITY_TYPE.getOrEmpty(new Identifier(e.getAsString())).ifPresent(types::add);
+                Registries.ENTITY_TYPE.getOrEmpty(new Identifier(e.getAsString())).ifPresent(types::add);
             }
         }
 

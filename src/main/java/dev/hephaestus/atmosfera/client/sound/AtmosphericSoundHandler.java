@@ -8,6 +8,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.MusicType;
 import net.minecraft.client.sound.SoundManager;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.MusicSound;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -97,7 +98,7 @@ public class AtmosphericSoundHandler {
 
         if (world != null && MinecraftClient.getInstance().options.getSoundVolume(SoundCategory.MUSIC) > 0 && MinecraftClient.getInstance().player != null && world.atmosfera$isEnvironmentContextInitialized()) {
             SoundManager soundManager = MinecraftClient.getInstance().getSoundManager();
-            int total = Objects.requireNonNull(soundManager.get(defaultSound.getSound().getId())).getWeight();
+            int total = Objects.requireNonNull(soundManager.get(defaultSound.getSound().value().getId())).getWeight();
 
             List<Pair<Integer, MusicSound>> sounds = new ArrayList<>();
             sounds.add(new Pair<>(total, defaultSound));
@@ -110,7 +111,7 @@ public class AtmosphericSoundHandler {
 
                     sounds.add(new Pair<>(weight, MUSIC.computeIfAbsent(definition, id -> {
                         Atmosfera.debug("createIngameMusic: {}", definition.id());
-                        return MusicType.createIngameMusic(new SoundEvent(definition.soundId()));
+                        return MusicType.createIngameMusic(RegistryEntry.of(SoundEvent.of(definition.soundId())));
                     })));
 
                     total += 5 * volume;

@@ -7,7 +7,8 @@ import com.google.gson.JsonObject;
 import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
 import net.minecraft.block.Block;
-import net.minecraft.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
@@ -62,13 +63,13 @@ public record PercentBlockModifier(float lowerVolumeSlider, float upperVolumeSli
             // Registers only the loaded IDs to avoid false triggers.
             if (block.getAsString().startsWith("#")) {
                 Identifier tagId = new Identifier(block.getAsString().substring(1));
-                TagKey<Block> tagKey = TagKey.of(Registry.BLOCK_KEY, tagId);
+                TagKey<Block> tagKey = TagKey.of(RegistryKeys.BLOCK, tagId);
                 tags.add(tagKey);
             } else {
                 Identifier blockId = new Identifier(block.getAsString());
 
-                if (Registry.BLOCK.containsId(blockId)) {
-                    Block b = Registry.BLOCK.get(blockId);
+                if (Registries.BLOCK.containsId(blockId)) {
+                    Block b = Registries.BLOCK.get(blockId);
                     blocks.add(b);
                 }
             }

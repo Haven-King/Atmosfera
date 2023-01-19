@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
@@ -84,7 +85,7 @@ public record PercentBiomeModifier(float min, float max, ImmutableCollection<Reg
         public AtmosphericSoundModifier create(World world) {
             ImmutableCollection.Builder<RegistryEntry<Biome>> biomes = ImmutableList.builder();
 
-            Registry<Biome> biomeRegistry = world.getRegistryManager().get(Registry.BIOME_KEY);
+            Registry<Biome> biomeRegistry = world.getRegistryManager().get(RegistryKeys.BIOME);
 
             for (Identifier id : this.biomes) {
                 Biome biome = biomeRegistry.get(id);
@@ -98,7 +99,7 @@ public record PercentBiomeModifier(float min, float max, ImmutableCollection<Reg
             ImmutableCollection.Builder<TagKey<Biome>> tags = ImmutableList.builder();
 
             for (Identifier id : this.biomeTags) {
-                tags.add(TagKey.of(Registry.BIOME_KEY, id));
+                tags.add(TagKey.of(RegistryKeys.BIOME, id));
             }
 
             return new PercentBiomeModifier(this.min, this.max, biomes.build(), tags.build());
