@@ -6,23 +6,23 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
-import net.fabricmc.fabric.api.tag.TagFactory;
 import net.minecraft.block.Block;
-import net.minecraft.tag.Tag;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
-public record PercentBlockModifier(float lowerVolumeSlider, float upperVolumeSlider, float min, float max, ImmutableCollection<Block> blocks, ImmutableCollection<Tag.Identified<Block>> blockTags) implements AtmosphericSoundModifier, AtmosphericSoundModifier.Factory {
-    public PercentBlockModifier(float lowerVolumeSlider, float upperVolumeSlider, float min, float max, ImmutableCollection<Block> blocks, ImmutableCollection<Tag.Identified<Block>> blockTags) {
+public record PercentBlockModifier(float lowerVolumeSlider, float upperVolumeSlider, float min, float max, ImmutableCollection<Block> blocks, ImmutableCollection<TagKey<Block>> blockTags) implements AtmosphericSoundModifier, AtmosphericSoundModifier.Factory {
+    public PercentBlockModifier(float lowerVolumeSlider, float upperVolumeSlider, float min, float max, ImmutableCollection<Block> blocks, ImmutableCollection<TagKey<Block>> blockTags) {
         ImmutableCollection.Builder<Block> blocksBuilder = ImmutableList.builder();
 
         // Remove blocks that are already present in tags so that they aren't counted twice
         blocks:
         for (Block block : blocks) {
-            for (Tag<Block> tag : blockTags) {
-                if (tag.contains(block)) {
+            for (TagKey<Block> tag : blockTags) {
+                if (block.getDefaultState().isIn(tag)) {
                     continue blocks;
                 }
             }
@@ -46,7 +46,7 @@ public record PercentBlockModifier(float lowerVolumeSlider, float upperVolumeSli
             modifier += context.getBlockTypePercentage(block);
         }
 
-        for (Tag.Identified<Block> tag : this.blockTags) {
+        for (TagKey<Block> tag : this.blockTags) {
             modifier += context.getBlockTagPercentage(tag);
         }
 
@@ -57,17 +57,19 @@ public record PercentBlockModifier(float lowerVolumeSlider, float upperVolumeSli
 
     public static PercentBlockModifier create(JsonObject object) {
         ImmutableCollection.Builder<Block> blocks = ImmutableList.builder();
-        ImmutableCollection.Builder<Tag.Identified<Block>> tags = ImmutableList.builder();
+        ImmutableCollection.Builder<TagKey<Block>> tags = ImmutableList.builder();
 
         JsonHelper.getArray(object, "blocks").forEach(block -> {
             // Registers only the loaded IDs to avoid false triggers.
             if (block.getAsString().startsWith("#")) {
-                tags.add(TagFactory.BLOCK.create(new Identifier(block.getAsString().substring(1))));
+                Identifier tagId = new Identifier(block.getAsString().substring(1));
+                TagKey<Block> tagKey = TagKey.of(RegistryKeys.BLOCK, tagId);
+                tags.add(tagKey);
             } else {
                 Identifier blockId = new Identifier(block.getAsString());
 
-                if (Registry.BLOCK.containsId(blockId)) {
-                    Block b = Registry.BLOCK.get(blockId);
+                if (Registries.BLOCK.containsId(blockId)) {
+                    Block b = Registries.BLOCK.get(blockId);
                     blocks.add(b);
                 }
             }

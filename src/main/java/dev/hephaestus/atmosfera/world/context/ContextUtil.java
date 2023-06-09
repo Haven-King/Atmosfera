@@ -30,7 +30,7 @@ public final class ContextUtil {
                 for (byte x = 0; x <= radius + 1; ++x) {
                     for (byte y = (byte) -radius; y <= 0; ++y) {
                         for (byte z = 0; z <= radius + 1; ++z) {
-                            double distance = origin.getSquaredDistance(x, y, z, true);
+                            double distance = origin.getSquaredDistanceFromCenter(x, y, z);
                             if ((x + y + z) % 3 == 0 && distance <= (radius + 1) * (radius + 1)) {
                                 offsets.computeIfAbsent(EnvironmentContext.Shape.LOWER_HEMISPHERE, key -> new EnumMap<>(EnvironmentContext.Size.class)).computeIfAbsent(size, key -> new HashSet<>()).add(
                                         new byte[] {x, y, z}

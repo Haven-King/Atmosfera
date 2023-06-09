@@ -30,8 +30,8 @@ import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
@@ -159,26 +159,26 @@ public class AtmosferaConfig {
 	public static Screen getScreen(Screen parent) {
 		read();
 
-		ConfigBuilder builder = ConfigBuilder.create().setTitle(new LiteralText(Atmosfera.MOD_NAME));
+		ConfigBuilder builder = ConfigBuilder.create().setTitle(Text.literal(Atmosfera.MOD_NAME));
 		builder.setParentScreen(parent);
 
-		ConfigCategory volumesCategory = builder.getOrCreateCategory(new TranslatableText("config.category.atmosfera.volumes"));
-		ConfigCategory subtitlesCategory = builder.getOrCreateCategory(new TranslatableText("config.category.atmosfera.subtitles"));
+		ConfigCategory volumesCategory = builder.getOrCreateCategory(Text.translatable("config.category.atmosfera.volumes"));
+		ConfigCategory subtitlesCategory = builder.getOrCreateCategory(Text.translatable("config.category.atmosfera.subtitles"));
 
 		if (IS_DEVELOPMENT_ENVIRONMENT) {
-			ConfigCategory debugCategory = builder.getOrCreateCategory(new TranslatableText("config.category.atmosfera.debug"));
+			ConfigCategory debugCategory = builder.getOrCreateCategory(Text.translatable("config.category.atmosfera.debug"));
 			debugCategory.addEntry(new BooleanToggleBuilder(
-					new TranslatableText("text.cloth-config.reset_value"), new TranslatableText("config.value.atmosfera.print_debug_messages"), false)
+					Text.translatable("text.cloth-config.reset_value"), Text.translatable("config.value.atmosfera.print_debug_messages"), false)
 					.setSaveConsumer(b -> PRINT_DEBUG_MESSAGES = b)
 					.build()
 			);
 		}
 
 		SubCategoryBuilder soundSubcategory = new SubCategoryBuilder(
-				new TranslatableText("text.cloth-config.reset_value"), new TranslatableText("config.subcategory.atmosfera.ambient_sound"))
+				Text.translatable("text.cloth-config.reset_value"), Text.translatable("config.subcategory.atmosfera.ambient_sound"))
 				.setExpanded(true);
 		SubCategoryBuilder musicSubcategory = new SubCategoryBuilder(
-				new TranslatableText("text.cloth-config.reset_value"), new TranslatableText("config.subcategory.atmosfera.music"))
+				Text.translatable("text.cloth-config.reset_value"), Text.translatable("config.subcategory.atmosfera.music"))
 				.setExpanded(true);
 
 		builder.setDefaultBackgroundTexture(new Identifier("minecraft:textures/block/light_blue_stained_glass.png"));
@@ -196,14 +196,14 @@ public class AtmosferaConfig {
 					// Replaces the "colon" with a "dot" as the ID separator to utilize the language file.
 					String soundLangID = String.join(".", sound.getKey().toString().split(":"));
 
-					TranslatableText subtitleText = new TranslatableText("subtitle." + soundLangID);
-					LiteralText tooltipText = new LiteralText(soundLangID + "\n" + I18n.translate(subtitleText.getKey()));
+					MutableText tooltipText = Text.literal(soundLangID + "\n");
+					tooltipText.append(Text.translatable("subtitle." + soundLangID));
 
 					soundSubcategory.add(
-							entryBuilder.startIntSlider(new TranslatableText(soundLangID), sound.getValue(), 0, 200)
+							entryBuilder.startIntSlider(Text.translatable(soundLangID), sound.getValue(), 0, 200)
 									.setDefaultValue(soundType.get(sound.getKey()).defaultVolume())
 									.setTooltip(tooltipText.formatted(Formatting.GRAY))
-									.setTextGetter(integer -> new LiteralText(integer + "%"))
+									.setTextGetter(integer -> Text.literal(integer + "%"))
 									.setSaveConsumer(volume -> VOLUME_MODIFIERS.put(sound.getKey(), volume))
 									.build()
 					);
@@ -214,10 +214,10 @@ public class AtmosferaConfig {
 					String soundLangID = String.join(".", sound.getKey().toString().split(":"));
 
 					musicSubcategory.add(
-							entryBuilder.startIntSlider(new TranslatableText(soundLangID), sound.getValue(), 0, 200)
+							entryBuilder.startIntSlider(Text.translatable(soundLangID), sound.getValue(), 0, 200)
 									.setDefaultValue(soundType.get(sound.getKey()).defaultVolume())
-									.setTooltip(new LiteralText(soundLangID).formatted(Formatting.GRAY))
-									.setTextGetter(integer -> new LiteralText(integer + "%"))
+									.setTooltip(Text.literal(soundLangID).formatted(Formatting.GRAY))
+									.setTextGetter(integer -> Text.literal(integer + "%"))
 									.setSaveConsumer(volume -> VOLUME_MODIFIERS.put(sound.getKey(), volume))
 									.build()
 					);
@@ -232,11 +232,11 @@ public class AtmosferaConfig {
 			if (Atmosfera.SOUND_DEFINITIONS.containsKey(sound.getKey())) {
 				String soundLangID = String.join(".", sound.getKey().toString().split(":"));
 
-				TranslatableText subtitleText = new TranslatableText("subtitle." + soundLangID);
-				LiteralText tooltipText = new LiteralText(soundLangID + "\n" + I18n.translate(subtitleText.getKey()));
+				MutableText tooltipText = Text.literal(soundLangID + "\n");
+				tooltipText.append(Text.translatable("subtitle." + soundLangID));
 
 				subtitlesCategory.addEntry(
-						entryBuilder.startBooleanToggle(new TranslatableText(soundLangID), sound.getValue())
+						entryBuilder.startBooleanToggle(Text.translatable(soundLangID), sound.getValue())
 								.setDefaultValue(Atmosfera.SOUND_DEFINITIONS.get(sound.getKey()).hasSubtitleByDefault())
 								.setTooltip(tooltipText.formatted(Formatting.GRAY))
 								.setSaveConsumer(subtitle -> SUBTITLE_MODIFIERS.put(sound.getKey(), subtitle))
@@ -248,7 +248,7 @@ public class AtmosferaConfig {
 		if (soundSubcategory.size() + musicSubcategory.size() == 0) {
 			subtitlesCategory.removeCategory();
 			volumesCategory.addEntry(
-					entryBuilder.startTextDescription(new TranslatableText("config.atmosfera.resource_pack_warning").formatted(Formatting.RED))
+					entryBuilder.startTextDescription(Text.translatable("config.atmosfera.resource_pack_warning").formatted(Formatting.RED))
 							.build()
 			);
 		}

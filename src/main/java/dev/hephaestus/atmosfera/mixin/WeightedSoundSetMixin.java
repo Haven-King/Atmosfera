@@ -23,18 +23,22 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.sound.WeightedSoundSet;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(WeightedSoundSet.class)
 @Environment(EnvType.CLIENT)
 public class WeightedSoundSetMixin {
-    @Shadow @Final @Mutable private Identifier id;
+    @Unique
+    private Identifier id;
+
+    @Inject(method = "<init>", at = @At("RETURN"))
+    public void atmosfera$captureIdentifier(Identifier id, String subtitle, CallbackInfo ci) {
+        this.id = id;
+    }
 
     @Inject(method = "getSubtitle", at = @At("HEAD"), cancellable = true)
     public void atmosfera$disableSubtitle(CallbackInfoReturnable<Text> cir) {

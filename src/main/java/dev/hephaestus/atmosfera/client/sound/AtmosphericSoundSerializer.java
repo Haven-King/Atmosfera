@@ -10,14 +10,12 @@ import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.client.sound.modifiers.implementations.ConfigModifier;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
+import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.registry.Registry;
 
 import java.io.InputStreamReader;
-import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 
@@ -31,11 +29,11 @@ public record AtmosphericSoundSerializer(String sourceFolder, Map<Identifier, At
     public void reload(ResourceManager manager) {
         this.destination.clear();
 
-        Collection<Identifier> resources = manager.findResources(this.sourceFolder + "/definitions", (string) -> string.endsWith(".json"));
+        Map<Identifier, Resource> resources = manager.findResources(this.sourceFolder + "/definitions", (id) -> id.getPath().endsWith(".json"));
 
         JsonParser parser = new JsonParser();
 
-        for (Identifier resource : resources) {
+        for (Identifier resource : resources.keySet()) {
             Identifier id = new Identifier(
                     resource.getNamespace(),
                     resource.getPath().substring(
@@ -45,22 +43,17 @@ public record AtmosphericSoundSerializer(String sourceFolder, Map<Identifier, At
             );
 
             try {
-                JsonObject json = parser.parse(new InputStreamReader(manager.getResource(resource).getInputStream())).getAsJsonObject();
+                JsonObject json = parser.parse(new InputStreamReader(resources.get(resource).getInputStream())).getAsJsonObject();
 
                 Identifier soundId = new Identifier(JsonHelper.getString(json, "sound"));
-                SoundEvent sound = Registry.SOUND_EVENT.containsId(soundId)
-                        ? Registry.SOUND_EVENT.get(soundId)
-                        : Registry.register(Registry.SOUND_EVENT, soundId, new SoundEvent(soundId));
 
-                if (sound != null) {
-                    EnvironmentContext.Shape shape = getShape(json, id);
-                    EnvironmentContext.Size size = getSize(json, id);
-                    ImmutableCollection<AtmosphericSoundModifier.Factory> modifiers = getModifiers(json, id);
-                    int defaultVolume = getInteger(json, "default_volume", 100);
-                    boolean showSubtitlesByDefault = getBoolean(json, "show_subtitles_by_default", true);
+                EnvironmentContext.Shape shape = getShape(json, id);
+                EnvironmentContext.Size size = getSize(json, id);
+                ImmutableCollection<AtmosphericSoundModifier.Factory> modifiers = getModifiers(json, id);
+                int defaultVolume = getInteger(json, "default_volume", 100);
+                boolean showSubtitlesByDefault = getBoolean(json, "show_subtitles_by_default", true);
 
-                    this.destination.put(id, new AtmosphericSoundDefinition(id, sound, shape, size, defaultVolume, showSubtitlesByDefault, modifiers));
-                }
+                this.destination.put(id, new AtmosphericSoundDefinition(id, soundId, shape, size, defaultVolume, showSubtitlesByDefault, modifiers));
             } catch (Exception exception) {
                 Atmosfera.error("Failed to load sound event '{}'", id);
                 exception.printStackTrace();
