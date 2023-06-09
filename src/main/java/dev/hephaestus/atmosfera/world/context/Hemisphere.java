@@ -128,7 +128,7 @@ class Hemisphere implements EnvironmentContext {
         this.clear();
 
         BlockPos.Mutable mut = new BlockPos.Mutable();
-        World world = getPlayer().world;
+        World world = getPlayer().getWorld();
 
         for (int i = 0; i < this.offsets.length; ++i) {
             byte[] a = this.offsets[i];

@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 public record DimensionEffectsModifier(Identifier skyProperties) implements AtmosphericSoundModifier, AtmosphericSoundModifier.Factory {
     @Override
     public float getModifier(EnvironmentContext context) {
-        return context.getPlayer().world.getDimension().effects().equals(this.skyProperties) ? 1 : 0;
+        return context.getPlayer().getWorld().getDimension().effects().equals(this.skyProperties) ? 1 : 0;
     }
 
     @Override

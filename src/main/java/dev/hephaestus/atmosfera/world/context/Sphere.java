@@ -56,7 +56,7 @@ public class Sphere extends AbstractEnvironmentContext {
     }
 
     public void update() {
-        World world = getPlayer().world;
+        World world = getPlayer().getWorld();
         BlockPos pos = getPlayer().getBlockPos();
 
         if (world.isChunkLoaded(pos.getX() >> 4, pos.getZ() << 4)) {
