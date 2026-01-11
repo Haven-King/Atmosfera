@@ -13,6 +13,17 @@ base {
 }
 
 repositories {
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
     maven {
         name = 'ModMenu'
@@ -38,6 +49,8 @@ dependencies {
     }
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    modImplementation "maven.modrinth:nostalgic-tweaks:2.0.0-beta.922"
 }
 
 processResources {
