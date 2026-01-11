@@ -139,7 +139,7 @@ class Hemisphere implements EnvironmentContext {
             if (FabricLoader.getInstance().isModLoaded("nostalgic_tweaks") && CandyTweak.ROUND_ROBIN_RELIGHT.get()) {
                 return LightingHelper.getCombinedLight(world.getMaxLightLevel(), 0);
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             synchronized (Hemisphere.class) {
                 if (!printedError) {
                     printedError = true;
