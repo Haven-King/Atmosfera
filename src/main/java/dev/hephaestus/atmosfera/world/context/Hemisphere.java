@@ -1,5 +1,9 @@
 package dev.hephaestus.atmosfera.world.context;
 
+import dev.hephaestus.atmosfera.Atmosfera;
+import mod.adrenix.nostalgic.helper.candy.light.LightingHelper;
+import mod.adrenix.nostalgic.tweak.config.CandyTweak;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
@@ -28,6 +32,8 @@ class Hemisphere implements EnvironmentContext {
 
     private final AtomicInteger blockCount = new AtomicInteger();
     private final AtomicInteger skyVisibility = new AtomicInteger();
+
+    private static boolean printedError = false;
 
     Hemisphere(byte[][] offsets, Sphere sphere) {
         this.sphere = sphere;
@@ -123,8 +129,26 @@ class Hemisphere implements EnvironmentContext {
         });
 
         biomeTypes.merge(biome, 1, Integer::sum);
-        skyVisibility.addAndGet(world.getLightLevel(LightType.SKY, pos) / world.getMaxLightLevel());
+        skyVisibility.addAndGet(world.getLightLevel(LightType.SKY, pos) / getMaxLightLevel(world));
         blockCount.incrementAndGet();
+    }
+
+    private static int getMaxLightLevel(World world) {
+        // see https://github.com/Nostalgica-Reverie/Nostalgic-Tweaks/blob/9e0c22d5fc04a52455ec3a104708e9adb8c9a794/common/src/main/java/mod/adrenix/nostalgic/mixin/tweak/candy/world_lighting/BlockAndTintGetterMixin.java#L15-L27
+        try {
+            if (FabricLoader.getInstance().isModLoaded("nostalgic_tweaks") && CandyTweak.ROUND_ROBIN_RELIGHT.get()) {
+                return LightingHelper.getCombinedLight(world.getMaxLightLevel(), 0);
+            }
+        } catch (Exception e) {
+            synchronized (Hemisphere.class) {
+                if (!printedError) {
+                    printedError = true;
+                    Atmosfera.error("mod compat for Nostalgic Tweaks broke, report this to the Atmosfera devs!");
+                }
+            }
+        }
+
+        return world.getMaxLightLevel();
     }
 
     // runs on worker threads
