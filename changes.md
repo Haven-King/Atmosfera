@@ -2,7 +2,7 @@
 
 Another day/night fix!
 
-- compatibility with Nostalgic Tweaks' round robin relighting (it caused the `sky_visibility` modifier to not work at night)
+- [1.20+] compatibility with Nostalgic Tweaks' round robin relighting (it caused the `sky_visibility` modifier to not work at night)
 
 ## 2.5.2
 
