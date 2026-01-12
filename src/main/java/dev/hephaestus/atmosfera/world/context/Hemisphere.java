@@ -5,7 +5,6 @@ import mod.adrenix.nostalgic.helper.candy.light.LightingHelper;
 import mod.adrenix.nostalgic.tweak.config.CandyTweak;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
@@ -38,11 +37,6 @@ class Hemisphere implements EnvironmentContext {
     Hemisphere(byte[][] offsets, Sphere sphere) {
         this.sphere = sphere;
         this.offsets = offsets;
-    }
-
-    @Override
-    public ClientPlayerEntity getPlayer() {
-        return sphere.player;
     }
 
     @Override
@@ -152,12 +146,10 @@ class Hemisphere implements EnvironmentContext {
     }
 
     // runs on worker threads
-    void update(BlockPos center) {
+    void update(World world, BlockPos center) {
         clear();
 
-        BlockPos.Mutable mut = new BlockPos.Mutable();
-        World world = getPlayer().getEntityWorld();
-
+        var mut = new BlockPos.Mutable();
         for (byte[] a : offsets) {
             mut.set(center.getX() + a[0], center.getY() + a[1], center.getZ() + a[2]);
             add(world, mut);

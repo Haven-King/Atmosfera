@@ -1,13 +1,11 @@
 package dev.hephaestus.atmosfera.world.context;
 
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 
 abstract class AbstractEnvironmentContext implements EnvironmentContext {
-    final ClientPlayerEntity player;
     int altitude = 0;
     int elevation = -1;
     boolean isDay = false;
@@ -15,10 +13,6 @@ abstract class AbstractEnvironmentContext implements EnvironmentContext {
     boolean isStormy = false;
     @Nullable Entity vehicle = null;
     Collection<String> bossBars;
-
-    protected AbstractEnvironmentContext(ClientPlayerEntity player) {
-        this.player = player;
-    }
 
     @Override
     public float getAltitude() {
@@ -48,11 +42,6 @@ abstract class AbstractEnvironmentContext implements EnvironmentContext {
     @Override
     public @Nullable Entity getVehicle() {
         return vehicle;
-    }
-
-    @Override
-    public ClientPlayerEntity getPlayer() {
-        return player;
     }
 
     @Override

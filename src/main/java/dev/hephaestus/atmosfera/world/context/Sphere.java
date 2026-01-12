@@ -11,7 +11,6 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
 import java.util.HashSet;
@@ -23,8 +22,7 @@ public class Sphere extends AbstractEnvironmentContext {
     final Hemisphere upperHemisphere;
     final Hemisphere lowerHemisphere;
 
-    public Sphere(Size size, ClientPlayerEntity player) {
-        super(player);
+    public Sphere(Size size) {
         this.upperHemisphere = new Hemisphere(ContextUtil.OFFSETS[Shape.UPPER_HEMISPHERE.ordinal()][size.ordinal()], this);
         this.lowerHemisphere = new Hemisphere(ContextUtil.OFFSETS[Shape.LOWER_HEMISPHERE.ordinal()][size.ordinal()], this);
         this.bossBars = new HashSet<>();
@@ -55,9 +53,9 @@ public class Sphere extends AbstractEnvironmentContext {
         return (upperHemisphere.getSkyVisibility() + lowerHemisphere.getSkyVisibility()) / 2F;
     }
 
-    public void update() {
-        World world = getPlayer().getEntityWorld();
-        BlockPos pos = getPlayer().getBlockPos();
+    public void update(ClientPlayerEntity player) {
+        var world = player.getEntityWorld();
+        var pos = player.getBlockPos();
 
         if (world.isChunkLoaded(pos.getX() >> 4, pos.getZ() << 4)) {
             BlockPos.Mutable mut = new BlockPos.Mutable().set(pos);
@@ -87,10 +85,10 @@ public class Sphere extends AbstractEnvironmentContext {
 
             isRainy = world.getLevelProperties().isRaining();
             isStormy = world.isThundering();
-            vehicle = getPlayer().getVehicle();
+            vehicle = player.getVehicle();
 
-            ContextUtil.EXECUTOR.execute(() -> upperHemisphere.update(pos.up()));
-            ContextUtil.EXECUTOR.execute(() -> lowerHemisphere.update(pos.down()));
+            ContextUtil.EXECUTOR.execute(() -> upperHemisphere.update(world, pos.up()));
+            ContextUtil.EXECUTOR.execute(() -> lowerHemisphere.update(world, pos.down()));
         }
     }
 
