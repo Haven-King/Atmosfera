@@ -1,7 +1,6 @@
 package dev.hephaestus.atmosfera.world.context;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
@@ -33,11 +32,6 @@ class Hemisphere implements EnvironmentContext {
     Hemisphere(byte[][] offsets, Sphere sphere) {
         this.sphere = sphere;
         this.offsets = offsets;
-    }
-
-    @Override
-    public ClientPlayerEntity getPlayer() {
-        return sphere.player;
     }
 
     @Override
@@ -131,17 +125,16 @@ class Hemisphere implements EnvironmentContext {
 
         biomeTypes.merge(biome, 1, Integer::sum);
         biomeCategories.merge(Biome.getCategory(biomeEntry), 1, Integer::sum);
+        // note: world.getMaxLightLevel() might conflict with Nostalgic Tweaks
         skyVisibility.addAndGet(world.getLightLevel(LightType.SKY, pos) / world.getMaxLightLevel());
         blockCount.incrementAndGet();
     }
 
     // runs on worker threads
-    void update(BlockPos center) {
+    void update(World world, BlockPos center) {
         clear();
 
-        BlockPos.Mutable mut = new BlockPos.Mutable();
-        World world = getPlayer().world;
-
+        var mut = new BlockPos.Mutable();
         for (byte[] a : offsets) {
             mut.set(center.getX() + a[0], center.getY() + a[1], center.getZ() + a[2]);
             add(world, mut);

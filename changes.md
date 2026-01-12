@@ -1,3 +1,17 @@
+## 2.5.4
+
+Another 4+ year old bug!
+
+- fix player refence of environmental context not being updated
+
+If the player died, this would cause the mod to believe it would still be at the death location, so atmospheric sounds would never change unless you change dimensions or restart the game.
+
+## 2.5.3
+
+Another day/night fix!
+
+- [1.20+] compatibility with Nostalgic Tweaks' round robin relighting (it caused the `sky_visibility` modifier to not work at night)
+
 ## 2.5.2
 
 You know what? We didn't have any fixes for fundamentally broken features this year yet, so here you go!

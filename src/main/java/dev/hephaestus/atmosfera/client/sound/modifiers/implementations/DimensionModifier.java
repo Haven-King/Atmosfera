@@ -3,13 +3,16 @@ package dev.hephaestus.atmosfera.client.sound.modifiers.implementations;
 import com.google.gson.JsonObject;
 import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
+
+import java.util.Objects;
 
 public record DimensionModifier(Identifier id) implements AtmosphericSoundModifier, AtmosphericSoundModifier.Factory {
     @Override
     public float getModifier(EnvironmentContext context) {
-        return context.getPlayer().getWorld().getRegistryKey().getValue().equals(id) ? 1 : 0;
+        return Objects.requireNonNull(MinecraftClient.getInstance().world).getRegistryKey().getValue().equals(id) ? 1 : 0;
     }
 
     @Override
