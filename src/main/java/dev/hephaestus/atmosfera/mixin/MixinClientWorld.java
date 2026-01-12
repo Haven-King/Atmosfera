@@ -8,7 +8,6 @@ import dev.hephaestus.atmosfera.world.context.EnvironmentContext.Size;
 import dev.hephaestus.atmosfera.world.context.Sphere;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.registry.RegistryKey;
@@ -22,6 +21,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.EnumMap;
+import java.util.Objects;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
@@ -60,18 +60,18 @@ public class MixinClientWorld implements ClientWorldDuck {
     @Override
     public void atmosfera$updateEnvironmentContext() {
         if (!atmosfera$initialized) {
-            ClientPlayerEntity player = MinecraftClient.getInstance().player;
             atmosfera$environmentContexts = new EnumMap<>(Size.class);
-            atmosfera$environmentContexts.put(Size.SMALL,  new Sphere(Size.SMALL,  player));
-            atmosfera$environmentContexts.put(Size.MEDIUM, new Sphere(Size.MEDIUM, player));
-            atmosfera$environmentContexts.put(Size.LARGE,  new Sphere(Size.LARGE,  player));
+            atmosfera$environmentContexts.put(Size.SMALL,  new Sphere(Size.SMALL));
+            atmosfera$environmentContexts.put(Size.MEDIUM, new Sphere(Size.MEDIUM));
+            atmosfera$environmentContexts.put(Size.LARGE,  new Sphere(Size.LARGE));
             atmosfera$initialized = true;
         }
 
         if (--atmosfera$updateTimer <= 0 && ContextUtil.EXECUTOR.getQueue().isEmpty()) {
-            atmosfera$environmentContexts.get(Size.SMALL ).update();
-            atmosfera$environmentContexts.get(Size.MEDIUM).update();
-            atmosfera$environmentContexts.get(Size.LARGE ).update();
+            var player = Objects.requireNonNull(MinecraftClient.getInstance().player);
+            atmosfera$environmentContexts.get(Size.SMALL ).update(player);
+            atmosfera$environmentContexts.get(Size.MEDIUM).update(player);
+            atmosfera$environmentContexts.get(Size.LARGE ).update(player);
             atmosfera$updateTimer = 20;
         }
     }
