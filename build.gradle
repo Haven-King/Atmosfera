@@ -13,6 +13,17 @@ base {
 }
 
 repositories {
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
     maven {
         name = 'ModMenu'

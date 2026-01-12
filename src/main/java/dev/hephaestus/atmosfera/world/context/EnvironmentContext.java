@@ -1,7 +1,6 @@
 package dev.hephaestus.atmosfera.world.context;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.tag.TagKey;
 import net.minecraft.world.biome.Biome;
@@ -9,8 +8,6 @@ import net.minecraft.world.biome.Biome;
 import java.util.Collection;
 
 public interface EnvironmentContext {
-    ClientPlayerEntity getPlayer();
-
     float getBlockTypePercentage(Block block);
 
     float getBlockTagPercentage(TagKey<Block> blocks);
