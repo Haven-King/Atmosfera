@@ -1,3 +1,11 @@
+## 2.5.4
+
+Another 4+ year old bug!
+
+- fix player refence of environmental context not being updated
+
+If the player died, this would cause the mod to believe it would still be at the death location, so atmospheric sounds would never change unless you change dimensions or restart the game.
+
 ## 2.5.3
 
 Another day/night fix!
