@@ -126,13 +126,14 @@ Parameters:
 Types:
 
 - `"is_daytime"`  
-  Outputs 1 if it is day, else 0.
+  Outputs 1 if the current time is between 0 and 13000, else 0.  
+  This corresponds to the `/time` command's "day" (time 0) and "night" (time 13000).
 
 - `"is_rainy"`  
   Outputs 1 if it rains, else 0.
 
 - `"is_stormy"`  
-  Outputs 1 if it storms, else 0.
+  Outputs 1 if it is thundering, else 0.  
 
 <details><summary>Examples</summary>
 
@@ -150,6 +151,21 @@ Types:
 }
 ```
 "Play only at night."
+
+```
+{
+  "type": "is_daytime"
+},
+{
+  "type": "is_rainy",
+  "value": false
+},
+{
+  "type": "is_stormy",
+  "value": false
+}
+```
+"Play only when the sun shines."
 </details>
 
 #### Bounded Conditions
