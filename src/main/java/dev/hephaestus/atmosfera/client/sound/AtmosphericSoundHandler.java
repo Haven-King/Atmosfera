@@ -6,6 +6,8 @@ import dev.hephaestus.atmosfera.AtmosferaConfig;
 import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.mixin.SoundManagerAccessor;
 import dev.hephaestus.atmosfera.mixin.SoundSystemAccessor;
+import dev.hephaestus.atmosfera.util.NopLock;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -21,8 +23,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class AtmosphericSoundHandler {
+    public static final Lock TICKING_SOUNDS_LOCK = FabricLoader.getInstance().isModLoaded("rsls") ? new ReentrantLock() : new NopLock();
+
     private static final Random RANDOM = Random.create();
 
     private static final Map<AtmosphericSound, MusicSound> MUSIC = new HashMap<>();
@@ -65,12 +71,17 @@ public class AtmosphericSoundHandler {
         var tickingSounds = ((SoundSystemAccessor) ((SoundManagerAccessor) client.getSoundManager()).getSoundSystem()).getTickingSounds();
 
         for (var sound : sounds) {
-            // don't play sound if it's already playing
-            if (tickingSounds.stream()
-                    .filter(s -> s instanceof AtmosphericSoundInstance)
-                    .map(AtmosphericSoundInstance.class::cast)
-                    .anyMatch(s -> sound.id().equals(s.getId())))
-                continue;
+            TICKING_SOUNDS_LOCK.lock();
+            try {
+                // don't play sound if it's already playing
+                if (tickingSounds.stream()
+                        .filter(s -> s instanceof AtmosphericSoundInstance)
+                        .map(AtmosphericSoundInstance.class::cast)
+                        .anyMatch(s -> sound.id().equals(s.getId())))
+                    continue;
+            } finally {
+                TICKING_SOUNDS_LOCK.unlock();
+            }
 
             float volume = sound.getVolume(world);
 
