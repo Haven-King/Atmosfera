@@ -30,8 +30,7 @@ public class AtmosphericSoundHandler {
     public static final Lock TICKING_SOUNDS_LOCK = FabricLoader.getInstance().isModLoaded("rsls") ? new ReentrantLock() : new NopLock();
 
     private static final Random RANDOM = Random.create();
-
-    private static final Map<AtmosphericSound, MusicSound> MUSIC = new HashMap<>();
+    private static final Map<Identifier, MusicSound> MUSIC_CACHE = new HashMap<>();
 
     private ImmutableList<AtmosphericSound> sounds;
     private ImmutableList<AtmosphericSound> musics;
@@ -68,7 +67,8 @@ public class AtmosphericSoundHandler {
         world.atmosfera$updateEnvironmentContext();
 
         var client = MinecraftClient.getInstance();
-        var tickingSounds = ((SoundSystemAccessor) ((SoundManagerAccessor) client.getSoundManager()).getSoundSystem()).getTickingSounds();
+        var soundManager = client.getSoundManager();
+        var tickingSounds = ((SoundSystemAccessor) ((SoundManagerAccessor) soundManager).getSoundSystem()).getTickingSounds();
 
         for (var sound : sounds) {
             TICKING_SOUNDS_LOCK.lock();
@@ -87,7 +87,7 @@ public class AtmosphericSoundHandler {
 
             // The non-zero volume prevents the events getting triggered multiple times at volumes near zero.
             if (volume >= 0.0125 && client.options.getSoundVolume(SoundCategory.AMBIENT) > 0) {
-                client.getSoundManager().playNextTick(new AtmosphericSoundInstance(sound, 0.0001f));
+                soundManager.playNextTick(new AtmosphericSoundInstance(sound, 0.0001f));
                 Atmosfera.debug("volume > 0: {} - {}", sound.id(), volume);
             }
         }
@@ -113,12 +113,9 @@ public class AtmosphericSoundHandler {
 
             if (volume >= 0.0125) {
                 float weight = AtmosferaConfig.customMusicWeightScale() * soundManager.get(music.soundId()).getWeight();
+                var musicSound = MUSIC_CACHE.computeIfAbsent(music.soundId(), id -> MusicType.createIngameMusic(RegistryEntry.of(SoundEvent.of(id))));
 
-                candidates.add(new Pair<>(weight, MUSIC.computeIfAbsent(music, id -> {
-                    Atmosfera.debug("createIngameMusic: {}", music.id());
-                    return MusicType.createIngameMusic(RegistryEntry.of(SoundEvent.of(music.soundId())));
-                })));
-
+                candidates.add(new Pair<>(weight, musicSound));
                 total += weight;
             }
         }
