@@ -77,7 +77,7 @@ public class AtmosphericSoundHandler {
                 if (tickingSounds.stream()
                         .filter(s -> s instanceof AtmosphericSoundInstance)
                         .map(AtmosphericSoundInstance.class::cast)
-                        .anyMatch(s -> sound.id().equals(s.getId())))
+                        .anyMatch(s -> sound.soundId().equals(s.getId())))
                     continue;
             } finally {
                 TICKING_SOUNDS_LOCK.unlock();
