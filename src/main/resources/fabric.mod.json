@@ -54,9 +54,5 @@
     "mambience": "*",
     "primalwinter": "*"
   },
-  "custom": {
-    "loom:injected_interfaces": {
-      "net/minecraft/class_638": ["dev/hephaestus/atmosfera/client/sound/util/ClientWorldDuck"]
-    }
-  }
+  "accessWidener": "atmosfera.classtweaker"
 }
