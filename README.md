@@ -96,7 +96,7 @@
 Note: This was last verified for Minecraft 1.17 but should still be largely compatible with newer versions.
 
 ## Caveats and Known Issues
-* The built-in resource pack cannot be enabled by default. ([ResourcePackActivationType](https://github.com/FabricMC/fabric/blob/1.16/fabric-resource-loader-v0/src/main/java/net/fabricmc/fabric/api/resource/ResourcePackActivationType.java#L30))
+* The built-in resource pack must be manually enabled in Minecraft 1.18 and below.
 * The system cannot be utilized by a non-player entity like the mob view and [Replay Mod] editor.
 
 ## Feedback
