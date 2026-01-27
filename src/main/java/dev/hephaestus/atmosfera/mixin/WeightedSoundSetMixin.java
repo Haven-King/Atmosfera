@@ -18,8 +18,6 @@ package dev.hephaestus.atmosfera.mixin;
 
 import dev.hephaestus.atmosfera.Atmosfera;
 import dev.hephaestus.atmosfera.AtmosferaConfig;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.sound.WeightedSoundSet;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -31,7 +29,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(WeightedSoundSet.class)
-@Environment(EnvType.CLIENT)
 public class WeightedSoundSetMixin {
     @Unique
     private Identifier id;
