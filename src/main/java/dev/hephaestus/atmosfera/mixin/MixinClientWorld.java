@@ -7,13 +7,7 @@ import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext.Size;
 import dev.hephaestus.atmosfera.world.context.Sphere;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -21,7 +15,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.EnumMap;
 import java.util.Objects;
-import java.util.function.BooleanSupplier;
 
 @Mixin(ClientWorld.class)
 public class MixinClientWorld implements ClientWorldDuck {
@@ -31,12 +24,12 @@ public class MixinClientWorld implements ClientWorldDuck {
     private int atmosfera$updateTimer = 0;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void initializeSoundHandler(ClientPlayNetworkHandler networkHandler, ClientWorld.Properties properties, RegistryKey<World> registryRef, RegistryEntry<DimensionType> dimensionType, int loadDistance, int simulationDistance, WorldRenderer worldRenderer, boolean debugWorld, long seed, int seaLevel, CallbackInfo ci) {
+    private void initializeSoundHandler(CallbackInfo ci) {
         atmosfera$soundHandler = new AtmosphericSoundHandler((ClientWorld) (Object) this);
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
-    private void tickSoundHandler(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {
+    private void tickSoundHandler(CallbackInfo ci) {
         atmosfera$soundHandler.tick();
     }
 
