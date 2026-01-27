@@ -21,7 +21,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.AbstractSoundInstance;
 import net.minecraft.client.sound.TickableSoundInstance;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
 public class AtmosphericSoundInstance extends AbstractSoundInstance implements TickableSoundInstance {
@@ -37,10 +36,6 @@ public class AtmosphericSoundInstance extends AbstractSoundInstance implements T
 		this.done = false;
 		this.repeat = true;
 		this.repeatDelay = 0;
-	}
-
-	public Identifier getId() {
-		return id;
 	}
 
 	@Override

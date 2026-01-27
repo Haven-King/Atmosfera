@@ -6,6 +6,8 @@ import dev.hephaestus.atmosfera.AtmosferaConfig;
 import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.mixin.SoundManagerAccessor;
 import dev.hephaestus.atmosfera.mixin.SoundSystemAccessor;
+import dev.hephaestus.atmosfera.util.NopLock;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.MusicType;
 import net.minecraft.client.world.ClientWorld;
@@ -16,11 +18,14 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 
 import java.util.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class AtmosphericSoundHandler {
-    private static final Random RANDOM = new Random();
+    public static final Lock TICKING_SOUNDS_LOCK = FabricLoader.getInstance().isModLoaded("rsls") ? new ReentrantLock() : new NopLock();
 
-    private static final Map<AtmosphericSound, MusicSound> MUSIC = new HashMap<>();
+    private static final Random RANDOM = new Random();
+    private static final Map<Identifier, MusicSound> MUSIC_CACHE = new HashMap<>();
 
     private ImmutableList<AtmosphericSound> sounds;
     private ImmutableList<AtmosphericSound> musics;
@@ -57,21 +62,27 @@ public class AtmosphericSoundHandler {
         world.atmosfera$updateEnvironmentContext();
 
         var client = MinecraftClient.getInstance();
-        var tickingSounds = ((SoundSystemAccessor) ((SoundManagerAccessor) client.getSoundManager()).getSoundSystem()).getTickingSounds();
+        var soundManager = client.getSoundManager();
+        var tickingSounds = ((SoundSystemAccessor) ((SoundManagerAccessor) soundManager).getSoundSystem()).getTickingSounds();
 
         for (var sound : sounds) {
-            // don't play sound if it's already playing
-            if (tickingSounds.stream()
-                    .filter(s -> s instanceof AtmosphericSoundInstance)
-                    .map(AtmosphericSoundInstance.class::cast)
-                    .anyMatch(s -> sound.id().equals(s.getId())))
-                continue;
+            TICKING_SOUNDS_LOCK.lock();
+            try {
+                // don't play sound if it's already playing
+                if (tickingSounds.stream()
+                        .filter(s -> s instanceof AtmosphericSoundInstance)
+                        .map(AtmosphericSoundInstance.class::cast)
+                        .anyMatch(s -> sound.soundId().equals(s.getId())))
+                    continue;
+            } finally {
+                TICKING_SOUNDS_LOCK.unlock();
+            }
 
             float volume = sound.getVolume(world);
 
             // The non-zero volume prevents the events getting triggered multiple times at volumes near zero.
             if (volume >= 0.0125 && client.options.getSoundVolume(SoundCategory.AMBIENT) > 0) {
-                client.getSoundManager().playNextTick(new AtmosphericSoundInstance(sound, 0.0001f));
+                soundManager.playNextTick(new AtmosphericSoundInstance(sound, 0.0001f));
                 Atmosfera.debug("volume > 0: {} - {}", sound.id(), volume);
             }
         }
@@ -97,12 +108,9 @@ public class AtmosphericSoundHandler {
 
             if (volume >= 0.0125) {
                 float weight = AtmosferaConfig.customMusicWeightScale() * soundManager.get(music.soundId()).getWeight();
+                var musicSound = MUSIC_CACHE.computeIfAbsent(music.soundId(), id -> MusicType.createIngameMusic(new SoundEvent(id)));
 
-                candidates.add(new Pair<>(weight, MUSIC.computeIfAbsent(music, id -> {
-                    Atmosfera.debug("createIngameMusic: {}", music.id());
-                    return MusicType.createIngameMusic(new SoundEvent(music.soundId()));
-                })));
-
+                candidates.add(new Pair<>(weight, musicSound));
                 total += weight;
             }
         }

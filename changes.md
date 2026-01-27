@@ -1,3 +1,8 @@
+## 2.5.5
+
+- fix a threading issue caused by Raise Sound Limit Simplified
+- fix sounds with differing definition id and sound id playing at the same time (did not affect the "Dungeons" pack)
+
 ## 2.5.4
 
 Another 4+ year old bug!
