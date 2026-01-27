@@ -127,7 +127,7 @@ Types:
 
 - `"is_daytime"`  
   Outputs 1 if the current time is between 0 and 13000, else 0.  
-  This corresponds to the `/time` command's "day" (time 0) and "night" (time 13000).
+  This corresponds to the time between players/villagers waking up and the `/time set night` time, roughly were mobs are starting to spawn.
 
 - `"is_rainy"`  
   Outputs 1 if it rains, else 0.
