@@ -1,8 +1,6 @@
 package dev.hephaestus.atmosfera.world.context;
 
 import dev.hephaestus.atmosfera.mixin.BossBarHudAccessor;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.ClientBossBar;
@@ -17,7 +15,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.UUID;
 
-@Environment(EnvType.CLIENT)
 public class Sphere extends AbstractEnvironmentContext {
     final Hemisphere upperHemisphere;
     final Hemisphere lowerHemisphere;

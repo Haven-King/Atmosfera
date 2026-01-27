@@ -9,8 +9,10 @@
 		"MixinClientWorld",
 		"SoundManagerAccessor",
 		"SoundSystemAccessor",
+		"SoundSystemMixin",
 		"WeightedSoundSetMixin"
 	],
+	"plugin": "dev.hephaestus.atmosfera.AtmosferaMixinPlugin",
 	"injectors": {
 		"defaultRequire": 1
 	}

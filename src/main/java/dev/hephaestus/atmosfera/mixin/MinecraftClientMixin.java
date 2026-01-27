@@ -18,8 +18,6 @@ package dev.hephaestus.atmosfera.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import dev.hephaestus.atmosfera.AtmosferaConfig;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.MusicInstance;
 import net.minecraft.client.world.ClientWorld;
@@ -30,7 +28,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Environment(EnvType.CLIENT)
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin {
 	@Shadow @Nullable public ClientWorld world;
