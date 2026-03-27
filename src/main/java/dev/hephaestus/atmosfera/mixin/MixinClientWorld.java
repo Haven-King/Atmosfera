@@ -6,8 +6,6 @@ import dev.hephaestus.atmosfera.world.context.ContextUtil;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext.Size;
 import dev.hephaestus.atmosfera.world.context.Sphere;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.world.ClientWorld;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -15,8 +13,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.EnumMap;
 import java.util.Objects;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 
-@Mixin(ClientWorld.class)
+@Mixin(ClientLevel.class)
 public class MixinClientWorld implements ClientWorldDuck {
     private AtmosphericSoundHandler atmosfera$soundHandler;
     private EnumMap<Size, Sphere> atmosfera$environmentContexts;
@@ -25,7 +25,7 @@ public class MixinClientWorld implements ClientWorldDuck {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void initializeSoundHandler(CallbackInfo ci) {
-        atmosfera$soundHandler = new AtmosphericSoundHandler((ClientWorld) (Object) this);
+        atmosfera$soundHandler = new AtmosphericSoundHandler((ClientLevel) (Object) this);
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
@@ -59,7 +59,7 @@ public class MixinClientWorld implements ClientWorldDuck {
         }
 
         if (--atmosfera$updateTimer <= 0 && ContextUtil.EXECUTOR.getQueue().isEmpty()) {
-            var player = Objects.requireNonNull(MinecraftClient.getInstance().player);
+            var player = Objects.requireNonNull(Minecraft.getInstance().player);
             atmosfera$environmentContexts.get(Size.SMALL ).update(player);
             atmosfera$environmentContexts.get(Size.MEDIUM).update(player);
             atmosfera$environmentContexts.get(Size.LARGE ).update(player);

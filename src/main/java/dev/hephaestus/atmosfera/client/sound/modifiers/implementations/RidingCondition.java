@@ -5,11 +5,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
-import net.minecraft.world.World;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.Level;
 
 public record RidingCondition(ImmutableList<EntityType<?>> entityTypes) implements AtmosphericSoundModifier, AtmosphericSoundModifier.Factory {
     @Override
@@ -28,7 +28,7 @@ public record RidingCondition(ImmutableList<EntityType<?>> entityTypes) implemen
     }
 
     @Override
-    public AtmosphericSoundModifier create(World world) {
+    public AtmosphericSoundModifier create(Level level) {
         return this;
     }
 
@@ -38,12 +38,12 @@ public record RidingCondition(ImmutableList<EntityType<?>> entityTypes) implemen
         JsonElement value = object.get("value");
 
         if (value.isJsonPrimitive()) {
-            Identifier id = Identifier.of(value.getAsString());
-            Registries.ENTITY_TYPE.getOptionalValue(id).ifPresent(entityTypes::add);
+            Identifier id = Identifier.parse(value.getAsString());
+            BuiltInRegistries.ENTITY_TYPE.getOptional(id).ifPresent(entityTypes::add);
         } else if (value.isJsonArray()) {
             for (JsonElement e : value.getAsJsonArray()) {
-                Identifier id = Identifier.of(e.getAsString());
-                Registries.ENTITY_TYPE.getOptionalValue(id).ifPresent(entityTypes::add);
+                Identifier id = Identifier.parse(e.getAsString());
+                BuiltInRegistries.ENTITY_TYPE.getOptional(id).ifPresent(entityTypes::add);
             }
         }
 

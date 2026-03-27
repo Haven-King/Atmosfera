@@ -10,36 +10,35 @@ import dev.hephaestus.atmosfera.AtmosferaConfig;
 import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.client.sound.modifiers.implementations.ConfigModifier;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.resource.Resource;
-import net.minecraft.resource.ResourceManager;
-import net.minecraft.resource.SynchronousResourceReloader;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
-
 import java.util.Locale;
 import java.util.Map;
+import net.minecraft.client.Minecraft;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
+import net.minecraft.util.GsonHelper;
 
-public class SoundDefinitionsReloader implements SynchronousResourceReloader {
+public class SoundDefinitionsReloadListener implements ResourceManagerReloadListener {
     @Override
-    public void reload(ResourceManager manager) {
+    public void onResourceManagerReload(ResourceManager manager) {
         loadSoundDefinitions(manager, "sounds/ambient", Atmosfera.SOUND_DEFINITIONS);
         loadSoundDefinitions(manager, "sounds/music", Atmosfera.MUSIC_DEFINITIONS);
         AtmosferaConfig.loadedSoundDefinitions();
 
-        var client = MinecraftClient.getInstance();
-        if (client != null && client.world != null) {
-            client.world.atmosfera$getAtmosphericSoundHandler().reloadDefinitions();
+        var client = Minecraft.getInstance();
+        if (client != null && client.level != null) {
+            client.level.atmosfera$getAtmosphericSoundHandler().reloadDefinitions();
         }
     }
 
     private static void loadSoundDefinitions(ResourceManager manager, String sourceFolder, Map<Identifier, AtmosphericSoundDefinition> destination) {
         destination.clear();
 
-        Map<Identifier, Resource> resources = manager.findResources(sourceFolder + "/definitions", id -> id.getPath().endsWith(".json"));
+        Map<Identifier, Resource> resources = manager.listResources(sourceFolder + "/definitions", id -> id.getPath().endsWith(".json"));
 
         for (Identifier resource : resources.keySet()) {
-            Identifier id = Identifier.of(
+            Identifier id = Identifier.fromNamespaceAndPath(
                     resource.getNamespace(),
                     resource.getPath().substring(
                             resource.getPath().indexOf("definitions/") + "definitions/".length(),
@@ -47,16 +46,16 @@ public class SoundDefinitionsReloader implements SynchronousResourceReloader {
                     )
             );
 
-            try (var reader = resources.get(resource).getReader()) {
+            try (var reader = resources.get(resource).openAsReader()) {
                 JsonObject json = JsonParser.parseReader(reader).getAsJsonObject();
 
-                Identifier soundId = Identifier.of(JsonHelper.getString(json, "sound"));
+                Identifier soundId = Identifier.parse(GsonHelper.getAsString(json, "sound"));
 
                 EnvironmentContext.Shape shape = getShape(json, id);
                 EnvironmentContext.Size size = getSize(json, id);
                 ImmutableCollection<AtmosphericSoundModifier.Factory> modifiers = getModifiers(json, id);
-                int defaultVolume = JsonHelper.getInt(json, "default_volume", 100);
-                boolean showSubtitlesByDefault = JsonHelper.getBoolean(json, "default_subtitle", true);
+                int defaultVolume = GsonHelper.getAsInt(json, "default_volume", 100);
+                boolean showSubtitlesByDefault = GsonHelper.getAsBoolean(json, "default_subtitle", true);
 
                 destination.put(id, new AtmosphericSoundDefinition(id, soundId, shape, size, defaultVolume, showSubtitlesByDefault, modifiers));
             } catch (Exception e) {

@@ -7,13 +7,13 @@ import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.client.sound.modifiers.CommonAttributes.Bound;
 import dev.hephaestus.atmosfera.client.sound.modifiers.CommonAttributes.Range;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
-import net.minecraft.block.Block;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
-import net.minecraft.world.World;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.tags.TagKey;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 
 import static dev.hephaestus.atmosfera.client.sound.modifiers.CommonAttributes.getBound;
 import static dev.hephaestus.atmosfera.client.sound.modifiers.CommonAttributes.getRange;
@@ -26,7 +26,7 @@ public record PercentBlockModifier(Range range, Bound bound, ImmutableCollection
         blocks:
         for (var block : blocks) {
             for (var tag : blockTags) {
-                if (block.getDefaultState().isIn(tag)) {
+                if (block.defaultBlockState().is(tag)) {
                     continue blocks;
                 }
             }
@@ -59,16 +59,16 @@ public record PercentBlockModifier(Range range, Bound bound, ImmutableCollection
         var blocks = ImmutableList.<Block>builder();
         var tags = ImmutableList.<TagKey<Block>>builder();
 
-        JsonHelper.getArray(object, "blocks").forEach(block -> {
+        GsonHelper.getAsJsonArray(object, "blocks").forEach(block -> {
             // Registers only the loaded IDs to avoid false triggers.
             if (block.getAsString().startsWith("#")) {
-                var tagId = Identifier.of(block.getAsString().substring(1));
-                tags.add(TagKey.of(RegistryKeys.BLOCK, tagId));
+                var tagId = Identifier.parse(block.getAsString().substring(1));
+                tags.add(TagKey.create(Registries.BLOCK, tagId));
             } else {
-                var blockId = Identifier.of(block.getAsString());
+                var blockId = Identifier.parse(block.getAsString());
 
-                if (Registries.BLOCK.containsId(blockId)) {
-                    Block b = Registries.BLOCK.get(blockId);
+                if (BuiltInRegistries.BLOCK.containsKey(blockId)) {
+                    Block b = BuiltInRegistries.BLOCK.getValue(blockId);
                     blocks.add(b);
                 }
             }
@@ -81,7 +81,7 @@ public record PercentBlockModifier(Range range, Bound bound, ImmutableCollection
     }
 
     @Override
-    public AtmosphericSoundModifier create(World world) {
+    public AtmosphericSoundModifier create(Level level) {
         return this;
     }
 }

@@ -4,16 +4,16 @@ import dev.hephaestus.atmosfera.Atmosfera;
 import mod.adrenix.nostalgic.helper.candy.light.LightingHelper;
 import mod.adrenix.nostalgic.tweak.config.CandyTweak;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.LightType;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.BlockPos.MutableBlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.Identifier;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -46,7 +46,7 @@ class Hemisphere implements EnvironmentContext {
 
     @Override
     public float getBlockTagPercentage(TagKey<Block> blocks) {
-        return blockTags.getOrDefault(blocks.id(), 0) / (float) blockCount.get();
+        return blockTags.getOrDefault(blocks.location(), 0) / (float) blockCount.get();
     }
 
     @Override
@@ -56,7 +56,7 @@ class Hemisphere implements EnvironmentContext {
 
     @Override
     public float getBiomeTagPercentage(TagKey<Biome> biomes) {
-        return biomeTags.getOrDefault(biomes.id(), 0) / (float) blockCount.get();
+        return biomeTags.getOrDefault(biomes.location(), 0) / (float) blockCount.get();
     }
 
     @Override
@@ -109,21 +109,21 @@ class Hemisphere implements EnvironmentContext {
     }
 
     @SuppressWarnings("deprecation")
-    private void add(World world, BlockPos pos) {
-        Block block = world.getBlockState(pos).getBlock();
+    private void add(Level level, BlockPos pos) {
+        Block block = level.getBlockState(pos).getBlock();
         blockTypes.merge(block, 1, Integer::sum);
-        block.getRegistryEntry().streamTags().forEach(blockTag -> {
-            blockTags.merge(blockTag.id(), 1, Integer::sum);
+        block.builtInRegistryHolder().tags().forEach(blockTag -> {
+            blockTags.merge(blockTag.location(), 1, Integer::sum);
         });
 
-        RegistryEntry<Biome> biomeEntry = world.getBiome(pos);
-        Biome biome = biomeEntry.value();
-        biomeEntry.streamTags().forEach(biomeTag -> {
-            biomeTags.merge(biomeTag.id(), 1, Integer::sum);
+        Holder<Biome> biomeHolder = level.getBiome(pos);
+        Biome biome = biomeHolder.value();
+        biomeHolder.tags().forEach(biomeTag -> {
+            biomeTags.merge(biomeTag.location(), 1, Integer::sum);
         });
 
         biomeTypes.merge(biome, 1, Integer::sum);
-        skyVisibility.addAndGet(world.getLightLevel(LightType.SKY, pos) / getMaxLightLevel());
+        skyVisibility.addAndGet(level.getBrightness(LightLayer.SKY, pos) / getMaxLightLevel());
         blockCount.incrementAndGet();
     }
 
@@ -146,13 +146,13 @@ class Hemisphere implements EnvironmentContext {
     }
 
     // runs on worker threads
-    void update(World world, BlockPos center) {
+    void update(Level level, BlockPos center) {
         clear();
 
-        var mut = new BlockPos.Mutable();
+        var mut = new MutableBlockPos();
         for (byte[] a : offsets) {
             mut.set(center.getX() + a[0], center.getY() + a[1], center.getZ() + a[2]);
-            add(world, mut);
+            add(level, mut);
         }
     }
 }

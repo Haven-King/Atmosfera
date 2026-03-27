@@ -5,9 +5,8 @@ import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.client.sound.modifiers.CommonAttributes.Bound;
 import dev.hephaestus.atmosfera.client.sound.modifiers.CommonAttributes.Range;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
-import net.minecraft.world.World;
-
 import java.util.function.Function;
+import net.minecraft.world.level.Level;
 
 import static dev.hephaestus.atmosfera.client.sound.modifiers.CommonAttributes.getBound;
 import static dev.hephaestus.atmosfera.client.sound.modifiers.CommonAttributes.getRange;
@@ -21,7 +20,7 @@ public record SimpleBoundedCondition(Range range, Bound bound, Function<Environm
     }
 
     @Override
-    public AtmosphericSoundModifier create(World world) {
+    public AtmosphericSoundModifier create(Level level) {
         return this;
     }
 

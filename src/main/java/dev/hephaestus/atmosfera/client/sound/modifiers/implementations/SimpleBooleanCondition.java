@@ -3,9 +3,8 @@ package dev.hephaestus.atmosfera.client.sound.modifiers.implementations;
 import com.google.gson.JsonObject;
 import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
-import net.minecraft.world.World;
-
 import java.util.function.Function;
+import net.minecraft.world.level.Level;
 
 public record SimpleBooleanCondition(boolean expectedValue, Function<EnvironmentContext, Boolean> valueGetter) implements AtmosphericSoundModifier, AtmosphericSoundModifier.Factory {
     @Override
@@ -14,7 +13,7 @@ public record SimpleBooleanCondition(boolean expectedValue, Function<Environment
     }
 
     @Override
-    public AtmosphericSoundModifier create(World world) {
+    public AtmosphericSoundModifier create(Level level) {
         return this;
     }
 

@@ -1,19 +1,18 @@
 package dev.hephaestus.atmosfera.world.context;
 
 import dev.hephaestus.atmosfera.mixin.BossBarHudAccessor;
-import net.minecraft.block.Block;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.hud.ClientBossBar;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.text.TranslatableTextContent;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.biome.Biome;
-
 import java.util.HashSet;
 import java.util.Map;
 import java.util.UUID;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.LerpingBossEvent;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.contents.TranslatableContents;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
 
 public class Sphere extends AbstractEnvironmentContext {
     final Hemisphere upperHemisphere;
@@ -50,15 +49,15 @@ public class Sphere extends AbstractEnvironmentContext {
         return (upperHemisphere.getSkyVisibility() + lowerHemisphere.getSkyVisibility()) / 2F;
     }
 
-    public void update(ClientPlayerEntity player) {
-        var world = player.getEntityWorld();
-        var pos = player.getBlockPos();
+    public void update(LocalPlayer player) {
+        var level = player.level();
+        var pos = player.blockPosition();
 
-        if (world.isChunkLoaded(pos.getX() >> 4, pos.getZ() << 4)) {
-            BlockPos.Mutable mut = new BlockPos.Mutable().set(pos);
+        if (level.hasChunk(pos.getX() >> 4, pos.getZ() << 4)) {
+            BlockPos.MutableBlockPos mut = new BlockPos.MutableBlockPos().set(pos);
 
             int count = 0;
-            while (world.getBlockState(mut).isAir() && mut.getY() > 0) {
+            while (level.getBlockState(mut).isAir() && mut.getY() > 0) {
                 count += 1;
                 mut.move(Direction.DOWN);
             }
@@ -66,26 +65,26 @@ public class Sphere extends AbstractEnvironmentContext {
 
             bossBars.clear();
 
-            var bossBarHud = MinecraftClient.getInstance().inGameHud.getBossBarHud();
-            Map<UUID, ClientBossBar> bossBarMap = ((BossBarHudAccessor) bossBarHud).getBossBars();
+            var bossBarHud = Minecraft.getInstance().gui.getBossOverlay();
+            Map<UUID, LerpingBossEvent> bossBarMap = ((BossBarHudAccessor) bossBarHud).getEvents();
 
             for (var bossBar : bossBarMap.values()) {
-                String value = bossBar.getName().getContent() instanceof TranslatableTextContent translatable ? translatable.getKey() : bossBar.getName().toString();
+                String value = bossBar.getName().getContents() instanceof TranslatableContents translatable ? translatable.getKey() : bossBar.getName().toString();
                 bossBars.add(value);
             }
 
             elevation = pos.getY();
 
             // count day to sunset as "day". "night" is an hour shorter this way, which is fine
-            long timeOfDay = world.getLevelProperties().getTimeOfDay() % 24000;
+            long timeOfDay = level.getLevelData().getDayTime() % 24000;
             isDay = 0 <= timeOfDay && timeOfDay < 13000;
 
-            isRainy = world.getLevelProperties().isRaining();
-            isStormy = world.isThundering();
+            isRainy = level.getLevelData().isRaining();
+            isStormy = level.isThundering();
             vehicle = player.getVehicle();
 
-            ContextUtil.EXECUTOR.execute(() -> upperHemisphere.update(world, pos.up()));
-            ContextUtil.EXECUTOR.execute(() -> lowerHemisphere.update(world, pos.down()));
+            ContextUtil.EXECUTOR.execute(() -> upperHemisphere.update(level, pos.above()));
+            ContextUtil.EXECUTOR.execute(() -> lowerHemisphere.update(level, pos.below()));
         }
     }
 

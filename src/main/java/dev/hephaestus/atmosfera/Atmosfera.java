@@ -17,14 +17,14 @@
 package dev.hephaestus.atmosfera;
 
 import dev.hephaestus.atmosfera.client.sound.AtmosphericSoundDefinition;
-import dev.hephaestus.atmosfera.client.sound.SoundDefinitionsReloader;
+import dev.hephaestus.atmosfera.client.sound.SoundDefinitionsReloadListener;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.fabricmc.fabric.api.resource.v1.pack.PackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.resource.ResourceType;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.packs.PackType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -63,7 +63,7 @@ public class Atmosfera implements ClientModInitializer {
 		var modContainer = FabricLoader.getInstance().getModContainer(MODID).orElseThrow();
 
 		ResourceLoader.registerBuiltinPack(id("dungeons"), modContainer, PackActivationType.DEFAULT_ENABLED);
-		ResourceLoader.get(ResourceType.CLIENT_RESOURCES).registerReloader(id("sound_deserializer"), new SoundDefinitionsReloader());
+		ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloader(id("sound_deserializer"), new SoundDefinitionsReloadListener());
 
 		EnvironmentContext.init();
 
@@ -71,6 +71,6 @@ public class Atmosfera implements ClientModInitializer {
 	}
 
 	public static Identifier id(@NotNull String path) {
-		return Identifier.of(MODID, path);
+		return Identifier.fromNamespaceAndPath(MODID, path);
 	}
 }

@@ -18,9 +18,9 @@ package dev.hephaestus.atmosfera.mixin;
 
 import dev.hephaestus.atmosfera.Atmosfera;
 import dev.hephaestus.atmosfera.AtmosferaConfig;
-import net.minecraft.client.sound.WeightedSoundSet;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.sounds.WeighedSoundEvents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -28,7 +28,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(WeightedSoundSet.class)
+@Mixin(WeighedSoundEvents.class)
 public class WeightedSoundSetMixin {
     @Unique
     private Identifier id;
@@ -39,7 +39,7 @@ public class WeightedSoundSetMixin {
     }
 
     @Inject(method = "getSubtitle", at = @At("HEAD"), cancellable = true)
-    public void atmosfera$disableSubtitle(CallbackInfoReturnable<Text> cir) {
+    public void atmosfera$disableSubtitle(CallbackInfoReturnable<Component> cir) {
         if (Atmosfera.SOUND_DEFINITIONS.containsKey(id) && !AtmosferaConfig.showSubtitle(id)) {
             if (AtmosferaConfig.printDebugMessages()) {
                 Atmosfera.log("Mixin disableSubtitle: {} - {}", id, AtmosferaConfig.showSubtitle(id));

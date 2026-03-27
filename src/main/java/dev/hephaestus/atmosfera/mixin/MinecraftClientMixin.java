@@ -18,26 +18,26 @@ package dev.hephaestus.atmosfera.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import dev.hephaestus.atmosfera.AtmosferaConfig;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.sound.MusicSound;
-import net.minecraft.sound.MusicType;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.sounds.Music;
+import net.minecraft.sounds.Musics;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(MinecraftClient.class)
+@Mixin(Minecraft.class)
 public class MinecraftClientMixin {
-	@Shadow @Nullable public ClientWorld world;
+	@Shadow @Nullable public ClientLevel level;
 
-	@ModifyReturnValue(method = "getMusicInstance", at = @At("RETURN"))
-	private MusicSound atmosfera$getAmbientMusic(MusicSound original) {
+	@ModifyReturnValue(method = "getSituationalMusic", at = @At("RETURN"))
+	private Music atmosfera$getAmbientMusic(Music original) {
 		if (!AtmosferaConfig.enableCustomMusic())
 			return original;
 
-		if (original != null && original != MusicType.MENU && original != MusicType.CREDITS && world != null) {
-			return world.atmosfera$getAtmosphericSoundHandler().getMusicSound(original);
+		if (original != null && original != Musics.MENU && original != Musics.CREDITS && level != null) {
+			return level.atmosfera$getAtmosphericSoundHandler().getMusicSound(original);
 		}
 
 		return original;
