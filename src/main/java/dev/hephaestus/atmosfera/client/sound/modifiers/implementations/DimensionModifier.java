@@ -3,10 +3,11 @@ package dev.hephaestus.atmosfera.client.sound.modifiers.implementations;
 import com.google.gson.JsonObject;
 import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
-import java.util.Objects;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.Level;
+
+import java.util.Objects;
 
 public record DimensionModifier(Identifier id) implements AtmosphericSoundModifier, AtmosphericSoundModifier.Factory {
     @Override

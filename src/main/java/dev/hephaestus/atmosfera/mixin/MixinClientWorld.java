@@ -6,6 +6,8 @@ import dev.hephaestus.atmosfera.world.context.ContextUtil;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext.Size;
 import dev.hephaestus.atmosfera.world.context.Sphere;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -13,8 +15,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.EnumMap;
 import java.util.Objects;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
 
 @Mixin(ClientLevel.class)
 public class MixinClientWorld implements ClientWorldDuck {

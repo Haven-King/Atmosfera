@@ -10,14 +10,15 @@ import dev.hephaestus.atmosfera.AtmosferaConfig;
 import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.client.sound.modifiers.implementations.ConfigModifier;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
-import java.util.Locale;
-import java.util.Map;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.util.GsonHelper;
+
+import java.util.Locale;
+import java.util.Map;
 
 public class SoundDefinitionsReloadListener implements ResourceManagerReloadListener {
     @Override
@@ -27,7 +28,7 @@ public class SoundDefinitionsReloadListener implements ResourceManagerReloadList
         AtmosferaConfig.loadedSoundDefinitions();
 
         var client = Minecraft.getInstance();
-        if (client != null && client.level != null) {
+        if (client.level != null) {
             client.level.atmosfera$getAtmosphericSoundHandler().reloadDefinitions();
         }
     }

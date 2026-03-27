@@ -1,2 +1,2 @@
-classTweaker v1 named
+classTweaker v1 official
 inject-interface net/minecraft/client/multiplayer/ClientLevel dev/hephaestus/atmosfera/client/sound/util/ClientWorldDuck

@@ -1,10 +1,11 @@
 package dev.hephaestus.atmosfera.world.context;
 
-import java.util.Collection;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
+
+import java.util.Collection;
 
 public interface EnvironmentContext {
     float getBlockTypePercentage(Block block);

@@ -1,9 +1,6 @@
 package dev.hephaestus.atmosfera.world.context;
 
 import dev.hephaestus.atmosfera.mixin.BossBarHudAccessor;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.UUID;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.LerpingBossEvent;
 import net.minecraft.client.player.LocalPlayer;
@@ -13,6 +10,10 @@ import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
+
+import java.util.HashSet;
+import java.util.Map;
+import java.util.UUID;
 
 public class Sphere extends AbstractEnvironmentContext {
     final Hemisphere upperHemisphere;
@@ -76,10 +77,10 @@ public class Sphere extends AbstractEnvironmentContext {
             elevation = pos.getY();
 
             // count day to sunset as "day". "night" is an hour shorter this way, which is fine
-            long timeOfDay = level.getLevelData().getDayTime() % 24000;
+            long timeOfDay = level.getLevelData().getGameTime() % 24000;
             isDay = 0 <= timeOfDay && timeOfDay < 13000;
 
-            isRainy = level.getLevelData().isRaining();
+            isRainy = level.isRaining();
             isStormy = level.isThundering();
             vehicle = player.getVehicle();
 

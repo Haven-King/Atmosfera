@@ -3,8 +3,9 @@ package dev.hephaestus.atmosfera.client.sound.modifiers.implementations;
 import com.google.gson.JsonObject;
 import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
-import java.util.regex.Pattern;
 import net.minecraft.world.level.Level;
+
+import java.util.regex.Pattern;
 
 public record BossBarCondition(String text, Pattern regex) implements AtmosphericSoundModifier, AtmosphericSoundModifier.Factory {
     @Override

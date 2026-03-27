@@ -1,5 +1,7 @@
 package dev.hephaestus.atmosfera.world.context;
 
+import net.minecraft.core.BlockPos;
+
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashSet;
@@ -7,7 +9,6 @@ import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import net.minecraft.core.BlockPos;
 
 public final class ContextUtil {
     public static final byte[][][][] OFFSETS = new byte[3][][][];

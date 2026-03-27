@@ -53,7 +53,7 @@ public class AtmosphericSoundInstance extends AbstractSoundInstance implements T
 	public void tick() {
 		Minecraft client = Minecraft.getInstance();
 
-		if (client != null && client.level != null && client.player != null && this.volumeTransitionTimer >= 0) {
+		if (client.level != null && client.player != null && this.volumeTransitionTimer >= 0) {
 			this.x = client.player.getX();
 			this.y = client.player.getY();
 			this.z = client.player.getZ();

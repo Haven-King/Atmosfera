@@ -63,7 +63,7 @@ public class Atmosfera implements ClientModInitializer {
 		var modContainer = FabricLoader.getInstance().getModContainer(MODID).orElseThrow();
 
 		ResourceLoader.registerBuiltinPack(id("dungeons"), modContainer, PackActivationType.DEFAULT_ENABLED);
-		ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloader(id("sound_deserializer"), new SoundDefinitionsReloadListener());
+		ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloadListener(id("sound_deserializer"), new SoundDefinitionsReloadListener());
 
 		EnvironmentContext.init();
 

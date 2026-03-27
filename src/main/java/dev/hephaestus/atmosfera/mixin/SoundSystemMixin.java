@@ -1,5 +1,6 @@
 package dev.hephaestus.atmosfera.mixin;
 
+import net.minecraft.client.sounds.SoundEngine;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -7,8 +8,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import static dev.hephaestus.atmosfera.client.sound.AtmosphericSoundHandler.TICKING_SOUNDS_LOCK;
-
-import net.minecraft.client.sounds.SoundEngine;
 
 // Raise Sound Limit Simplified redirects SoundSystem calls to the Sound engine thread (for some reason...?),
 // thus conflicting with the tickingSounds access of AtmosphericSoundHandler from the Render thread

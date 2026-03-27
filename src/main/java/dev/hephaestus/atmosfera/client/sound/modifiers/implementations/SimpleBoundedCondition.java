@@ -5,8 +5,9 @@ import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.client.sound.modifiers.CommonAttributes.Bound;
 import dev.hephaestus.atmosfera.client.sound.modifiers.CommonAttributes.Range;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
-import java.util.function.Function;
 import net.minecraft.world.level.Level;
+
+import java.util.function.Function;
 
 import static dev.hephaestus.atmosfera.client.sound.modifiers.CommonAttributes.getBound;
 import static dev.hephaestus.atmosfera.client.sound.modifiers.CommonAttributes.getRange;

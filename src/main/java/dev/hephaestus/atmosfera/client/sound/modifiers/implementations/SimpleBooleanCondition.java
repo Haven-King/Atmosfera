@@ -3,8 +3,9 @@ package dev.hephaestus.atmosfera.client.sound.modifiers.implementations;
 import com.google.gson.JsonObject;
 import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
-import java.util.function.Function;
 import net.minecraft.world.level.Level;
+
+import java.util.function.Function;
 
 public record SimpleBooleanCondition(boolean expectedValue, Function<EnvironmentContext, Boolean> valueGetter) implements AtmosphericSoundModifier, AtmosphericSoundModifier.Factory {
     @Override

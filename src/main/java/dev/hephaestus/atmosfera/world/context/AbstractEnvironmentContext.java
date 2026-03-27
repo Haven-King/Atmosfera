@@ -1,9 +1,9 @@
 package dev.hephaestus.atmosfera.world.context;
 
+import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
-import net.minecraft.world.entity.Entity;
 
 abstract class AbstractEnvironmentContext implements EnvironmentContext {
     int altitude = 0;
