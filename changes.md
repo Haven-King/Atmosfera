@@ -1,3 +1,7 @@
+## 2.5.6
+
+- port to 26.1
+
 ## 2.5.5
 
 - fix a threading issue caused by Raise Sound Limit Simplified
