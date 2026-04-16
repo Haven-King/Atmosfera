@@ -1,3 +1,7 @@
+## 2.5.7
+
+- [1.20.1, 1.21.1] revert use of classtweaker; fixes Sinytra Connector compatibility
+
 ## 2.5.6
 
 - port to 26.1
