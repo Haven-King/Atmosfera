@@ -86,7 +86,7 @@ public class AtmosphericSoundHandler {
 
             // The non-zero volume prevents the events getting triggered multiple times at volumes near zero.
             if (volume >= 0.0125 && client.options.getFinalSoundSourceVolume(SoundSource.AMBIENT) > 0) {
-                soundManager.queueTickingSound(new AtmosphericSoundInstance(sound, 0.0001f));
+                soundManager.queueTickingSound(new AtmosphericSoundInstance(sound));
                 Atmosfera.debug("volume > 0: {} - {}", sound.id(), volume);
             }
         }
