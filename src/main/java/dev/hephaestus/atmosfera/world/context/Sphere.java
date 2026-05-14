@@ -77,7 +77,7 @@ public class Sphere extends AbstractEnvironmentContext {
             elevation = pos.getY();
 
             // count day to sunset as "day". "night" is an hour shorter this way, which is fine
-            long timeOfDay = level.getLevelData().getGameTime() % 24000;
+            long timeOfDay = level.getDefaultClockTime() % 24000;
             isDay = 0 <= timeOfDay && timeOfDay < 13000;
 
             isRainy = level.isRaining();
