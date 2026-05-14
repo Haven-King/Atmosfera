@@ -245,6 +245,14 @@
     {
       "type": "is_daytime",
       "value": false
+    },
+    {
+      "type": "is_rainy",
+      "value": false
+    },
+    {
+      "type": "is_stormy",
+      "value": false
     }
   ]
 }
