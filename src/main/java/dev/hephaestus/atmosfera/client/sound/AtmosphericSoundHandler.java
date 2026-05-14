@@ -18,10 +18,8 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.Tuple;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -72,18 +70,21 @@ public class AtmosphericSoundHandler {
         var soundManager = client.getSoundManager();
         var tickingSounds = ((SoundSystemAccessor) ((SoundManagerAccessor) soundManager).getSoundEngine()).getTickingSounds();
 
+        Set<Identifier> playingSounds = new HashSet<>();
+
+        TICKING_SOUNDS_LOCK.lock();
+        try {
+            for (var s : tickingSounds)
+                if (s instanceof AtmosphericSoundInstance)
+                    playingSounds.add(s.getIdentifier());
+        } finally {
+            TICKING_SOUNDS_LOCK.unlock();
+        }
+
         for (var sound : sounds) {
-            TICKING_SOUNDS_LOCK.lock();
-            try {
-                // don't play sound if it's already playing
-                if (tickingSounds.stream()
-                        .filter(s -> s instanceof AtmosphericSoundInstance)
-                        .map(AtmosphericSoundInstance.class::cast)
-                        .anyMatch(s -> sound.soundId().equals(s.getIdentifier())))
-                    continue;
-            } finally {
-                TICKING_SOUNDS_LOCK.unlock();
-            }
+            // don't play sound if it's already playing
+            if (playingSounds.contains(sound.soundId()))
+                continue;
 
             float volume = sound.getVolume(level);
 
