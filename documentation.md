@@ -173,50 +173,47 @@ Types:
 Parameters:
 
 - `"min"`: number (optional)  
-  When the input is smaller than `"min"` return 0, else return the input.  
-
 - `"max"`: number (optional)  
-  When the input is larger than `"max"` return 0, else return the input.
+
+When the input is small then `"min"` (if defined) or larger than `"max"` (if defined) return 0, else return 1.  
+Cannot be used together with `"range"`.
 
 <details><summary>Details</summary>
 
+Input to output graphs:
 ```
-          / <- max
-         /
-        /
-min -> /
-
-0 ______   ____
-       |   |
-     min   max
+min and max defined:     only min defined:     only max defined:
+                                                                
+1      _____             1      _________      1 __________    
+                                                               
+0 _____     _____        0 _____               0           _____
+      |     |                  |                           |
+    min     max              min                           max
 ```
-(Graph if both are used, which they rarely are.)
-
-Since `"min"` and `"max"` return the input as-is if in bounds, this will effectively also limit the output (volume). This does not apply to music, since music ignores volume.
 </details>
 
 - `"range": [lower, upper]"`: numbers (optional)  
   Output linearly grows from 0 to 1 on the interval from `[lower, upper]`.  
-  Applies after `"min"` and `"max"`.
+  `lower` and `upper` can be swapped for growth from 1 to 0.  
 
 <details><summary>Details</summary>
 
 ```
-          ____ 1
-         /|
-        / |
-       /  |
-      /   |
-0 ___/    |
-     |    |
- lower    upper
+lower < upper:       upper < lower:
+
+          ____ 1     1 ____
+         /|               |\
+        / |               | \
+       /  |               |  \
+      /   |               |   \
+0 ___/    |               |    \____ 0
+     |    |               |     |        
+ lower    upper       upper     lower    
 ```
 
-When the input is smaller than `lower` return 0.  
-When the input is larger than `upper` return 1.  
-Else output `(input - lower) / (upper - lower)`.  
+Calculates `(input - lower) / (upper - lower)` and clamps it between 0 and 1.  
  
-Works similar to `"min"`, except it gives control over the output (volume). It is useful for rare events which would otherwise have a low volume, e.g. `"range": [0.1, 0.3]"` would max the volume when the input reaches 0.3.
+Works similar to a `"min"` or a `"max"`, except it gives control over the output (volume). It is useful for rare events which would otherwise have a low volume, e.g. `"range": [0.1, 0.3]"` would max the volume when the input reaches 0.3.
 
 </details>
 

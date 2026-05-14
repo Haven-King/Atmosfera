@@ -52,7 +52,9 @@ public record PercentBlockModifier(Range range, Bound bound, ImmutableCollection
             modifier += context.getBlockTagPercentage(tag);
         }
 
-        return range.apply(bound.apply(modifier));
+        if (bound != null) return bound.apply(modifier);
+        if (range != null) return range.apply(modifier);
+        return modifier;
     }
 
     public static PercentBlockModifier create(JsonObject object) {

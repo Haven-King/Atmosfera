@@ -17,7 +17,9 @@ public record SimpleBoundedCondition(Range range, Bound bound, Function<Environm
     public float getModifier(EnvironmentContext context) {
         float value = valueGetter.apply(context).floatValue();
 
-        return range.apply(bound.apply(value));
+        if (bound != null) return bound.apply(value);
+        if (range != null) return range.apply(value);
+        return value;
     }
 
     @Override
