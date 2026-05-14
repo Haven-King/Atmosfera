@@ -3,7 +3,7 @@
   "default_volume": 100,
   "default_subtitle": true,
   "shape": "sphere",
-  "size": "small",
+  "size": "large",
   "modifiers": [
     {
       "type": "percent_block",
@@ -11,8 +11,8 @@
         "minecraft:air"
       ],
       "range": [
-        0.6,
-        0.7
+        0.7,
+        0.8
       ]
     },
     {
