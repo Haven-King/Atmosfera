@@ -66,6 +66,9 @@ public class AtmosphericSoundHandler {
         level.atmosfera$updateEnvironmentContext();
 
         var client = Minecraft.getInstance();
+        if (client.options.getFinalSoundSourceVolume(SoundSource.AMBIENT) == 0)
+            return;
+
         var soundManager = client.getSoundManager();
         var tickingSounds = ((SoundSystemAccessor) ((SoundManagerAccessor) soundManager).getSoundEngine()).getTickingSounds();
 
@@ -85,7 +88,7 @@ public class AtmosphericSoundHandler {
             float volume = sound.getVolume(level);
 
             // The non-zero volume prevents the events getting triggered multiple times at volumes near zero.
-            if (volume >= 0.0125 && client.options.getFinalSoundSourceVolume(SoundSource.AMBIENT) > 0) {
+            if (volume >= 0.0125) {
                 soundManager.queueTickingSound(new AtmosphericSoundInstance(sound));
                 Atmosfera.debug("volume > 0: {} - {}", sound.id(), volume);
             }
