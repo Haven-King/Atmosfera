@@ -95,6 +95,20 @@ This reads roughly as "the `atmosfera:dungeons_wind` sound can play when 50% of 
 
 The name of a definition file doesn't really matter as long as it's unique. It is good practice to use the same name as the sound it plays, e.g. the example above should be called `dungeons_wind.json`.
 
+There's another one:
+```
+{
+  "sound": "atmosfera:dungeons_forest_nighttime_owl",
+  "sound_alias": "atmosfera:dungeons_forest_nighttime",
+  ...
+```
+
+By default, only one instance of a sound with a given `"sound"` id can play.  
+When there are multiple definitions with the same or similar conditions that means they would all play at the same time.  
+To prevent this from happening, you can give your definition a "pretend sound id", `"sound_alias"`, which essentially groups the sounds together.  
+In this example, if `"dungeons_forest_nighttime"` is playing, `"dungeons_forest_nighttime_owl"` cannot and vice versa.
+
+
 ### Modifiers (aka Conditions)
 
 Modifiers look for example like this:
