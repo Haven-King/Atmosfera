@@ -45,6 +45,7 @@
       "type": "percent_block",
       "blocks": [
         "minecraft:water",
+        "minecraft:pointed_dripstone",
         "wildworld:sandstone_speleothem",
         "wildworld:stone_speleothem"
       ],
