@@ -134,6 +134,10 @@
     {
       "type": "is_stormy",
       "value": false
+    },
+    {
+      "type": "is_submerged",
+      "value": false
     }
   ]
 }

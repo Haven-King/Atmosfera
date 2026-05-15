@@ -120,6 +120,10 @@
     {
       "type": "sky_visibility",
       "min": 0.2
+    },
+    {
+      "type": "is_submerged",
+      "value": false
     }
   ]
 }
