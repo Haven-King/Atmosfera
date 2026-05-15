@@ -26,6 +26,7 @@ public final class AtmosphericSoundModifierRegistry {
         register(SimpleBooleanCondition::isDaytime, "is_daytime");
         register(SimpleBooleanCondition::isRainy, "is_rainy");
         register(SimpleBooleanCondition::isStormy, "is_stormy");
+        register(SimpleBooleanCondition::isSubmerged, "is_submerged");
         register(PercentBlockModifier::create, "percent_block");
         register(PercentBiomeModifier::create, "percent_biome");
         register(RidingCondition::create, "riding");

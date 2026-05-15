@@ -1,5 +1,6 @@
 {
-  "sound": "atmosfera:dungeons_swamp_rainy",
+  "sound": "atmosfera:dungeons_swamp_rainy_howls",
+  "sound_alias": "atmosfera:dungeons_swamp_rainy",
   "default_volume": 100,
   "default_subtitle": true,
   "shape": "sphere",

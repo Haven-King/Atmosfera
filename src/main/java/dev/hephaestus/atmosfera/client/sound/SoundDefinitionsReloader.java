@@ -51,6 +51,8 @@ public class SoundDefinitionsReloader implements SynchronousResourceReloader {
                 JsonObject json = JsonParser.parseReader(reader).getAsJsonObject();
 
                 Identifier soundId = Identifier.of(JsonHelper.getString(json, "sound"));
+                String soundAlias = JsonHelper.getString(json, "sound_alias", null);
+                Identifier soundIdAlias = (soundAlias != null ? Identifier.of(soundAlias) : null);
 
                 EnvironmentContext.Shape shape = getShape(json, id);
                 EnvironmentContext.Size size = getSize(json, id);
@@ -58,7 +60,7 @@ public class SoundDefinitionsReloader implements SynchronousResourceReloader {
                 int defaultVolume = JsonHelper.getInt(json, "default_volume", 100);
                 boolean showSubtitlesByDefault = JsonHelper.getBoolean(json, "default_subtitle", true);
 
-                destination.put(id, new AtmosphericSoundDefinition(id, soundId, shape, size, defaultVolume, showSubtitlesByDefault, modifiers));
+                destination.put(id, new AtmosphericSoundDefinition(id, soundId, soundIdAlias, shape, size, defaultVolume, showSubtitlesByDefault, modifiers));
             } catch (Exception e) {
                 Atmosfera.error("Failed to load sound event '{}'", id, e);
             }

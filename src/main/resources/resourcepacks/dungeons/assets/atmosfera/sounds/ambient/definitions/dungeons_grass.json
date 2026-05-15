@@ -73,6 +73,10 @@
     {
       "type": "sky_visibility",
       "min": 0.15
+    },
+    {
+      "type": "is_submerged",
+      "value": false
     }
   ]
 }
