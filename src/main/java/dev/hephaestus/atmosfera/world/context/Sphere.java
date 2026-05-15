@@ -7,6 +7,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.contents.TranslatableContents;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -82,6 +83,7 @@ public class Sphere extends AbstractEnvironmentContext {
 
             isRainy = level.isRaining();
             isStormy = level.isThundering();
+            isSubmerged = player.isEyeInFluid(FluidTags.WATER) || player.isEyeInFluid(FluidTags.LAVA);
             vehicle = player.getVehicle();
 
             ContextUtil.EXECUTOR.execute(() -> upperHemisphere.update(level, pos.above()));

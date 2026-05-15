@@ -30,6 +30,10 @@ public record SimpleBooleanCondition(boolean expectedValue, Function<Environment
         return create(object, EnvironmentContext::isStormy);
     }
 
+    public static SimpleBooleanCondition isSubmerged(JsonObject object) {
+        return create(object, EnvironmentContext::isSubmerged);
+    }
+
     public static SimpleBooleanCondition create(JsonObject object, Function<EnvironmentContext, Boolean> valueGetter) {
         boolean value = true;
 

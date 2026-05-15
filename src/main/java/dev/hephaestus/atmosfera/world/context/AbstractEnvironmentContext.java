@@ -11,6 +11,7 @@ abstract class AbstractEnvironmentContext implements EnvironmentContext {
     boolean isDay = false;
     boolean isRainy = false;
     boolean isStormy = false;
+    boolean isSubmerged = false;
     @Nullable Entity vehicle = null;
     Collection<String> bossBars;
 
@@ -37,6 +38,11 @@ abstract class AbstractEnvironmentContext implements EnvironmentContext {
     @Override
     public boolean isStormy() {
         return isStormy;
+    }
+
+    @Override
+    public boolean isSubmerged() {
+        return isSubmerged;
     }
 
     @Override
