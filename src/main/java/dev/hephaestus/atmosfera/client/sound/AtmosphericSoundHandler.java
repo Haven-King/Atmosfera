@@ -83,7 +83,10 @@ public class AtmosphericSoundHandler {
             TICKING_SOUNDS_LOCK.unlock();
         }
 
-        for (var sound : sounds) {
+        var shuffledSounds = new ArrayList<>(sounds);
+        Collections.shuffle(shuffledSounds);
+
+        for (var sound : shuffledSounds) {
             // don't play sound if it's already playing
             if (playingSounds.contains(sound.getAliasedSoundId()))
                 continue;
