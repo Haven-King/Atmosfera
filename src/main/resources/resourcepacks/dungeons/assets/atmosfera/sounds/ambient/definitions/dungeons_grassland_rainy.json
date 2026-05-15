@@ -124,6 +124,10 @@
     {
       "type": "is_rainy",
       "value": true
+    },
+    {
+      "type": "is_submerged",
+      "value": false
     }
   ]
 }
