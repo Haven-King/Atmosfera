@@ -12,7 +12,6 @@ import dev.hephaestus.atmosfera.client.sound.modifiers.implementations.ConfigMod
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
@@ -58,6 +57,8 @@ public class SoundDefinitionsReloader implements SimpleSynchronousResourceReload
                 JsonObject json = JsonParser.parseReader(reader).getAsJsonObject();
 
                 Identifier soundId = new Identifier(JsonHelper.getString(json, "sound"));
+                String soundAlias = JsonHelper.getString(json, "sound_alias", null);
+                Identifier soundIdAlias = (soundAlias != null ? new Identifier(soundAlias) : null);
 
                 EnvironmentContext.Shape shape = getShape(json, id);
                 EnvironmentContext.Size size = getSize(json, id);
@@ -65,7 +66,7 @@ public class SoundDefinitionsReloader implements SimpleSynchronousResourceReload
                 int defaultVolume = JsonHelper.getInt(json, "default_volume", 100);
                 boolean showSubtitlesByDefault = JsonHelper.getBoolean(json, "default_subtitle", true);
 
-                destination.put(id, new AtmosphericSoundDefinition(id, soundId, shape, size, defaultVolume, showSubtitlesByDefault, modifiers));
+                destination.put(id, new AtmosphericSoundDefinition(id, soundId, soundIdAlias, shape, size, defaultVolume, showSubtitlesByDefault, modifiers));
             } catch (Exception e) {
                 Atmosfera.error("Failed to load sound event '{}'", id, e);
             }
