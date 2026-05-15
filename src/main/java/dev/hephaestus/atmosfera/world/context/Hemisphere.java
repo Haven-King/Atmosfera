@@ -84,6 +84,11 @@ class Hemisphere implements EnvironmentContext {
     }
 
     @Override
+    public boolean isSubmerged() {
+        return sphere.isSubmerged;
+    }
+
+    @Override
     public Entity getVehicle() {
         return sphere.vehicle;
     }

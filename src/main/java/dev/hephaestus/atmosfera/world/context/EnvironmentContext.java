@@ -37,6 +37,8 @@ public interface EnvironmentContext {
 
     boolean isStormy();
 
+    boolean isSubmerged();
+
     Entity getVehicle();
 
     Collection<String> getBossBars();

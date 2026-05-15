@@ -1,5 +1,6 @@
 {
-  "sound": "atmosfera:dungeons_swamp_rainy",
+  "sound": "atmosfera:dungeons_swamp_daytime_howls",
+  "sound_alias": "atmosfera:dungeons_swamp_daytime",
   "default_volume": 100,
   "default_subtitle": true,
   "shape": "sphere",
@@ -52,8 +53,16 @@
       "min": 0.2
     },
     {
-      "type": "is_rainy",
+      "type": "is_daytime",
       "value": true
+    },
+    {
+      "type": "is_rainy",
+      "value": false
+    },
+    {
+      "type": "is_stormy",
+      "value": false
     },
     {
       "type": "is_submerged",

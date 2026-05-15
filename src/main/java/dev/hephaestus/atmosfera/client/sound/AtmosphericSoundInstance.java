@@ -18,46 +18,35 @@ package dev.hephaestus.atmosfera.client.sound;
 
 import dev.hephaestus.atmosfera.Atmosfera;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.sound.AbstractSoundInstance;
+import net.minecraft.client.sound.MovingSoundInstance;
 import net.minecraft.client.sound.SoundInstance;
-import net.minecraft.client.sound.TickableSoundInstance;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.MathHelper;
 
-public class AtmosphericSoundInstance extends AbstractSoundInstance implements TickableSoundInstance {
+public class AtmosphericSoundInstance extends MovingSoundInstance {
 	private final AtmosphericSound definition;
 
 	private int volumeTransitionTimer = 0;
-	private boolean done;
 
-	public AtmosphericSoundInstance(AtmosphericSound definition, float volume) {
-		super(definition.soundId(), SoundCategory.AMBIENT, SoundInstance.createRandom());
+	public AtmosphericSoundInstance(AtmosphericSound definition) {
+		super(new SoundEvent(definition.soundId()), SoundCategory.AMBIENT, SoundInstance.createRandom());
 		this.definition = definition;
-		this.volume = volume;
-		this.done = false;
+		this.volume = 0.0001f;
 		this.repeat = true;
-		this.repeatDelay = 0;
+		this.relative = true;
+		this.attenuationType = AttenuationType.NONE;
 	}
 
-	@Override
-	public boolean isDone() {
-		return this.done;
-	}
-
-	public void markDone() {
-		this.done = true;
-		this.repeat = false;
+	public AtmosphericSound getDefinition() {
+		return definition;
 	}
 
 	@Override
 	public void tick() {
 		MinecraftClient client = MinecraftClient.getInstance();
 
-		if (client != null && client.world != null && client.player != null && this.volumeTransitionTimer >= 0) {
-			this.x = client.player.getX();
-			this.y = client.player.getY();
-			this.z = client.player.getZ();
-
+		if (client.world != null && client.player != null && this.volumeTransitionTimer >= 0) {
 			float volume = this.definition.getVolume(client.world);
 			if (volume >= this.volume + 0.0125) {
 				++this.volumeTransitionTimer;
@@ -70,7 +59,7 @@ public class AtmosphericSoundInstance extends AbstractSoundInstance implements T
 
 			Atmosfera.debug("id: {} - volume: {} - this.volume: {} - volumeTransitionTimer: " + this.definition.id(), volume, this.volume, this.volumeTransitionTimer);
 		} else {
-			this.markDone();
+			this.setDone();
 		}
 	}
 }
