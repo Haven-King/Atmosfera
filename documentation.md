@@ -175,7 +175,7 @@ Parameters:
 - `"min"`: number (optional)  
 - `"max"`: number (optional)  
 
-When the input is small then `"min"` (if defined) or larger than `"max"` (if defined) return 0, else return 1.  
+When `min < x ≤ max` output 1, else 0. One or both can be defined.  
 Cannot be used together with `"range"`.
 
 <details><summary>Details</summary>
@@ -184,12 +184,15 @@ Input to output graphs:
 ```
 min and max defined:     only min defined:     only max defined:
                                                                 
-1      _____             1      _________      1 __________    
-                                                               
-0 _____     _____        0 _____               0           _____
+1      ______            1      _________      1 ___________   
+            |                                              |   
+0 _____     |____        0 _____               0           |____
       |     |                  |                           |
     min     max              min                           max
 ```
+
+A `"min"` of 0 on a `"percent_block"` would mean "there is at least one such block".
+
 </details>
 
 - `"range": [lower, upper]"`: numbers (optional)  

@@ -7,7 +7,7 @@ import org.jspecify.annotations.Nullable;
 public class CommonAttributes {
     public record Bound(float min, float max) {
         public float apply(float x) {
-            return (min <= x && x <= max ? 1 : 0);
+            return (min < x && x <= max ? 1 : 0);
         }
     }
 
