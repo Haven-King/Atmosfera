@@ -1,6 +1,7 @@
 package dev.hephaestus.atmosfera.client.sound;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import dev.hephaestus.atmosfera.Atmosfera;
 import dev.hephaestus.atmosfera.AtmosferaConfig;
 import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
@@ -54,7 +55,7 @@ public class AtmosphericSoundHandler {
                 modifiers.add(factory.create(level));
             }
 
-            sounds.add(new AtmosphericSound(definition.id(), definition.soundId(), definition.shape(), definition.size(), modifiers.build()));
+            sounds.add(new AtmosphericSound(definition.id(), definition.soundId(), definition.soundIdAlias(), definition.shape(), definition.size(), modifiers.build()));
         }
 
         return sounds.build();
@@ -75,15 +76,16 @@ public class AtmosphericSoundHandler {
         TICKING_SOUNDS_LOCK.lock();
         try {
             for (var s : tickingSounds)
-                if (s instanceof AtmosphericSoundInstance)
-                    playingSounds.add(s.getIdentifier());
+                if (s instanceof AtmosphericSoundInstance a) {
+                    playingSounds.add(a.getDefinition().getAliasedSoundId());
+                }
         } finally {
             TICKING_SOUNDS_LOCK.unlock();
         }
 
         for (var sound : sounds) {
             // don't play sound if it's already playing
-            if (playingSounds.contains(sound.soundId()))
+            if (playingSounds.contains(sound.getAliasedSoundId()))
                 continue;
 
             float volume = sound.getVolume(level);
@@ -91,6 +93,7 @@ public class AtmosphericSoundHandler {
             // The non-zero volume prevents the events getting triggered multiple times at volumes near zero.
             if (volume >= 0.0125) {
                 soundManager.queueTickingSound(new AtmosphericSoundInstance(sound));
+                playingSounds.add(sound.getAliasedSoundId());
                 Atmosfera.debug("volume > 0: {} - {}", sound.id(), volume);
             }
         }

@@ -38,6 +38,10 @@ public class AtmosphericSoundInstance extends AbstractTickableSoundInstance {
 		this.attenuation = Attenuation.NONE;
 	}
 
+	public AtmosphericSound getDefinition() {
+		return definition;
+	}
+
 	@Override
 	public boolean canStartSilent() {
 		return true;

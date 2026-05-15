@@ -51,6 +51,8 @@ public class SoundDefinitionsReloadListener implements ResourceManagerReloadList
                 JsonObject json = JsonParser.parseReader(reader).getAsJsonObject();
 
                 Identifier soundId = Identifier.parse(GsonHelper.getAsString(json, "sound"));
+                String soundAlias = GsonHelper.getAsString(json, "sound_alias", null);
+                Identifier soundIdAlias = (soundAlias != null ? Identifier.parse(soundAlias) : null);
 
                 EnvironmentContext.Shape shape = getShape(json, id);
                 EnvironmentContext.Size size = getSize(json, id);
@@ -58,7 +60,7 @@ public class SoundDefinitionsReloadListener implements ResourceManagerReloadList
                 int defaultVolume = GsonHelper.getAsInt(json, "default_volume", 100);
                 boolean showSubtitlesByDefault = GsonHelper.getAsBoolean(json, "default_subtitle", true);
 
-                destination.put(id, new AtmosphericSoundDefinition(id, soundId, shape, size, defaultVolume, showSubtitlesByDefault, modifiers));
+                destination.put(id, new AtmosphericSoundDefinition(id, soundId, soundIdAlias, shape, size, defaultVolume, showSubtitlesByDefault, modifiers));
             } catch (Exception e) {
                 Atmosfera.error("Failed to load sound event '{}'", id, e);
             }

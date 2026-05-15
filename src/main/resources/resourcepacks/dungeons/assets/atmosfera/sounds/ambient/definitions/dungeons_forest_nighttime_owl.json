@@ -1,5 +1,6 @@
 {
   "sound": "atmosfera:dungeons_forest_nighttime_owl",
+  "sound_alias": "atmosfera:dungeons_forest_nighttime",
   "default_volume": 100,
   "default_subtitle": true,
   "shape": "sphere",

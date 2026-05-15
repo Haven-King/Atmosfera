@@ -5,8 +5,9 @@ import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
 import dev.hephaestus.atmosfera.world.context.EnvironmentContext;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.resources.Identifier;
+import org.jspecify.annotations.Nullable;
 
-public record AtmosphericSound(Identifier id, Identifier soundId,
+public record AtmosphericSound(Identifier id, Identifier soundId, @Nullable Identifier soundIdAlias,
                                EnvironmentContext.Shape shape, EnvironmentContext.Size size,
                                ImmutableCollection<AtmosphericSoundModifier> modifiers) {
     public float getVolume(ClientLevel level) {
@@ -20,5 +21,13 @@ public record AtmosphericSound(Identifier id, Identifier soundId,
         }
 
         return volume;
+    }
+
+    // different sound definitions can play at the same time.
+    // this is an issue if one wants to split up definitions into smaller parts, e.g. to give finer control over volume in the config
+    // this was done for owls in https://github.com/Haven-King/Atmosfera/pull/26, which ironically increased the amount of hooting tenfold
+    // to solve this, owls are aliased to the original sound, so when one plays, the other will not
+    public Identifier getAliasedSoundId() {
+        return soundIdAlias != null ? soundIdAlias : soundId;
     }
 }
