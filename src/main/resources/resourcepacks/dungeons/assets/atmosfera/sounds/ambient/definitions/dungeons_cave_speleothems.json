@@ -33,7 +33,8 @@
     {
       "type": "percent_block",
       "blocks": [
-        "minecraft:cave_air"
+        "minecraft:cave_air",
+        "minecraft:air"
       ],
       "range": [
         0.0,
@@ -44,6 +45,7 @@
       "type": "percent_block",
       "blocks": [
         "minecraft:water",
+        "minecraft:pointed_dripstone",
         "wildworld:sandstone_speleothem",
         "wildworld:stone_speleothem"
       ],
@@ -55,6 +57,17 @@
     {
       "type": "sky_visibility",
       "max": 0.15
+    },
+    {
+      "type": "elevation",
+      "range": [
+        30,
+        0
+      ]
+    },
+    {
+      "type": "is_submerged",
+      "value": false
     }
   ]
 }

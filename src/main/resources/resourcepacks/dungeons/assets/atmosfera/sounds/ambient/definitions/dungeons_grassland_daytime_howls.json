@@ -1,6 +1,6 @@
 {
-  "sound": "atmosfera:dungeons_grassland_nighttime_owl",
-  "sound_alias": "atmosfera:dungeons_grassland_nighttime",
+  "sound": "atmosfera:dungeons_grassland_daytime_howls",
+  "sound_alias": "atmosfera:dungeons_grassland_daytime",
   "default_volume": 100,
   "default_subtitle": true,
   "shape": "sphere",
@@ -107,9 +107,7 @@
         "vanillaplusbiomes:pumpkin_patch",
         "vanillaplusbiomes:rocky_plains",
         "vanillaplusbiomes:savanna_scrub",
-        "vanillaplusbiomes:savanna_thicket",
-        "minecraft:snowy_tundra",
-        "byg:lush_tundra"
+        "vanillaplusbiomes:savanna_thicket"
       ]
     },
     {
@@ -126,7 +124,7 @@
     },
     {
       "type": "is_daytime",
-      "value": false
+      "value": true
     },
     {
       "type": "is_rainy",

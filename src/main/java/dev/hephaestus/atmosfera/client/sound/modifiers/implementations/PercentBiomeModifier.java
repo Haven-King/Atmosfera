@@ -52,7 +52,9 @@ public record PercentBiomeModifier(Range range, Bound bound, ImmutableCollection
             modifier += context.getBiomeTagPercentage(tag);
         }
 
-        return range.apply(bound.apply(modifier));
+        if (bound != null) return bound.apply(modifier);
+        if (range != null) return range.apply(modifier);
+        return modifier;
     }
 
     public static AtmosphericSoundModifier.Factory create(JsonObject object) {
