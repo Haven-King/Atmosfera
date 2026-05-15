@@ -62,6 +62,10 @@
     {
       "type": "is_daytime",
       "value": true
+    },
+    {
+      "type": "is_submerged",
+      "value": false
     }
   ]
 }
