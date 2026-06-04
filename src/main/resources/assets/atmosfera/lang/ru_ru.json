@@ -1,7 +1,4 @@
 {
-  "translated_by": "Перевел ItsRecovery, itsrec0very или Рекавери :3",
-  
-  
   "modmenu.descriptionTranslation.atmosfera": "Настраиваемая система атмосферных звуков с поддержкой пользовательских звуковых наборов.",
   "config.atmosfera.resource_pack_warning": "Звуковое событие не было зарегистрировано. Включите встроенный или пользовательский набор ресурсов Atmosfera.",
   "config.category.atmosfera.general": "Общее",
@@ -13,6 +10,6 @@
   "config.value.atmosfera.enable_custom_music": "Включено",
   "config.value.atmosfera.custom_music_weight_scale": "Вес музыки",
   "config.value.atmosfera.custom_music_weight_scale_explanation": "\"Вес\"? \"Что за вес музыки\"?",
-  "config.value.atmosfera.custom_music_weight_scale_explanation.@Tooltip": "\"Вес\" определяет вероятность воспроизведения музыки.\nПо умолчанию у всех треков одинаковый вес.\n\"Вес музыки\" повышает вероятность воспроизведения музыки мода.\nВес ванильной музыки выше, поэтому музыка мода будет звучать реже (примерно 27 к 3).",
+  "config.value.atmosfera.custom_music_weight_scale_explanation.@Tooltip": "Вес определяет вероятность воспроизведения трека. \nКак правило, все музыкальные треки имеют одинаковый вес. \nПользовательская шкала веса повышает вероятность воспроизведения пользовательской музыки. \nУчтите, что пользовательская музыка в основном зависит от биома, \nа пользовательских треков значительно меньше ванильных (примерное отношение - 3 к 27).",
   "config.value.atmosfera.enable_custom_music.@Tooltip": "Будет ли использоваться музыка из наборов ресурсов Atmosfera"
 }
