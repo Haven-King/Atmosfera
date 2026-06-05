@@ -1,3 +1,7 @@
+## 2.6.1
+
+- add Russian (ru_ru) translation, thanks to itsrec0very!
+
 ## 2.6.0
 
 This is a lot.
