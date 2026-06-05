@@ -35,7 +35,10 @@ To be able to use sounds and music, they first have to be registered using the v
   },
   "dungeons_swamp_soggy_cave": {
     "sounds": [
-      "atmosfera:music/swamp/swamp_soggier_cave_ost"
+      {
+        "name": "atmosfera:music/swamp/swamp_soggier_cave_ost",
+        "stream": true
+      }
     ]
   }
 }
@@ -45,7 +48,8 @@ This means `dungeons_wind` is an ambient sound that plays one of
 `assets/atmosfera/sounds/ambient/wind/wind_rumble_loop_1_1.ogg`
 `assets/atmosfera/sounds/ambient/wind/wind_rumble_loop_1_2.ogg`  
 and uses a subtitle with translation key `subtitle.atmosfera.dungeons_wind` (defined in `en_us.json` or any other language code).  
-Similarly `dungeons_swamp_soggy_cave` is music that plays  `assets/atmosfera/sounds/music/swamp/swamp_soggier_cave_ost.ogg`
+Similarly `dungeons_swamp_soggy_cave` is music that plays `assets/atmosfera/sounds/music/swamp/swamp_soggier_cave_ost.ogg`.  
+(The `"stream": true` means the sound file is streamed instead of loaded in its entirety, which is recommended for music but probably not a great idea for sound effects since there can only be a very limited number streamed sounds at once.)
 
 For more details about `sounds.json`, see the [Minecraft wiki](https://minecraft.wiki/w/Sounds.json).
 
