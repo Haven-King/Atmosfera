@@ -10,6 +10,6 @@
   "config.value.atmosfera.enable_custom_music": "Enable Custom Music",
   "config.value.atmosfera.custom_music_weight_scale": "Custom Music Weight Scale",
   "config.value.atmosfera.custom_music_weight_scale_explanation": "\"Weight\"? \"Weight Scale\"?",
-  "config.value.atmosfera.custom_music_weight_scale_explanation.@Tooltip": "\"Weight\" refers to the likelihood of music being played.\nNormally, all music has the same weight.\nThe \"Custom Music Weight Scale\" increases the weight for\ncustom music, making it more likely to play over vanilla music.\nNote that not all music can play at all places and that there's\nusually a lot more vanilla music than custom music.\nTypically, the ratio of vanilla to custom is around 27 to 3.",
+  "config.value.atmosfera.custom_music_weight_scale_explanation.@Tooltip": "\"Weight\" refers to the likelihood of a music track being played.\nNormally, every music track has the same weight.\n\"Custom Music Weight Scale\" increases the weight for custom music tracks,\nmaking them more likely to play.\nNote that custom music is mostly biome dependent and there's a lot more\nvanilla music than custom music.\nTypically, the ratio of available vanilla to custom tracks is around 27 to 3.",
   "config.value.atmosfera.enable_custom_music.@Tooltip": "Whether music from Atmosfera resource packs will be used or not"
 }
