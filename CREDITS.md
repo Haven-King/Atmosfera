@@ -8,6 +8,8 @@ The following acknowledges the notable contributors and utilized resources of th
 * [Qendolin](https://github.com/Qendolin) - Contributor
 * [Zetabite](https://github.com/Zetabite) - Contributor
 * [Fourmisain](https://github.com/Fourmisain) - Contributor, Maintainer
+* [StarsShine11904](https://github.com/StarsShine11904) - Translator (zh_tw Chinese)
+* [ItsRecovery](https://github.com/itsrec0very) - Translator (ru_ru Russian)
 
 ## Technologies
 * [Fabric API](https://github.com/FabricMC/fabric) under [Apache License 2.0]
