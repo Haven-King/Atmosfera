@@ -1,5 +1,6 @@
 {
-  "sound": "atmosfera:dungeons_forest_snowy_nighttime",
+  "sound": "atmosfera:dungeons_forest_snowy_daytime_howls",
+  "sound_alias": "atmosfera:dungeons_forest_snowy_daytime",
   "default_volume": 100,
   "default_subtitle": true,
   "shape": "sphere",
@@ -53,13 +54,13 @@
     {
       "type": "sky_visibility",
       "range": [
-        0,
-        0.5
+        0.4,
+        1
       ]
     },
     {
       "type": "is_daytime",
-      "value": false
+      "value": true
     },
     {
       "type": "is_submerged",
