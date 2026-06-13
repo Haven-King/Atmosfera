@@ -94,28 +94,43 @@
   "dungeons_forest_rainy": {
     "subtitle": "subtitle.atmosfera.dungeons_forest_rainy",
     "sounds": [
+      {"name": "atmosfera:ambient/forest/forest_wind_rustles_loop_1", "volume": 0.35}
+    ]
+  },
+  "dungeons_forest_rainy_howls": {
+    "subtitle": "subtitle.atmosfera.dungeons_forest_rainy",
+    "sounds": [
       {"name": "atmosfera:ambient/common/surface_wind_howls_loop_1", "volume": 0.3},
       {"name": "atmosfera:ambient/common/surface_wind_howls_loop_2", "volume": 0.3},
-      {"name": "atmosfera:ambient/common/surface_wind_howls_loop_3", "volume": 0.3},
-      {"name": "atmosfera:ambient/forest/forest_wind_rustles_loop_1", "volume": 0.35}
+      {"name": "atmosfera:ambient/common/surface_wind_howls_loop_3", "volume": 0.3}
     ]
   },
   "dungeons_forest_snowy_daytime": {
     "subtitle": "subtitle.atmosfera.dungeons_forest_snowy_daytime",
     "sounds": [
+      {"name": "atmosfera:ambient/forest/forest_wind_rustles_loop_1", "volume": 0.35}
+    ]
+  },
+  "dungeons_forest_snowy_daytime_howls": {
+    "subtitle": "subtitle.atmosfera.dungeons_forest_snowy_daytime",
+    "sounds": [
       {"name": "atmosfera:ambient/common/surface_wind_howls_loop_1", "volume": 0.3},
       {"name": "atmosfera:ambient/common/surface_wind_howls_loop_2", "volume": 0.3},
-      {"name": "atmosfera:ambient/common/surface_wind_howls_loop_3", "volume": 0.3},
-      {"name": "atmosfera:ambient/forest/forest_wind_rustles_loop_1", "volume": 0.35}
+      {"name": "atmosfera:ambient/common/surface_wind_howls_loop_3", "volume": 0.3}
     ]
   },
   "dungeons_forest_snowy_nighttime": {
     "subtitle": "subtitle.atmosfera.dungeons_forest_snowy_nighttime",
     "sounds": [
+      {"name": "atmosfera:ambient/forest/forest_wind_rustles_loop_1", "volume": 0.35}
+    ]
+  },
+  "dungeons_forest_snowy_nighttime_howls": {
+    "subtitle": "subtitle.atmosfera.dungeons_forest_snowy_nighttime",
+    "sounds": [
       {"name": "atmosfera:ambient/common/surface_wind_howls_loop_1", "volume": 0.3},
       {"name": "atmosfera:ambient/common/surface_wind_howls_loop_2", "volume": 0.3},
-      {"name": "atmosfera:ambient/common/surface_wind_howls_loop_3", "volume": 0.3},
-      {"name": "atmosfera:ambient/forest/forest_wind_rustles_loop_1", "volume": 0.35}
+      {"name": "atmosfera:ambient/common/surface_wind_howls_loop_3", "volume": 0.3}
     ]
   },
   "dungeons_grass": {
