@@ -72,9 +72,8 @@ public class AtmosphericSoundHandler {
         TICKING_SOUNDS_LOCK.lock();
         try {
             for (var s : tickingSounds)
-                if (s instanceof AtmosphericSoundInstance a) {
+                if (s instanceof AtmosphericSoundInstance a)
                     playingSounds.add(a.getDefinition().getAliasedSoundId());
-                }
         } finally {
             TICKING_SOUNDS_LOCK.unlock();
         }
