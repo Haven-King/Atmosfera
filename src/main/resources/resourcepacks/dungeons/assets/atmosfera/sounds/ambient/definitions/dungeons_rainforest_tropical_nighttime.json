@@ -57,7 +57,10 @@
     },
     {
       "type": "sky_visibility",
-      "min": 0.15
+      "range": [
+        0,
+        0.5
+      ]
     },
     {
       "type": "is_daytime",

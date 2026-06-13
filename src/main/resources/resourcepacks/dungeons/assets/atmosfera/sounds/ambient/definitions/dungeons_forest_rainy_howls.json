@@ -1,6 +1,6 @@
 {
-  "sound": "atmosfera:dungeons_forest_nighttime_howls",
-  "sound_alias": "atmosfera:dungeons_forest_nighttime",
+  "sound": "atmosfera:dungeons_forest_rainy_howls",
+  "sound_alias": "atmosfera:dungeons_forest_rainy",
   "default_volume": 100,
   "default_subtitle": true,
   "shape": "sphere",
@@ -13,6 +13,9 @@
         "#c:is_forest",
         "#is_forest",
         "#forest",
+        "#c:is_taiga",
+        "#is_taiga",
+        "#taiga",
         "minecraft:birch_forest",
         "minecraft:birch_forest_hills",
         "minecraft:dark_forest",
@@ -216,16 +219,8 @@
       ]
     },
     {
-      "type": "is_daytime",
-      "value": false
-    },
-    {
       "type": "is_rainy",
-      "value": false
-    },
-    {
-      "type": "is_stormy",
-      "value": false
+      "value": true
     },
     {
       "type": "is_submerged",
