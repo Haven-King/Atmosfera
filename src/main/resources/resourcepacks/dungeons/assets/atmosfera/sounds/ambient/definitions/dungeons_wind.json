@@ -12,12 +12,15 @@
       ],
       "range": [
         0.7,
-        0.8
+        1
       ]
     },
     {
       "type": "sky_visibility",
-      "min": 0.5
+      "range": [
+        0.7,
+        1
+      ]
     },
     {
       "type": "is_submerged",

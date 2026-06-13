@@ -1,5 +1,6 @@
 package dev.hephaestus.atmosfera.world.context;
 
+import dev.hephaestus.atmosfera.util.AtomicFloat;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.tag.TagKey;
@@ -26,7 +27,7 @@ class Hemisphere implements EnvironmentContext {
     private final Map<Identifier, Integer> biomeTags = new ConcurrentHashMap<>();
 
     private final AtomicInteger blockCount = new AtomicInteger();
-    private final AtomicInteger skyVisibility = new AtomicInteger();
+    private final AtomicFloat skyVisibility = new AtomicFloat();
 
     Hemisphere(byte[][] offsets, Sphere sphere) {
         this.sphere = sphere;
@@ -104,7 +105,7 @@ class Hemisphere implements EnvironmentContext {
         blockTypes.replaceAll((block, integer) -> 0);
         blockTags.replaceAll((identifier, integer) -> 0);
         biomeTypes.replaceAll((biome, integer) -> 0);
-        blockTags.replaceAll((identifier, integer) -> 0);
+        biomeTags.replaceAll((identifier, integer) -> 0);
     }
 
     @SuppressWarnings("deprecation")
@@ -123,7 +124,7 @@ class Hemisphere implements EnvironmentContext {
 
         biomeTypes.merge(biome, 1, Integer::sum);
         // note: world.getMaxLightLevel() might conflict with Nostalgic Tweaks
-        skyVisibility.addAndGet(world.getLightLevel(LightType.SKY, pos) / world.getMaxLightLevel());
+        skyVisibility.addAndGet(world.getLightLevel(LightType.SKY, pos) / (float) world.getMaxLightLevel());
         blockCount.incrementAndGet();
     }
 
