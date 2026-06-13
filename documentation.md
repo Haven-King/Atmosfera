@@ -65,7 +65,7 @@ Here's an example of what that might look like:
   "default_volume": 100,
   "default_subtitle": true,
   "shape": "sphere",
-  "size": "small",
+  "size": "large",
   "modifiers": [
     {
       "type": "percent_block",
@@ -73,8 +73,8 @@ Here's an example of what that might look like:
         "minecraft:air"
       ],
       "range": [
-        0.6,
-        0.7
+        0.7,
+        1
       ]
     },
     {
@@ -84,7 +84,7 @@ Here's an example of what that might look like:
   ]
 }
 ```
-This reads roughly as "the `atmosfera:dungeons_wind` sound can play when 50% of a small sphere around the player is in skylight and at least 60% of it is air, maxing the volume when it reaches 70%."
+This reads roughly as "the `atmosfera:dungeons_wind` sound can play when the average sky light (as a number between 0 and 1) in a large sphere around the player is at least 0.5 and at least 70% of it is air, maxing the volume when it reaches 100%."
 
 `"sound"` is the sound to be played, defined in `sounds.json`.
 
@@ -122,7 +122,7 @@ Modifiers look for example like this:
   "min": 0.5
 }
 ```
-This reads as "at least 50% of blocks in the environment are in skylight".
+This reads as "the average sky light in the environment (as a number between 0 and 1) is at least 0.5".
 
 Modifiers have a `"type"` and may accept different parameters.
 
@@ -247,7 +247,8 @@ Types:
   Input: The y-value of the player.
 
 - `"sky_visibility"`  
-  Input: The percentage of blocks that are in skylight as a number between 0 and 1
+  Input: The average sky light in the environment as a number between 0 and 1.  
+  (More precisely it is the average of the per-block sky light divided by 15.)
 
 #### Type: "percent_block"
 

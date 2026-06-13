@@ -9,8 +9,11 @@
   "atmosfera.dungeons_forest_nighttime_howls": "Лес - Ночные крики",
   "atmosfera.dungeons_forest_nighttime_owl": "Лес - Сова",
   "atmosfera.dungeons_forest_rainy": "Лес - Дождь",
+  "atmosfera.dungeons_forest_rainy_howls": "Лес - Дождь крики",
   "atmosfera.dungeons_forest_snowy_daytime": "Лес - Снег - День",
+  "atmosfera.dungeons_forest_snowy_daytime_howls": "Лес - Снег - День крики",
   "atmosfera.dungeons_forest_snowy_nighttime": "Лес - Снег - Ночь",
+  "atmosfera.dungeons_forest_snowy_nighttime_howls": "Лес - Снег - Ночь крики",
   "atmosfera.dungeons_grass": "Луг",
   "atmosfera.dungeons_grassland_daytime": "Луг - День",
   "atmosfera.dungeons_grassland_daytime_howls": "Луг - Дневные крики",
@@ -81,13 +84,5 @@
   "subtitle.atmosfera.dungeons_swamp_rainy": "Болото веет",
   "subtitle.atmosfera.dungeons_waterbody": "Вода волнуется",
   "subtitle.atmosfera.dungeons_waterbody_river": "Река течет",
-  "subtitle.atmosfera.dungeons_wind": "Ветер дует",
-  
-  "subtitle.atmosfera.dungeons_forest_daytime_howls": "Крики животных",
-  "subtitle.atmosfera.dungeons_forest_nighttime_howls": "Крики животных",
-  "subtitle.atmosfera.dungeons_grassland_daytime_howls": "Крики животных",
-  "subtitle.atmosfera.dungeons_grassland_nighttime_howls": "Крики животных",
-  "subtitle.atmosfera.dungeons_swamp_daytime_howls": "Крики животных",
-  "subtitle.atmosfera.dungeons_swamp_nighttime_howls": "Крики животных",
-  "subtitle.atmosfera.dungeons_swamp_rainy_howls": "Крики животных"
+  "subtitle.atmosfera.dungeons_wind": "Ветер дует"
 }
