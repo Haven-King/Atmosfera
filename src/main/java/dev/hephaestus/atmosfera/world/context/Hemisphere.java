@@ -1,6 +1,7 @@
 package dev.hephaestus.atmosfera.world.context;
 
 import dev.hephaestus.atmosfera.Atmosfera;
+import dev.hephaestus.atmosfera.util.AtomicFloat;
 import mod.adrenix.nostalgic.helper.candy.light.LightingHelper;
 import mod.adrenix.nostalgic.tweak.config.CandyTweak;
 import net.fabricmc.loader.api.FabricLoader;
@@ -30,7 +31,7 @@ class Hemisphere implements EnvironmentContext {
     private final Map<Identifier, Integer> biomeTags = new ConcurrentHashMap<>();
 
     private final AtomicInteger blockCount = new AtomicInteger();
-    private final AtomicInteger skyVisibility = new AtomicInteger();
+    private final AtomicFloat skyVisibility = new AtomicFloat();
 
     private static boolean printedError = false;
 
@@ -128,7 +129,7 @@ class Hemisphere implements EnvironmentContext {
         });
 
         biomeTypes.merge(biome, 1, Integer::sum);
-        skyVisibility.addAndGet(level.getBrightness(LightLayer.SKY, pos) / getMaxLightLevel());
+        skyVisibility.addAndGet(level.getBrightness(LightLayer.SKY, pos) / (float) getMaxLightLevel());
         blockCount.incrementAndGet();
     }
 
