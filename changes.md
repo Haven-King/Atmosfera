@@ -10,6 +10,7 @@ Small adjustments with large implications!
 - most `"max"`/`"min"`s in the Dungeons resource pack have been turned into `"range"`s so the volume scales smoothly instead of sounds stopping abruptly
 - the sound events `dungeons_forest_rainy`, `dungeons_forest_snowy_daytime`, and `dungeons_forest_snowy_nighttime` have been split up into "howls" variants for consistency too
 - fix tooltips for "howls" variants
+- [1.18 - 1.19] fix mod requiring `fabric-api` instead of `fabric` and hence not being able to load the game (regression of 2.6.0)
 
 ## 2.6.1
 
