@@ -110,7 +110,7 @@ class Hemisphere implements EnvironmentContext {
         blockTypes.replaceAll((block, integer) -> 0);
         blockTags.replaceAll((identifier, integer) -> 0);
         biomeTypes.replaceAll((biome, integer) -> 0);
-        blockTags.replaceAll((identifier, integer) -> 0);
+        biomeTags.replaceAll((identifier, integer) -> 0);
     }
 
     @SuppressWarnings("deprecation")
