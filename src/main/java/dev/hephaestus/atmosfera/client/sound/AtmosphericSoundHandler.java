@@ -1,7 +1,6 @@
 package dev.hephaestus.atmosfera.client.sound;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import dev.hephaestus.atmosfera.Atmosfera;
 import dev.hephaestus.atmosfera.AtmosferaConfig;
 import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;

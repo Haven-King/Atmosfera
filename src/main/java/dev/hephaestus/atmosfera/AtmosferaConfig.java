@@ -24,6 +24,7 @@ import dev.hephaestus.atmosfera.client.sound.AtmosphericSoundDefinition;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import me.shedaniel.clothconfig2.gui.entries.IntegerSliderEntry;
 import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
@@ -32,6 +33,7 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -205,68 +207,56 @@ public class AtmosferaConfig {
 						.build()
 		);
 
-		for (Map.Entry<Identifier, Integer> sound : VOLUME_MODIFIERS.entrySet()) {
-			Map<Identifier, AtmosphericSoundDefinition> soundType;
+		for (Map.Entry<Identifier, Integer> entry : VOLUME_MODIFIERS.entrySet()) {
+			Identifier soundId = entry.getKey();
+			int volume = entry.getValue();
+			String translationKey = getTranslationKey(soundId);
 
-			if (Atmosfera.SOUND_DEFINITIONS.containsKey(sound.getKey())) {
-				soundType = Atmosfera.SOUND_DEFINITIONS;
+			SubCategoryBuilder subcategory;
+			MutableComponent tooltip;
+			int defaultVolume;
 
-				// Prevents the crash caused by additional and missing elements.
-				if (soundType.containsKey(sound.getKey())) {
+			if (Atmosfera.SOUND_DEFINITIONS.containsKey(soundId)) {
+				defaultVolume = Atmosfera.SOUND_DEFINITIONS.get(soundId).defaultVolume();
+				subcategory = soundSubcategory;
 
-					// Replaces the "colon" with a "dot" as the ID separator to utilize the language file.
-					String soundLangID = String.join(".", sound.getKey().toString().split(":"));
+				tooltip = Component.literal(translationKey + "\n")
+						.append(Component.translatable(getSubtitleTranslationKey(translationKey)))
+						.append("\n")
+						.append(Component.translatable("config.value.atmosfera.sound_tip.@Tooltip"));
+			} else if (Atmosfera.MUSIC_DEFINITIONS.containsKey(soundId)) {
+				defaultVolume = Atmosfera.MUSIC_DEFINITIONS.get(soundId).defaultVolume();
+				subcategory = musicSubcategory;
 
-					MutableComponent tooltip = Component.literal(soundLangID + "\n");
-					tooltip.append(Component.translatable("subtitle." + soundLangID));
-					tooltip.append("\n");
-					tooltip.append(Component.translatable("config.value.atmosfera.sound_tip.@Tooltip"));
-
-					soundSubcategory.add(
-							entryBuilder.startIntSlider(Component.translatable(soundLangID), sound.getValue(), 0, 200)
-									.setDefaultValue(soundType.get(sound.getKey()).defaultVolume())
-									.setTooltip(tooltip.withStyle(ChatFormatting.GRAY))
-									.setTextGetter(integer -> Component.literal(integer + "%"))
-									.setSaveConsumer(volume -> VOLUME_MODIFIERS.put(sound.getKey(), volume))
-									.build()
-					);
-				}
+				tooltip = Component.literal(translationKey)
+						.append("\n")
+						.append(Component.translatable("config.value.atmosfera.sound_tip.@Tooltip"));
 			} else {
-				soundType = Atmosfera.MUSIC_DEFINITIONS;
-				if (soundType.containsKey(sound.getKey())) {
-					String soundLangID = String.join(".", sound.getKey().toString().split(":"));
-
-					MutableComponent tooltip = Component.literal(soundLangID);
-					tooltip.append("\n");
-					tooltip.append(Component.translatable("config.value.atmosfera.sound_tip.@Tooltip"));
-
-					musicSubcategory.add(
-							entryBuilder.startIntSlider(Component.translatable(soundLangID), sound.getValue(), 0, 200)
-									.setDefaultValue(soundType.get(sound.getKey()).defaultVolume())
-									.setTooltip(tooltip.withStyle(ChatFormatting.GRAY))
-									.setTextGetter(integer -> Component.literal(integer + "%"))
-									.setSaveConsumer(volume -> VOLUME_MODIFIERS.put(sound.getKey(), volume))
-									.build()
-					);
-				}
+				continue;
 			}
+
+			subcategory.add(getVolumeSlider(entryBuilder, translationKey, volume, defaultVolume, tooltip, soundId));
 		}
 
 		volumesCategory.addEntry(soundSubcategory.build());
 		volumesCategory.addEntry(musicSubcategory.build());
 
-		for (Map.Entry<Identifier, Boolean> sound : SUBTITLE_MODIFIERS.entrySet()) {
-			if (Atmosfera.SOUND_DEFINITIONS.containsKey(sound.getKey())) {
-				String soundLangID = String.join(".", sound.getKey().toString().split(":"));
+		for (Map.Entry<Identifier, Boolean> entry : SUBTITLE_MODIFIERS.entrySet()) {
+			Identifier soundId = entry.getKey();
+			boolean value = entry.getValue();
+			String translationKey = getTranslationKey(soundId);
 
-				MutableComponent tooltipText = Component.literal(soundLangID + "\n");
-				tooltipText.append(Component.translatable("subtitle." + soundLangID));
+			if (Atmosfera.SOUND_DEFINITIONS.containsKey(soundId)) {
+				boolean defaultValue = Atmosfera.SOUND_DEFINITIONS.get(soundId).hasSubtitleByDefault();
+
+				MutableComponent tooltip = Component.literal(translationKey + "\n")
+						.append(Component.translatable(getSubtitleTranslationKey(translationKey)));
 
 				subtitlesCategory.addEntry(
-						entryBuilder.startBooleanToggle(Component.translatable(soundLangID), sound.getValue())
-								.setDefaultValue(Atmosfera.SOUND_DEFINITIONS.get(sound.getKey()).hasSubtitleByDefault())
-								.setTooltip(tooltipText.withStyle(ChatFormatting.GRAY))
-								.setSaveConsumer(subtitle -> SUBTITLE_MODIFIERS.put(sound.getKey(), subtitle))
+						entryBuilder.startBooleanToggle(Component.translatable(translationKey), value)
+								.setDefaultValue(defaultValue)
+								.setTooltip(tooltip.withStyle(ChatFormatting.GRAY))
+								.setSaveConsumer(subtitle -> SUBTITLE_MODIFIERS.put(soundId, subtitle))
 								.build()
 				);
 			}
@@ -283,6 +273,27 @@ public class AtmosferaConfig {
 		builder.setSavingRunnable(AtmosferaConfig::write);
 
 		return builder.build();
+	}
+
+	private static IntegerSliderEntry getVolumeSlider(ConfigEntryBuilder entryBuilder, String translationKey, int volume, int defaultVolume, MutableComponent tooltip, Identifier soundId) {
+		return entryBuilder.startIntSlider(Component.translatable(translationKey), volume, 0, 200)
+				.setDefaultValue(defaultVolume)
+				.setTooltip(tooltip.withStyle(ChatFormatting.GRAY))
+				.setTextGetter(integer -> Component.literal(integer + "%"))
+				.setSaveConsumer(v -> VOLUME_MODIFIERS.put(soundId, v))
+				.build();
+	}
+
+	private static String getTranslationKey(Identifier soundId) {
+		return String.join(".", soundId.toString().split(":"));
+	}
+
+	private static String getSubtitleTranslationKey(String translationKey) {
+		// a bit of a hack
+		if (translationKey.endsWith("_howls"))
+			translationKey = translationKey.substring(0, translationKey.length() - "_howls".length());
+
+		return "subtitle." + translationKey;
 	}
 
 	public static boolean printDebugMessages() {
