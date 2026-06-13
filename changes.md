@@ -1,3 +1,16 @@
+## 2.7.0
+
+Small adjustments with large implications!
+
+- [1.19+] fix biome tag data not resetting  
+  previously entering and leaving a biome would not reset the biome tag percentage, meaning sounds from that biome could still play. This bug has existed since 2.0.0 for 1.19.
+- redefine `sky_visibility`: Instead of calculating the percentage of blocks with direct sight of the sky, calculate the average sky light (as a number between 0 and 1).  
+  This is to address an issue where sounds could stop completely inside dense forests. `sky_visibility` is often used to distinguish between overground and underground and since leaf blocks lower sky light by at least 1, everything below a leaf block was treated the same as being underground in that sense.
+  note: the new `sky_visibility` is generally much higher in value and the Dungeons resource pack has been adjusted accordingly
+- most `"max"`/`"min"`s in the Dungeons resource pack have been turned into `"range"`s so the volume scales smoothly instead of sounds stopping abruptly
+- the sound events `dungeons_forest_rainy`, `dungeons_forest_snowy_daytime`, and `dungeons_forest_snowy_nighttime` have been split up into "howls" variants for consistency too
+- fix tooltips for "howls" variants
+
 ## 2.6.1
 
 - add Russian (ru_ru) translation, thanks to itsrec0very!
