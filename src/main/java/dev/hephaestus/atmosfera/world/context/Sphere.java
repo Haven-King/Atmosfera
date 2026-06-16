@@ -67,7 +67,7 @@ public class Sphere extends AbstractEnvironmentContext {
 
             bossBars.clear();
 
-            var bossBarHud = Minecraft.getInstance().gui.getBossOverlay();
+            var bossBarHud = Minecraft.getInstance().gui.hud.getBossOverlay();
             Map<UUID, LerpingBossEvent> bossBarMap = ((BossBarHudAccessor) bossBarHud).getEvents();
 
             for (var bossBar : bossBarMap.values()) {
