@@ -1,3 +1,11 @@
+## 2.7.2
+
+- update Traditional Chinese (zh_tw) translation, thanks to StarsShine11904!
+
+## 2.7.1
+
+- port to 26.2
+
 ## 2.7.0
 
 Small adjustments with large implications!

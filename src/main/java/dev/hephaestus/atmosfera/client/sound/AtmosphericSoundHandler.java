@@ -1,6 +1,7 @@
 package dev.hephaestus.atmosfera.client.sound;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.datafixers.util.Pair;
 import dev.hephaestus.atmosfera.Atmosfera;
 import dev.hephaestus.atmosfera.AtmosferaConfig;
 import dev.hephaestus.atmosfera.client.sound.modifiers.AtmosphericSoundModifier;
@@ -17,7 +18,6 @@ import net.minecraft.sounds.Musics;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.Tuple;
 
 import java.util.*;
 import java.util.concurrent.locks.Lock;
@@ -109,10 +109,10 @@ public class AtmosphericSoundHandler {
         var soundManager = client.getSoundManager();
         float originalWeight = soundManager.getSoundEvent(original.sound().value().location()).getWeight(); // TODO soundManager.get() returns null with Music Control...?!
 
-        List<Tuple<Float, Music>> candidates = new ArrayList<>();
+        List<Pair<Float, Music>> candidates = new ArrayList<>();
         float total = 0;
 
-        candidates.add(new Tuple<>(originalWeight, original));
+        candidates.add(new Pair<>(originalWeight, original));
         total += originalWeight;
 
         for (var music : musics) {
@@ -122,21 +122,21 @@ public class AtmosphericSoundHandler {
                 float weight = AtmosferaConfig.customMusicWeightScale() * soundManager.getSoundEvent(music.soundId()).getWeight();
                 var musicSound = MUSIC_CACHE.computeIfAbsent(music.soundId(), id -> Musics.createGameMusic(Holder.direct(SoundEvent.createVariableRangeEvent(id))));
 
-                candidates.add(new Tuple<>(weight, musicSound));
+                candidates.add(new Pair<>(weight, musicSound));
                 total += weight;
             }
         }
 
         float i = total <= 0 ? 0 : RANDOM.nextFloat() * total;
 
-        for (Tuple<Float, Music> pair : candidates) {
-            i -= pair.getA();
+        for (Pair<Float, Music> pair : candidates) {
+            i -= pair.getFirst();
 
             if (i < 0)
-                return pair.getB();
+                return pair.getSecond();
         }
 
         // due to float imprecision, i might not have fallen below 0, count this towards the last element
-        return candidates.getLast().getB();
+        return candidates.getLast().getSecond();
     }
 }
