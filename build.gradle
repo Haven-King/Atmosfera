@@ -52,7 +52,7 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
     modImplementation "maven.modrinth:nostalgic-tweaks:2.0.0-beta.922"
 }
@@ -114,7 +114,7 @@ modrinth {
     versionName = project.version
     versionNumber = project.version
     versionType = 'release'
-    uploadFile = remapJar
+    uploadFile = jar
     changelog = changesMd
     gameVersions = gameVersionList
     loaders = ['fabric']
@@ -145,7 +145,7 @@ curseforge {
             toList(project.curseforge_dependencies).each { requiredDependency(it) }
             toList(project.curseforge_optional_dependencies).each { optionalDependency(it) }
         }
-        mainArtifact(remapJar.archiveFile.get().asFile) {
+        mainArtifact(jar.archiveFile.get().asFile) {
             displayName = "${project.mod_version} [${versionRange(gameVersionList)}]"
         }
         afterEvaluate {
