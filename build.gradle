@@ -114,7 +114,7 @@ modrinth {
     versionName = project.version
     versionNumber = project.version
     versionType = 'release'
-    uploadFile = jar
+    uploadFile = remapJar
     changelog = changesMd
     gameVersions = gameVersionList
     loaders = ['fabric']
@@ -145,7 +145,7 @@ curseforge {
             toList(project.curseforge_dependencies).each { requiredDependency(it) }
             toList(project.curseforge_optional_dependencies).each { optionalDependency(it) }
         }
-        mainArtifact(jar.archiveFile.get().asFile) {
+        mainArtifact(remapJar.archiveFile.get().asFile) {
             displayName = "${project.mod_version} [${versionRange(gameVersionList)}]"
         }
         afterEvaluate {
