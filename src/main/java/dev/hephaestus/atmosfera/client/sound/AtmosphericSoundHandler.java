@@ -62,6 +62,9 @@ public class AtmosphericSoundHandler {
         world.atmosfera$updateEnvironmentContext();
 
         var client = MinecraftClient.getInstance();
+        if (client.options.getSoundVolume(SoundCategory.AMBIENT) == 0)
+            return;
+
         var soundManager = client.getSoundManager();
         var tickingSounds = ((SoundSystemAccessor) ((SoundManagerAccessor) soundManager).getSoundSystem()).getTickingSounds();
 
