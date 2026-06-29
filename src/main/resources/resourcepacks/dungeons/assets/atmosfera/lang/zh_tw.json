@@ -39,6 +39,7 @@
     "atmosfera.dungeons_waterbody": "水域",
     "atmosfera.dungeons_waterbody_river": "水域 - 河流",
     "atmosfera.dungeons_wind": "風",
+    
     "atmosfera.dungeons_camp": "營地",
     "atmosfera.dungeons_desert_cacti_canyon": "沙漠 - 仙人掌峽谷",
     "atmosfera.dungeons_desert_desert_temple": "沙漠 - 沙漠神殿",
@@ -48,10 +49,12 @@
     "atmosfera.dungeons_snowy_lone_fortress": "雪地 - 孤獨要塞",
     "atmosfera.dungeons_snowy_lost_settlement": "雪地 - 失落聚落",
     "atmosfera.dungeons_swamp_soggy_cave": "沼澤 - 潮濕洞穴",
+    
     "config.category.atmosfera.subtitles": "字幕",
     "config.category.atmosfera.volumes": "音量",
     "config.subcategory.atmosfera.ambient_sound": "環境音效",
     "config.subcategory.atmosfera.music": "音樂",
+    
     "subtitle.atmosfera.dungeons_cave": "洞穴迴盪",
     "subtitle.atmosfera.dungeons_cave_speleothems": "洞穴中滴水",
     "subtitle.atmosfera.dungeons_desert_daytime": "沙漠發出嗡嗡聲",
