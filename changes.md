@@ -1,3 +1,11 @@
+## 2.7.4
+
+- add Music Toast localizations
+
+## 2.7.3
+
+- port to 26.3
+
 ## 2.7.2
 
 - update Traditional Chinese (zh_tw) translation, thanks to StarsShine11904!
