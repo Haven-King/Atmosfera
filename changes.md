@@ -1,3 +1,7 @@
+## 2.7.4
+
+- add Music Toast localizations
+
 ## 2.7.3
 
 - port to 26.3
