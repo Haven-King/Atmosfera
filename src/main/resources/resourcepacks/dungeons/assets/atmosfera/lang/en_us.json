@@ -84,5 +84,17 @@
   "subtitle.atmosfera.dungeons_swamp_rainy": "Swamp refreshes",
   "subtitle.atmosfera.dungeons_waterbody": "Water ripples",
   "subtitle.atmosfera.dungeons_waterbody_river": "River runs",
-  "subtitle.atmosfera.dungeons_wind": "Wind blows"
+  "subtitle.atmosfera.dungeons_wind": "Wind blows",
+
+  "atmosfera.music.common.camp_dalarna_ost": "Peter Hont - Dalarna",
+  "atmosfera.music.common.camp_halland_ost": "Johan Johnson - Halland",
+  "atmosfera.music.desert.desert_cacti_canyon_ost": "Johan Johnson - Cacti Canyo",
+  "atmosfera.music.desert.desert_desert_temple_2_ost": "Johan Johnson - Desert Temple",
+  "atmosfera.music.desert.desert_fizz_ost": "Johan Johnson & Peter Hont - Fizz",
+  "atmosfera.music.grassland.grassland_pumpkin_pastures_ost": "Johan Johnson - Pumpkin Pastures",
+  "atmosfera.music.snowy.snowy_battlements_ost": "Peter Hont - Battlements",
+  "atmosfera.music.snowy.snowy_ice_cabin_ost": "Peter Hont - Ice Cabin",
+  "atmosfera.music.snowy.snowy_ice_dungeon_ost": "Peter Hont - Ice Dungeon",
+  "atmosfera.music.snowy.snowy_lost_settlement_ost": "Peter Hont - Lost Settlement",
+  "atmosfera.music.swamp.swamp_soggier_cave_ost": "Peter Hont & Samuel Åberg - Soggier Cave"
 }
