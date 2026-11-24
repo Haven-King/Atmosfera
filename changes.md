@@ -1,3 +1,7 @@
+## 2.7.5
+
+- add Brazilian Portuguese (pt_br) translations, thanks to Arbono1!
+
 ## 2.7.4
 
 - add Music Toast localizations
