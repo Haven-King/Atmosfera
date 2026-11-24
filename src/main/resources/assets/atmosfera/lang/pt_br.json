@@ -1,0 +1,15 @@
+{
+    "modmenu.descriptionTranslation.atmosfera": "Um sistema de som ambiente com recursos sonoros atmosféricos personalizáveis.",
+  "config.atmosfera.resource_pack_warning": "Nenhum evento sonoro foi registrado. Ative o pacote de recursos Atmosfera integrado ou um pacote personalizado.",
+  "config.category.atmosfera.general": "Geral",
+  "config.category.atmosfera.volumes": "Volumes",
+  "config.category.atmosfera.subtitles": "Legendas",
+  "config.subcategory.atmosfera.ambient_sound": "Som ambiente",
+  "config.subcategory.atmosfera.music": "Música",
+  "config.value.atmosfera.sound_tip.@Tooltip": "Defina como 0% para desativar",
+  "config.value.atmosfera.enable_custom_music": "Ativar música personalizada",
+  "config.value.atmosfera.custom_music_weight_scale": "Escala de peso da música personalizada",
+  "config.value.atmosfera.custom_music_weight_scale_explanation": "\"Peso\"? \"Escala de peso\"?",
+  "config.value.atmosfera.custom_music_weight_scale_explanation.@Tooltip": "\"Peso\" refere-se à probabilidade de uma faixa de música ser reproduzida.\nNormalmente, todas as faixas de música têm o mesmo peso.\n\"Escala de peso da música personalizada\" aumenta o peso das faixas de música personalizadas,\ntornando-as mais prováveis de serem reproduzidas.\nObserve que a música personalizada depende principalmente do bioma e há muito mais\nmúsica vanilla do que música personalizada.\nNormalmente, a proporção de faixas vanilla disponíveis para personalizadas é de cerca de 27 para 3.",
+  "config.value.atmosfera.enable_custom_music.@Tooltip": "Se a música dos pacotes de recursos Atmosfera será usada ou não"
+}
